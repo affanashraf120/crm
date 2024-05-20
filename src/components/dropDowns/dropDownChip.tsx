@@ -32,9 +32,10 @@ const DropdownWithChip: React.FC<Props> = ({ value, options }) => {
     <Chip
       key={option.id}
       label={option.value}
-      variant='tonal' // Changed from 'tonal' to 'outlined', or you can use 'filled' if 'tonal' isn't available
+      variant='tonal'
       color={option.color}
       size='small'
+      style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', width: '100px' }}
     />
   )
 
@@ -62,7 +63,13 @@ const DropdownWithChip: React.FC<Props> = ({ value, options }) => {
             {selectedValue.value.length > 12 ? (
               <Tooltip title={selectedValue.value}>{renderChip(selectedValue)}</Tooltip>
             ) : (
-              renderChip(selectedValue)
+              <Chip
+                key={selectedValue.id}
+                label={selectedValue.value}
+                variant='tonal'
+                color={selectedValue.color}
+                size='small'
+              />
             )}
           </div>
         )}
@@ -70,7 +77,7 @@ const DropdownWithChip: React.FC<Props> = ({ value, options }) => {
         {options.map(option => (
           <MenuItem key={option.id} value={option.value}>
             <div className='flex justify-between items-center w-full md:min-w-[160px] gap-6'>
-              {renderChip(option)}
+              <Chip key={option.id} label={option.value} variant='tonal' color={option.color} size='small' />
               {selectedValue.value === option.value && <i className='ri-check-line w-4 h-4 me-2'></i>}
             </div>
           </MenuItem>
