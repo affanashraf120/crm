@@ -41,8 +41,6 @@ export const FormInputSearchDropdown = ({ control, name, label, options, icon }:
     } else setisValueExist(true)
   }
 
-  const inputProps = icon ? { style: { paddingLeft: '14px' } } : { style: { paddingLeft: '0px' } }
-
   return (
     <div className='relative w-full'>
       {icon && <span className='absolute left-3 top-2'>{icon}</span>}
@@ -91,7 +89,6 @@ export const FormInputSearchDropdown = ({ control, name, label, options, icon }:
                 error={!!fieldState.error}
                 helperText={fieldState.error?.message}
                 onChange={handleinput}
-                InputProps={inputProps}
               />
             )}
             PaperComponent={({ children }) => {

@@ -349,15 +349,16 @@ const ClientTable = () => {
 
   return (
     <Card>
-      <div className='flex justify-between items-start md:items-center pe-5 flex-col px-2 md:flex-row mb-2 text-left'>
+      <div className='flex justify-between items-start md:items-center flex-col px-2 md:flex-row mb-2 text-left w-full'>
         <CardHeader title='Alpha Appraisals (10% or $250 min)' />
-        <div className='flex justify-between px-4 md:px-0 md:justify-end items-start w-full flex-col sm:flex-row md:gap-2 gap-4 '>
-          <TextField id='outlined-basic' label='Search' variant='outlined' size='small' sx={{ marginRight: '4px' }} />
+        <div className='flex justify-center items-center gap-2 flex-col w-full sm:flex-row md:w-auto'>
+          <TextField id='outlined-basic' label='Search' variant='outlined' fullWidth size='small' />
           <Button
             variant='contained'
             type='submit'
             onClick={handleSliderInputModal}
             startIcon={<i className='ri-add-line' />}
+            fullWidth
           >
             Add New Appraisal
           </Button>
