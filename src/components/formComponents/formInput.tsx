@@ -16,6 +16,7 @@ export const FormInput = ({ label, type = 'text', error, helperText, register, d
         helperText={helperText}
         disabled={disable}
         InputProps={inputProps}
+        InputLabelProps={icon && { shrink: true }}
       />
     </div>
   )

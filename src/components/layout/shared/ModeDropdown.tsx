@@ -102,14 +102,14 @@ const ModeDropdown = () => {
                     <i className='ri-moon-clear-line text-[22px]' />
                     Dark
                   </MenuItem>
-                  <MenuItem
+                  {/* <MenuItem
                     className='gap-3'
                     onClick={() => handleModeSwitch('system')}
                     selected={settings.mode === 'system'}
                   >
                     <i className='ri-computer-line text-[22px]' />
                     System
-                  </MenuItem>
+                  </MenuItem> */}
                 </MenuList>
               </ClickAwayListener>
             </Paper>

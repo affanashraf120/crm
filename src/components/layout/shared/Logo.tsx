@@ -5,37 +5,22 @@ import { useEffect, useRef } from 'react'
 import Link from 'next/link'
 
 // Third-party Imports
-// import styled from '@emotion/styled'
 
 // Type Imports
-// import type { VerticalNavContextProps } from '@menu/contexts/verticalNavContext'
 
 // Component Imports
+import BlackLogo from '@core/svg/Logo'
+import TextWhiteLogo from '@core/svg/TexrWhiteLogo'
+import LogoWhite from '@/@core/svg/WhiteLogo'
 
 // Config Imports
 
 // Hook Imports
-import { useSettings } from '@core/hooks/useSettings'
 import useVerticalNav from '@menu/hooks/useVerticalNav'
+import { useSettings } from '@core/hooks/useSettings'
+import TextBlackLogo from '@/@core/svg/TexrBlackLogo'
 
-// type LogoTextProps = {
-//   isHovered?: VerticalNavContextProps['isHovered']
-//   isCollapsed?: VerticalNavContextProps['isCollapsed']
-//   transitionDuration?: VerticalNavContextProps['transitionDuration']
-// }
-
-// const LogoText = styled.span<LogoTextProps>`
-//   font-size: 1.25rem;
-//   line-height: 1.2;
-//   font-weight: 600;
-//   letter-spacing: 0.15px;
-//   text-transform: uppercase;
-//   transition: ${({ transitionDuration }) =>
-//     `margin-inline-start ${transitionDuration}ms ease-in-out, opacity ${transitionDuration}ms ease-in-out`};
-
-//   ${({ isHovered, isCollapsed }) =>
-//     isCollapsed && !isHovered ? 'opacity: 0; margin-inline-start: 0;' : 'opacity: 1; margin-inline-start: 10px;'}
-// `
+// Util Imports
 
 const Logo = () => {
   // Refs
@@ -66,26 +51,18 @@ const Logo = () => {
   // You may return any JSX here to display a logo in the sidebar header
   // return <Img src='/next.svg' width={100} height={25} alt='logo' /> // for example
   return (
-    <Link href='/' className='flex items-center min-bs-[24px] gap-2'>
+    <Link href='/' className='flex items-center min-bs-[24px]'>
       {settings.mode === 'dark' ? (
         <>
-          <img src='/white_aylormade_logo-01.svg' alt='logo' className='w-10 h-10 ' />
-          <img src='/logo_text.svg' alt='logo' className='w-32 h-full' />
+          <LogoWhite className='text-[18px] text-primary w-10 h-10' />
+          <TextWhiteLogo className='w-32 h-full ms-2' />
         </>
       ) : (
         <>
-          <img src='/black_aylormade_logo-01.svg' alt='logo' className='w-10 h-10 ' />
-          <img src='/logo_black_text.svg' alt='logo' className='w-32 h-full' />
+          <BlackLogo className='text-[18px] text-primary w-10 h-10' />
+          <TextBlackLogo className='w-32 h-full ms-2' />
         </>
       )}
-      {/* <LogoText
-        ref={logoTextRef}
-        isHovered={isHovered}
-        isCollapsed={isCollapsed}
-        transitionDuration={transitionDuration}
-      >
-        AYLORMADE
-      </LogoText> */}
     </Link>
   )
 }

@@ -399,11 +399,11 @@ const SliderInputModal = ({ open, setOpen, clientName, setRowSelection }: Slider
                 <Title icon='ri-money-dollar-circle-line' label='Commission Amount' />
 
                 <div className='col-span-12 md:col-span-8 flex justify-start items-center gap-2 text-sm'>
-                  <FormInputSearchDropdown
-                    control={control}
-                    name='comm_amt'
-                    label='Enter...'
-                    options={['23', '232']}
+                  <FormInput
+                    label='Enter Commission Amount... '
+                    register={register('comm_amt')}
+                    error={!!errors.turnaround}
+                    helperText={errors.turnaround?.message}
                     icon='$'
                   />
                 </div>

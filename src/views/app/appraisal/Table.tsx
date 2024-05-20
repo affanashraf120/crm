@@ -15,6 +15,8 @@ import { createColumnHelper, flexRender, getCoreRowModel, useReactTable } from '
 
 import type { RowData } from '@tanstack/react-table'
 
+import { getPaginationRowModel } from '@tanstack/react-table'
+
 import styles from '@core/styles/table.module.css'
 
 // Data Imports
@@ -332,7 +334,13 @@ const ClientTable = () => {
     data: defaultData,
     columns,
     getCoreRowModel: getCoreRowModel(),
-    filterFns: undefined
+    filterFns: undefined,
+    getPaginationRowModel: getPaginationRowModel(),
+    initialState: {
+      pagination: {
+        pageSize: 10
+      }
+    }
   })
 
   const handleSliderInputModal = () => {
@@ -355,50 +363,67 @@ const ClientTable = () => {
           </Button>
         </div>
       </div>
-      <div className='overflow-x-auto'>
+      {table.getFilteredRowModel().rows.length === 0 ? (
         <table className={styles.table}>
-          <thead>
-            {table.getHeaderGroups().map(headerGroup => (
-              <tr key={headerGroup.id}>
-                {headerGroup.headers.map(header => (
-                  <th key={header.id}>
-                    {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
-                  </th>
-                ))}
-              </tr>
-            ))}
-          </thead>
           <tbody>
-            {table
-              .getRowModel()
-              .rows.slice(0, 10)
-              .map(row => {
-                return (
-                  <tr key={row.id}>
-                    {row.getVisibleCells().map(cell => {
-                      return (
-                        <td key={cell.id} className={styles.cellWithInput}>
-                          {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                        </td>
-                      )
-                    })}
-                  </tr>
-                )
-              })}
+            <tr>
+              <td colSpan={table.getVisibleFlatColumns().length} className='text-center w-full'>
+                No data available
+              </td>
+            </tr>
           </tbody>
         </table>
-      </div>
-      <div className='w-full px-16'>
-        <TablePagination
-          rowsPerPageOptions={[10, 25, 50]}
-          component='div'
-          className='border-bs'
-          count={10}
-          rowsPerPage={10}
-          page={10}
-          onPageChange={() => {}}
-        />
-      </div>
+      ) : (
+        <>
+          <div className='overflow-x-auto'>
+            <table className={styles.table}>
+              <thead>
+                {table.getHeaderGroups().map(headerGroup => (
+                  <tr key={headerGroup.id}>
+                    {headerGroup.headers.map(header => (
+                      <th key={header.id}>
+                        {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
+                      </th>
+                    ))}
+                  </tr>
+                ))}
+              </thead>
+              <tbody>
+                {table
+                  .getRowModel()
+                  .rows.slice(0, table.getState().pagination.pageSize)
+                  .map(row => {
+                    return (
+                      <tr key={row.id}>
+                        {row.getVisibleCells().map(cell => {
+                          return (
+                            <td key={cell.id} className={styles.cellWithInput}>
+                              {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                            </td>
+                          )
+                        })}
+                      </tr>
+                    )
+                  })}
+              </tbody>
+            </table>
+          </div>
+          <div className='w-full px-16'>
+            <TablePagination
+              rowsPerPageOptions={[10, 25, 50]}
+              component='div'
+              className='border-bs'
+              count={table.getFilteredRowModel().rows.length}
+              rowsPerPage={table.getState().pagination.pageSize}
+              page={table.getState().pagination.pageIndex}
+              onPageChange={(_, page) => {
+                table.setPageIndex(page)
+              }}
+              onRowsPerPageChange={e => table.setPageSize(Number(e.target.value))}
+            />
+          </div>
+        </>
+      )}
 
       <SliderInputModal
         dir='ltr'
