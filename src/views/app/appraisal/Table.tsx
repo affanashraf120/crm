@@ -3,27 +3,101 @@
 // React Imports
 import { useMemo, useState } from 'react'
 
+///
+import type { CSSProperties } from 'react'
+
+// needed for table body level scope DnD setup
+import {
+  closestCenter,
+  DndContext,
+  type DragEndEvent,
+  KeyboardSensor,
+  MouseSensor,
+  TouchSensor,
+  useSensor,
+  useSensors
+} from '@dnd-kit/core'
+import { restrictToVerticalAxis } from '@dnd-kit/modifiers'
+import { arrayMove, SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
+
+// needed for row & cell level scope DnD setup
+import { useSortable } from '@dnd-kit/sortable'
+import { CSS } from '@dnd-kit/utilities'
+
+// Cell Component
+const RowDragHandleCell = ({ rowId }: { rowId: string }) => {
+  const { attributes, listeners } = useSortable({
+    id: rowId
+  })
+
+  return (
+    <span {...attributes} {...listeners}>
+      <svg
+        xmlns='http://www.w3.org/2000/svg'
+        width='1.3em'
+        height='1.3em'
+        viewBox='0 0 256 256'
+        className='cursor-grab'
+      >
+        <path
+          fill='currentColor'
+          d='M108 60a16 16 0 1 1-16-16a16 16 0 0 1 16 16m56 16a16 16 0 1 0-16-16a16 16 0 0 0 16 16m-72 36a16 16 0 1 0 16 16a16 16 0 0 0-16-16m72 0a16 16 0 1 0 16 16a16 16 0 0 0-16-16m-72 68a16 16 0 1 0 16 16a16 16 0 0 0-16-16m72 0a16 16 0 1 0 16 16a16 16 0 0 0-16-16'
+        />
+      </svg>
+    </span>
+  )
+}
+
+// Row Component
+const DraggableRow = ({ row }: any) => {
+  const { transform, transition, setNodeRef, isDragging } = useSortable({
+    id: row.original.id
+  })
+
+  const style: CSSProperties = {
+    transform: CSS.Transform.toString(transform),
+    transition: transition,
+    opacity: isDragging ? 0.8 : 1,
+    zIndex: isDragging ? 1 : 0,
+    position: 'relative'
+  }
+
+  return (
+    <tr ref={setNodeRef} style={style}>
+      {row.getVisibleCells().map((cell: any) => (
+        <td key={cell.id} className={styles.cellWithInput}>
+          {flexRender(cell.column.columnDef.cell, cell.getContext())}
+        </td>
+      ))}
+    </tr>
+  )
+}
+
+///
+
 // MUI Imports
+import { Avatar, Button, TablePagination, TextField, Tooltip, Typography } from '@mui/material'
 import Card from '@mui/material/Card'
 import CardHeader from '@mui/material/CardHeader'
-import { Avatar, Button, TablePagination, TextField, Tooltip, Typography } from '@mui/material'
 
 // Third-party Imports
-import { createColumnHelper, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table'
+import {
+  createColumnHelper,
+  flexRender,
+  getCoreRowModel,
+  getPaginationRowModel,
+  useReactTable
+} from '@tanstack/react-table'
 
 // Style Imports
 
 import type { RowData } from '@tanstack/react-table'
 
-import { getPaginationRowModel } from '@tanstack/react-table'
-
 import styles from '@core/styles/table.module.css'
-
-// Data Imports
-import defaultData from './data'
 
 // Custom component
 import Dropdown from '@/components/dropDowns/dropDown'
+import DropDownButton from '@/components/dropDowns/dropDownButton'
 import DropdownWithChip from '@/components/dropDowns/dropDownChip'
 import SliderInputModal from '@/components/sliderModal'
 
@@ -35,6 +109,11 @@ declare module '@tanstack/react-table' {
   interface TableMeta<TData extends RowData> {
     updateData: (rowIndex: number, columnId: string, value: unknown) => void
   }
+}
+
+interface Option {
+  label: string
+  icon?: string
 }
 
 function transformData(data: any) {
@@ -64,12 +143,37 @@ function transformData(data: any) {
   })
 }
 
-const ClientTable = () => {
+const ClientTable = ({ defaultData }: any) => {
   // States
   const [isOpen, setIsOpen] = useState(false)
+  const [data, setData] = useState<any>(defaultData)
   const [rowSelection, setRowSelection] = useState<any>({})
 
+  const dataIds = useMemo(() => data?.map((id: number) => id), [data])
+
+  // reorder rows after drag & drop
+  function handleDragEnd(event: DragEndEvent) {
+    const { active, over } = event
+
+    if (active && over && active.id !== over.id) {
+      setData((data: any) => {
+        const oldIndex = dataIds.indexOf(active.id)
+        const newIndex = dataIds.indexOf(over.id)
+
+        return arrayMove(data, oldIndex, newIndex)
+      })
+    }
+  }
+
+  const sensors = useSensors(useSensor(MouseSensor, {}), useSensor(TouchSensor, {}), useSensor(KeyboardSensor, {}))
+
   const updatedData = useMemo(() => transformData(rowSelection), [rowSelection])
+
+  const handleMenuItemClick = (menuItem: Option | null) => {
+    if (menuItem?.label === 'Edit') {
+      setIsOpen(!isOpen)
+    }
+  }
 
   // Todo send data to the db
   console.log('🚀 ~ ClientTable ~ rowSelection:', updatedData)
@@ -78,21 +182,8 @@ const ClientTable = () => {
     () => [
       columnHelper.accessor('id', {
         header: '',
-        cell: ({ row }) => (
-          <svg
-            key={row.original.id}
-            xmlns='http://www.w3.org/2000/svg'
-            width='1.3em'
-            height='1.3em'
-            viewBox='0 0 256 256'
-            className='cursor-grab'
-          >
-            <path
-              fill='currentColor'
-              d='M108 60a16 16 0 1 1-16-16a16 16 0 0 1 16 16m56 16a16 16 0 1 0-16-16a16 16 0 0 0 16 16m-72 36a16 16 0 1 0 16 16a16 16 0 0 0-16-16m72 0a16 16 0 1 0 16 16a16 16 0 0 0-16-16m-72 68a16 16 0 1 0 16 16a16 16 0 0 0-16-16m72 0a16 16 0 1 0 16 16a16 16 0 0 0-16-16'
-            />
-          </svg>
-        )
+        cell: ({ row }) => <RowDragHandleCell rowId={row.id} />,
+        size: 60
       }),
       columnHelper.accessor('inv', {
         header: 'INV #',
@@ -145,29 +236,15 @@ const ClientTable = () => {
               </div>
             </div>
 
-            <div className='w-10'>
-              <Button
-                color='inherit'
-                onClick={handleSliderInputModal}
-                sx={{
-                  padding: '4px',
-                  gap: '4px'
-                }}
-                className='hidden group-hover:flex items-center justify-center transition-all duration-300 ease-in-out'
-              >
-                {/* <i className='ri-side-bar-fill w-4 h-3.5 rotate-180'></i> */}
-                <svg
-                  role='graphics-symbol'
-                  viewBox='0 0 16 16'
-                  fill='currentColor'
-                  width='12'
-                  height='12'
-                  className='display: block; flex-shrink: 0;'
-                >
-                  <path d='M2.14 14.45H13.85C15.33 14.45 16.09 13.69 16.09 12.23V3.91C16.09 2.45 15.33 1.69 13.85 1.69H2.14C0.67 1.69 -0.10 2.45 -0.10 3.91V12.23C-0.10 13.69 0.67 14.45 2.14 14.45ZM2.22 13.11C1.59 13.11 1.24 12.78 1.24 12.12V4.02C1.24 3.36 1.59 3.03 2.22 3.03H13.77C14.40 3.03 14.75 3.36 14.75 4.02V12.12C14.75 12.78 14.40 13.11 13.77 13.11H2.22ZM8.52 12.11H13.22C13.60 12.11 13.76 11.95 13.76 11.56V4.58C13.76 4.19 13.60 4.02 13.22 4.02H8.52C8.14 4.02 7.99 4.19 7.99 4.58V11.56C7.99 11.95 8.14 12.11 8.52 12.11Z'></path>
-                </svg>
-                open
-              </Button>
+            <div className='flex items-center w-10 '>
+              <DropDownButton
+                buttonLabel='ri-more-2-fill hidden group-hover:inline-block'
+                onMenuItemClick={handleMenuItemClick}
+                menuOptions={[
+                  { label: 'Delete', icon: 'ri-delete-bin-7-line ' },
+                  { label: 'Edit', icon: 'ri-pencil-line' }
+                ]}
+              />
             </div>
           </div>
         )
@@ -331,10 +408,11 @@ const ClientTable = () => {
 
   // Hooks
   const table = useReactTable({
-    data: defaultData,
+    data,
     columns,
     getCoreRowModel: getCoreRowModel(),
     filterFns: undefined,
+    getRowId: row => row.id,
     getPaginationRowModel: getPaginationRowModel(),
     initialState: {
       pagination: {
@@ -348,92 +426,93 @@ const ClientTable = () => {
   }
 
   return (
-    <Card>
-      <div className='flex justify-between items-start md:items-center flex-col px-2 md:flex-row mb-2 text-left w-full'>
-        <CardHeader title='Alpha Appraisals (10% or $250 min)' />
-        <div className='flex justify-center items-center gap-2 flex-col w-full sm:flex-row md:w-auto'>
-          <TextField id='outlined-basic' label='Search' variant='outlined' fullWidth size='small' />
-          <Button
-            variant='contained'
-            type='submit'
-            onClick={handleSliderInputModal}
-            startIcon={<i className='ri-add-line' />}
-            fullWidth
-          >
-            Add New Appraisal
-          </Button>
+    <DndContext
+      collisionDetection={closestCenter}
+      modifiers={[restrictToVerticalAxis]}
+      onDragEnd={handleDragEnd}
+      sensors={sensors}
+    >
+      <Card>
+        <div className='flex justify-between items-start md:items-center flex-col px-2 md:flex-row mb-2 text-left w-full'>
+          <CardHeader title='Alpha Appraisals (10% or $250 min)' />
+          <div className='flex justify-center items-center gap-2 flex-col w-full sm:flex-row md:w-auto'>
+            <TextField id='outlined-basic' label='Search' variant='outlined' fullWidth size='small' />
+            <Button
+              variant='contained'
+              type='submit'
+              onClick={handleSliderInputModal}
+              startIcon={<i className='ri-add-line' />}
+              fullWidth
+            >
+              Add New Appraisal
+            </Button>
+          </div>
         </div>
-      </div>
-      {table.getFilteredRowModel().rows.length === 0 ? (
-        <table className={styles.table}>
-          <tbody>
-            <tr>
-              <td colSpan={table.getVisibleFlatColumns().length} className='text-center w-full'>
-                No data available
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      ) : (
-        <>
-          <div className='overflow-x-auto'>
-            <table className={styles.table}>
-              <thead>
-                {table.getHeaderGroups().map(headerGroup => (
-                  <tr key={headerGroup.id}>
-                    {headerGroup.headers.map(header => (
-                      <th key={header.id}>
-                        {header.isPlaceholder ? null : flexRender(header.column.columnDef.header, header.getContext())}
-                      </th>
-                    ))}
-                  </tr>
-                ))}
-              </thead>
-              <tbody>
-                {table
-                  .getRowModel()
-                  .rows.slice(0, table.getState().pagination.pageSize)
-                  .map(row => {
-                    return (
-                      <tr key={row.id}>
-                        {row.getVisibleCells().map(cell => {
-                          return (
-                            <td key={cell.id} className={styles.cellWithInput}>
-                              {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                            </td>
-                          )
-                        })}
-                      </tr>
-                    )
-                  })}
-              </tbody>
-            </table>
-          </div>
-          <div className='w-full px-16'>
-            <TablePagination
-              rowsPerPageOptions={[10, 25, 50]}
-              component='div'
-              className='border-bs'
-              count={table.getFilteredRowModel().rows.length}
-              rowsPerPage={table.getState().pagination.pageSize}
-              page={table.getState().pagination.pageIndex}
-              onPageChange={(_, page) => {
-                table.setPageIndex(page)
-              }}
-              onRowsPerPageChange={e => table.setPageSize(Number(e.target.value))}
-            />
-          </div>
-        </>
-      )}
+        {table.getFilteredRowModel().rows.length === 0 ? (
+          <table className={styles.table}>
+            <tbody>
+              <tr>
+                <td colSpan={table.getVisibleFlatColumns().length} className='text-center w-full'>
+                  No data available
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        ) : (
+          <>
+            <div className='overflow-x-auto'>
+              <table className={styles.table}>
+                <thead>
+                  {table.getHeaderGroups().map(headerGroup => (
+                    <tr key={headerGroup.id}>
+                      {headerGroup.headers.map(header => (
+                        <th key={header.id}>
+                          {header.isPlaceholder
+                            ? null
+                            : flexRender(header.column.columnDef.header, header.getContext())}
+                        </th>
+                      ))}
+                    </tr>
+                  ))}
+                </thead>
+                <tbody>
+                  <SortableContext items={dataIds} strategy={verticalListSortingStrategy}>
+                    {table
+                      .getRowModel()
+                      .rows.slice(0, table.getState().pagination.pageSize)
+                      .map(row => (
+                        <DraggableRow key={row.id} row={row} />
+                      ))}
+                  </SortableContext>
+                </tbody>
+              </table>
+            </div>
+            <div className='w-full px-16'>
+              <TablePagination
+                rowsPerPageOptions={[10, 25, 50]}
+                component='div'
+                className='border-bs'
+                count={table.getFilteredRowModel().rows.length}
+                rowsPerPage={table.getState().pagination.pageSize}
+                page={table.getState().pagination.pageIndex}
+                onPageChange={(_, page) => {
+                  table.setPageIndex(page)
+                }}
+                onRowsPerPageChange={e => table.setPageSize(Number(e.target.value))}
+              />
+            </div>
+          </>
+        )}
 
-      <SliderInputModal
-        dir='ltr'
-        open={isOpen}
-        setOpen={setIsOpen}
-        clientName='Alpha'
-        setRowSelection={setRowSelection}
-      />
-    </Card>
+        <SliderInputModal
+          dir='ltr'
+          open={isOpen}
+          setOpen={setIsOpen}
+          clientName='Alpha'
+          setRowSelection={setRowSelection}
+        />
+      </Card>
+    </DndContext>
   )
 }
 

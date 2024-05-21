@@ -7,6 +7,8 @@ import { Autocomplete, Grid, TextField } from '@mui/material'
 import AppraisalCard from './Card'
 import ClientTable from './Table'
 
+import { data } from '@/utils/data'
+
 const AppraisalClient = () => {
   return (
     <Grid container spacing={6}>
@@ -31,7 +33,7 @@ const AppraisalClient = () => {
       </Grid>
 
       <Grid item xs={12}>
-        <ClientTable />
+        <ClientTable defaultData={data} />
       </Grid>
     </Grid>
   )

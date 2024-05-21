@@ -12,7 +12,7 @@ export type DataType = {
   status: number
 }
 
-const data: any[] = [
+export const data: any[] = [
   {
     id: 1,
     inv: 'INV001',
