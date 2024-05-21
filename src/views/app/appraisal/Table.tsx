@@ -3,8 +3,16 @@
 // React Imports
 import { useMemo, useState } from 'react'
 
-///
-import type { CSSProperties } from 'react'
+import type {
+  ComponentType,
+  CSSProperties,
+  JSXElementConstructor,
+  Key,
+  PromiseLikeOfReactNode,
+  ReactElement,
+  ReactNode,
+  ReactPortal
+} from 'react'
 
 // needed for table body level scope DnD setup
 import {
@@ -23,57 +31,6 @@ import { arrayMove, SortableContext, verticalListSortingStrategy } from '@dnd-ki
 // needed for row & cell level scope DnD setup
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-
-// Cell Component
-const RowDragHandleCell = ({ rowId }: { rowId: string }) => {
-  const { attributes, listeners } = useSortable({
-    id: rowId
-  })
-
-  return (
-    <span {...attributes} {...listeners}>
-      <svg
-        xmlns='http://www.w3.org/2000/svg'
-        width='1.3em'
-        height='1.3em'
-        viewBox='0 0 256 256'
-        className='cursor-grab'
-      >
-        <path
-          fill='currentColor'
-          d='M108 60a16 16 0 1 1-16-16a16 16 0 0 1 16 16m56 16a16 16 0 1 0-16-16a16 16 0 0 0 16 16m-72 36a16 16 0 1 0 16 16a16 16 0 0 0-16-16m72 0a16 16 0 1 0 16 16a16 16 0 0 0-16-16m-72 68a16 16 0 1 0 16 16a16 16 0 0 0-16-16m72 0a16 16 0 1 0 16 16a16 16 0 0 0-16-16'
-        />
-      </svg>
-    </span>
-  )
-}
-
-// Row Component
-const DraggableRow = ({ row }: any) => {
-  const { transform, transition, setNodeRef, isDragging } = useSortable({
-    id: row.original.id
-  })
-
-  const style: CSSProperties = {
-    transform: CSS.Transform.toString(transform),
-    transition: transition,
-    opacity: isDragging ? 0.8 : 1,
-    zIndex: isDragging ? 1 : 0,
-    position: 'relative'
-  }
-
-  return (
-    <tr ref={setNodeRef} style={style}>
-      {row.getVisibleCells().map((cell: any) => (
-        <td key={cell.id} className={styles.cellWithInput}>
-          {flexRender(cell.column.columnDef.cell, cell.getContext())}
-        </td>
-      ))}
-    </tr>
-  )
-}
-
-///
 
 // MUI Imports
 import { Avatar, Button, TablePagination, TextField, Tooltip, Typography } from '@mui/material'
@@ -111,11 +68,6 @@ declare module '@tanstack/react-table' {
   }
 }
 
-interface Option {
-  label: string
-  icon?: string
-}
-
 function transformData(data: any) {
   const dataArray = [data]
 
@@ -143,20 +95,89 @@ function transformData(data: any) {
   })
 }
 
+// Cell Component
+const RowDragHandleCell = ({ rowId }: { rowId: string }) => {
+  const { attributes, listeners } = useSortable({
+    id: rowId
+  })
+
+  return (
+    <span {...attributes} {...listeners}>
+      <svg
+        xmlns='http://www.w3.org/2000/svg'
+        width='1.3em'
+        height='1.3em'
+        viewBox='0 0 256 256'
+        className='cursor-grab'
+      >
+        <path
+          fill='currentColor'
+          d='M108 60a16 16 0 1 1-16-16a16 16 0 0 1 16 16m56 16a16 16 0 1 0-16-16a16 16 0 0 0 16 16m-72 36a16 16 0 1 0 16 16a16 16 0 0 0-16-16m72 0a16 16 0 1 0 16 16a16 16 0 0 0-16-16m-72 68a16 16 0 1 0 16 16a16 16 0 0 0-16-16m72 0a16 16 0 1 0 16 16a16 16 0 0 0-16-16'
+        />
+      </svg>
+    </span>
+  )
+}
+
+// Row Component
+const DraggableRow = ({ row }: { row: any }) => {
+  const { transform, transition, setNodeRef, isDragging } = useSortable({
+    id: row.original.id
+  })
+
+  const style: CSSProperties = {
+    transform: CSS.Transform.toString(transform),
+    transition: transition,
+    opacity: isDragging ? 0.8 : 1,
+    zIndex: isDragging ? 1 : 0,
+    position: 'relative'
+  }
+
+  return (
+    <tr ref={setNodeRef} style={style}>
+      {row.getVisibleCells().map(
+        (cell: {
+          id: Key | null | undefined
+          column: {
+            columnDef: {
+              cell:
+                | string
+                | number
+                | boolean
+                | ComponentType<any>
+                | ReactElement<any, string | JSXElementConstructor<any>>
+                | Iterable<ReactNode>
+                | ReactPortal
+                | PromiseLikeOfReactNode
+                | null
+                | undefined
+            }
+          }
+          getContext: () => any
+        }) => (
+          <td key={cell.id} className={styles.cellWithInput}>
+            {flexRender(cell.column.columnDef.cell, cell.getContext())}
+          </td>
+        )
+      )}
+    </tr>
+  )
+}
+
 const ClientTable = ({ defaultData }: any) => {
   // States
   const [isOpen, setIsOpen] = useState(false)
   const [data, setData] = useState<any>(defaultData)
   const [rowSelection, setRowSelection] = useState<any>({})
 
-  const dataIds = useMemo(() => data?.map((id: number) => id), [data])
+  const dataIds = useMemo(() => data?.map(({ id }: { id: string }) => id), [data])
 
   // reorder rows after drag & drop
   function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event
 
     if (active && over && active.id !== over.id) {
-      setData((data: any) => {
+      setData((data: any[]) => {
         const oldIndex = dataIds.indexOf(active.id)
         const newIndex = dataIds.indexOf(over.id)
 
@@ -169,7 +190,7 @@ const ClientTable = ({ defaultData }: any) => {
 
   const updatedData = useMemo(() => transformData(rowSelection), [rowSelection])
 
-  const handleMenuItemClick = (menuItem: Option | null) => {
+  const handleMenuItemClick = (menuItem: any) => {
     if (menuItem?.label === 'Edit') {
       setIsOpen(!isOpen)
     }

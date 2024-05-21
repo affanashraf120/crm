@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 
 import type { SelectChangeEvent } from '@mui/material'
 import { Select, MenuItem, Input } from '@mui/material'
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 
 interface Props {
   value: string | null
@@ -34,7 +35,12 @@ const Dropdown: React.FC<Props> = ({ value, options }) => {
           }
         }}
         sx={{ minWidth: 130 }}
-        renderValue={() => <div>{selectedValue}</div>}
+        renderValue={() => (
+          <div className='flex justify-start items-center gap-1'>
+            {selectedValue}
+            <KeyboardArrowDownIcon />
+          </div>
+        )}
       >
         {options.map(option => (
           <MenuItem key={option.toLocaleLowerCase().replaceAll(' ', '-')} value={option}>

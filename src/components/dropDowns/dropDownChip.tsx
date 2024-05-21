@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 
 import type { SelectChangeEvent } from '@mui/material'
 import { Select, MenuItem, Chip, Input, Tooltip } from '@mui/material'
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 
 // Define the allowed colors explicitly
 type ChipColor = 'default' | 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning'
@@ -35,6 +36,8 @@ const DropdownWithChip: React.FC<Props> = ({ value, options }) => {
       variant='tonal'
       color={option.color}
       size='small'
+      onDelete={() => {}}
+      deleteIcon={<KeyboardArrowDownIcon />}
       style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', width: '100px' }}
     />
   )
@@ -69,6 +72,8 @@ const DropdownWithChip: React.FC<Props> = ({ value, options }) => {
                 variant='tonal'
                 color={selectedValue.color}
                 size='small'
+                onDelete={() => {}}
+                deleteIcon={<KeyboardArrowDownIcon />}
               />
             )}
           </div>
