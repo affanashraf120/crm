@@ -67,7 +67,7 @@
       &:first-of-type {
         &:not(:has(input[type='checkbox'])) {
           padding-block: 0.5rem;
-          padding-inline: 1.25rem 1rem;
+          padding-inline: 1rem 0.25rem;
         }
 
         &:has(input[type='checkbox']) {

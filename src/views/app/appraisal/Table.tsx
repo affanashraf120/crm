@@ -33,7 +33,7 @@ import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 
 // MUI Imports
-import { Avatar, Button, TablePagination, TextField, Tooltip, Typography } from '@mui/material'
+import { Avatar, Button, IconButton, TablePagination, TextField, Tooltip, Typography } from '@mui/material'
 import Card from '@mui/material/Card'
 import CardHeader from '@mui/material/CardHeader'
 
@@ -57,6 +57,7 @@ import Dropdown from '@/components/dropDowns/dropDown'
 import DropDownButton from '@/components/dropDowns/dropDownButton'
 import DropdownWithChip from '@/components/dropDowns/dropDownChip'
 import SliderInputModal from '@/components/sliderModal'
+import { CustomModal } from '@/components/dialogBox/deleteDialogBox'
 
 // Column Definitions
 const columnHelper = createColumnHelper<any>()
@@ -103,18 +104,20 @@ const RowDragHandleCell = ({ rowId }: { rowId: string }) => {
 
   return (
     <span {...attributes} {...listeners}>
-      <svg
-        xmlns='http://www.w3.org/2000/svg'
-        width='1.3em'
-        height='1.3em'
-        viewBox='0 0 256 256'
-        className='cursor-grab'
-      >
-        <path
-          fill='currentColor'
-          d='M108 60a16 16 0 1 1-16-16a16 16 0 0 1 16 16m56 16a16 16 0 1 0-16-16a16 16 0 0 0 16 16m-72 36a16 16 0 1 0 16 16a16 16 0 0 0-16-16m72 0a16 16 0 1 0 16 16a16 16 0 0 0-16-16m-72 68a16 16 0 1 0 16 16a16 16 0 0 0-16-16m72 0a16 16 0 1 0 16 16a16 16 0 0 0-16-16'
-        />
-      </svg>
+      <IconButton>
+        <svg
+          xmlns='http://www.w3.org/2000/svg'
+          width='1.3em'
+          height='1.3em'
+          viewBox='0 0 256 256'
+          className='cursor-grab w-5 h-5'
+        >
+          <path
+            fill='currentColor'
+            d='M108 60a16 16 0 1 1-16-16a16 16 0 0 1 16 16m56 16a16 16 0 1 0-16-16a16 16 0 0 0 16 16m-72 36a16 16 0 1 0 16 16a16 16 0 0 0-16-16m72 0a16 16 0 1 0 16 16a16 16 0 0 0-16-16m-72 68a16 16 0 1 0 16 16a16 16 0 0 0-16-16m72 0a16 16 0 1 0 16 16a16 16 0 0 0-16-16'
+          />
+        </svg>
+      </IconButton>
     </span>
   )
 }
@@ -167,6 +170,7 @@ const DraggableRow = ({ row }: { row: any }) => {
 const ClientTable = ({ defaultData }: any) => {
   // States
   const [isOpen, setIsOpen] = useState(false)
+  const [isOpenDelete, setIsOpenDelete] = useState(false)
   const [data, setData] = useState<any>(defaultData)
   const [rowSelection, setRowSelection] = useState<any>({})
 
@@ -193,6 +197,8 @@ const ClientTable = ({ defaultData }: any) => {
   const handleMenuItemClick = (menuItem: any) => {
     if (menuItem?.label === 'Edit') {
       setIsOpen(!isOpen)
+    } else if (menuItem?.label === 'Delete') {
+      setIsOpenDelete(!isOpenDelete)
     }
   }
 
@@ -203,8 +209,28 @@ const ClientTable = ({ defaultData }: any) => {
     () => [
       columnHelper.accessor('id', {
         header: '',
-        cell: ({ row }) => <RowDragHandleCell rowId={row.id} />,
-        size: 60
+        cell: ({ row }) => (
+          <div className='flex justify-center items-center'>
+            <RowDragHandleCell rowId={row.id} />
+          </div>
+        )
+      }),
+      columnHelper.accessor('action', {
+        header: 'Action',
+        cell: ({ row }) => (
+          <div className='flex justify-center items-center'>
+            <div className='flex items-center '>
+              <DropDownButton
+                buttonLabel='ri-more-2-fill w-5 h-5 rotate-90 ease-in-out duration-500 transition-all'
+                onMenuItemClick={handleMenuItemClick}
+                menuOptions={[
+                  { label: 'Delete', icon: 'ri-delete-bin-7-line ', id: row.original.id },
+                  { label: 'Edit', icon: 'ri-pencil-line', id: row.original.id }
+                ]}
+              />
+            </div>
+          </div>
+        )
       }),
       columnHelper.accessor('inv', {
         header: 'INV #',
@@ -262,8 +288,8 @@ const ClientTable = ({ defaultData }: any) => {
                 buttonLabel='ri-more-2-fill hidden group-hover:inline-block'
                 onMenuItemClick={handleMenuItemClick}
                 menuOptions={[
-                  { label: 'Delete', icon: 'ri-delete-bin-7-line ' },
-                  { label: 'Edit', icon: 'ri-pencil-line' }
+                  { label: 'Delete', icon: 'ri-delete-bin-7-line ', id: row.original.id },
+                  { label: 'Edit', icon: 'ri-pencil-line', id: row.original.id }
                 ]}
               />
             </div>
@@ -531,6 +557,16 @@ const ClientTable = ({ defaultData }: any) => {
           setOpen={setIsOpen}
           clientName='Alpha'
           setRowSelection={setRowSelection}
+        />
+
+        <CustomModal
+          open={isOpenDelete}
+          onClose={() => setIsOpenDelete(false)}
+          title='Are you sure you want to delete this row?'
+          actions={[
+            { label: 'Delete', onClick: () => setIsOpenDelete(false), color: 'error' }, // todo add delete functionality
+            { label: 'Cancel', onClick: () => setIsOpenDelete(false), color: 'inherit' }
+          ]}
         />
       </Card>
     </DndContext>

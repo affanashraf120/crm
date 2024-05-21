@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 
 import type { SelectChangeEvent } from '@mui/material'
-import { Select, MenuItem, Input } from '@mui/material'
+import { Select, MenuItem, Input, Button } from '@mui/material'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 
 interface Props {
@@ -26,20 +26,23 @@ const Dropdown: React.FC<Props> = ({ value, options }) => {
         input={<Input disableUnderline />}
         MenuProps={{
           anchorOrigin: {
-            vertical: 'bottom',
+            vertical: 'center',
             horizontal: 'left'
           },
           transformOrigin: {
             vertical: 'top',
             horizontal: 'left'
+          },
+          style: {
+            left: '100px'
           }
         }}
         sx={{ minWidth: 130 }}
         renderValue={() => (
-          <div className='flex justify-start items-center gap-1'>
+          <Button color='inherit' className='flex justify-start items-center gap-1'>
             {selectedValue}
             <KeyboardArrowDownIcon />
-          </div>
+          </Button>
         )}
       >
         {options.map(option => (
