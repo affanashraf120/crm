@@ -26,15 +26,12 @@ const Dropdown: React.FC<Props> = ({ value, options }) => {
         input={<Input disableUnderline />}
         MenuProps={{
           anchorOrigin: {
-            vertical: 'center',
+            vertical: 'bottom',
             horizontal: 'left'
           },
           transformOrigin: {
             vertical: 'top',
             horizontal: 'left'
-          },
-          style: {
-            left: '100px'
           }
         }}
         sx={{ minWidth: 130 }}

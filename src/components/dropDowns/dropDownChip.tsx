@@ -59,9 +59,6 @@ const DropdownWithChip: React.FC<Props> = ({ value, options }) => {
           transformOrigin: {
             vertical: 'top',
             horizontal: 'left'
-          },
-          style: {
-            left: '100px'
           }
         }}
         renderValue={() => (

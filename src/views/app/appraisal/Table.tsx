@@ -282,17 +282,6 @@ const ClientTable = ({ defaultData }: any) => {
                 <Typography variant='body2'>{row.original.email}</Typography>
               </div>
             </div>
-
-            <div className='flex items-center w-10 '>
-              <DropDownButton
-                buttonLabel='ri-more-2-fill hidden group-hover:inline-block'
-                onMenuItemClick={handleMenuItemClick}
-                menuOptions={[
-                  { label: 'Delete', icon: 'ri-delete-bin-7-line ', id: row.original.id },
-                  { label: 'Edit', icon: 'ri-pencil-line', id: row.original.id }
-                ]}
-              />
-            </div>
           </div>
         )
       }),
