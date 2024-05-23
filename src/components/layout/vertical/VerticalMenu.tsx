@@ -10,7 +10,7 @@ import PerfectScrollbar from 'react-perfect-scrollbar'
 import type { VerticalMenuContextProps } from '@menu/components/vertical-menu/Menu'
 
 // Component Imports
-import { Menu, MenuItem, SubMenu } from '@menu/vertical-menu'
+import { Menu, MenuItem, MenuSection, SubMenu } from '@menu/vertical-menu'
 
 // Hook Imports
 import { useSettings } from '@core/hooks/useSettings'
@@ -75,32 +75,39 @@ const VerticalMenu = ({ scrollMenu }: Props) => {
         menuSectionStyles={menuSectionStyles(verticalNavOptions, theme)}
       >
         <SubMenu
-          label='Client'
-          icon={<i className='ri-user-line' />}
+          label='Clients'
+          icon={<i className='ri-parent-line' />}
 
           // suffix={<Chip label='3' size='small' color='error' />}
         >
           <MenuItem href={appraisal}>Appraisals</MenuItem>
           <MenuItem href={estimates}>Estimates</MenuItem>
-          <MenuItem href={supplement}>supplement</MenuItem>
-          <MenuItem href={invoice}>invoice</MenuItem>
+          <MenuItem href={supplement}>Supplements</MenuItem>
+          <MenuItem href={invoice}>Invoices</MenuItem>
         </SubMenu>
+        <MenuItem href='/opposing-appraisal' icon={<i className='ri-bubble-chart-line' />}>
+          Opposing Appraiser
+        </MenuItem>
+        <MenuItem href='/umpire' icon={<i className='ri-user-follow-line' />}>
+          Umpire Info
+        </MenuItem>
+        <MenuItem href='/adjuster' icon={<i className='ri-user-3-line' />}>
+          Adjuster Info
+        </MenuItem>
+        <MenuItem href='/users' icon={<i className='ri-team-line' />}>
+          Users
+        </MenuItem>
+        <MenuItem href='/insurance-company' icon={<i className='ri-building-line' />}>
+          Insurance Company
+        </MenuItem>
+        <MenuSection label='Info'>
+        <MenuItem href='/contact' icon={<i className='ri-contacts-book-3-line' />}>
+          Contact
+        </MenuItem>
         <MenuItem href='/about' icon={<i className='ri-information-line' />}>
           About
         </MenuItem>
-        <MenuItem href='/umpire' icon={<i className='ri-information-line' />}>
-          Umpire
-        </MenuItem>
-        <MenuItem href='/opposingAppraisal' icon={<i className='ri-information-line' />}>
-          Opposing Appraisal{' '}
-        </MenuItem>
-        <MenuItem href='/contact' icon={<i className='ri-information-line' />}>
-          Contact
-        </MenuItem>
-        <MenuItem href='/insuranceCompany' icon={<i className='ri-information-line' />}>
-          Insurance Company
-        </MenuItem>
-
+        </MenuSection>
       </Menu>
       {/* <Menu
         popoutMenuOffset={{ mainAxis: 10 }}

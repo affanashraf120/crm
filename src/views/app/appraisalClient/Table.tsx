@@ -9,6 +9,7 @@ import { Button, Card, Chip, Grid, MenuItem, TablePagination, TextField } from '
 import CustomAvatar from '@/@core/components/mui/Avatar'
 
 import { useSettings } from '@/@core/hooks/useSettings'
+import { AddClient } from '@/components/dialogBox/apps/apprasialClient/AddClient'
 
 const listData = [
   { companyName: 'Alpha', closed: 1, open: 12, schedule: 2, amount: '$12,300' },
@@ -30,6 +31,7 @@ const listData = [
 const AppraisalClientTable = () => {
   const { settings } = useSettings()
   const [data, setData] = useState(listData)
+  const [open, setOpen] = useState(false)
 
   const router = useRouter()
 
@@ -84,6 +86,7 @@ const AppraisalClientTable = () => {
               type='submit'
               startIcon={<i className='ri-add-line' />}
               className='is-full sm:is-auto'
+              onClick={()=>setOpen(true)}
             >
               Add Client
             </Button>
@@ -133,6 +136,12 @@ const AppraisalClientTable = () => {
           onPageChange={() => {}}
         />
       </Grid>
+      <AddClient
+        open={open}
+        onClose={()=>setOpen(false)}
+       
+      />{' '}
+      */
     </>
   )
 }
