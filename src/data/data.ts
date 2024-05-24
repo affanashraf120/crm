@@ -1,18 +1,4 @@
-export type DataType = {
-  id: number
-  avatar: string
-  fullName: string
-  post: string
-  email: string
-  city: string
-  start_date: string
-  salary: number
-  age: number
-  experience: string
-  status: number
-}
-
-export const data: any[] = [
+ const dummyData: any[] = [
   {
     id: 1,
     inv: 'INV001',
@@ -479,4 +465,4 @@ export const data: any[] = [
   }
 ]
 
-export default data
+export default dummyData

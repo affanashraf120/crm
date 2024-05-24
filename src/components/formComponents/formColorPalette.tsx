@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 
 import { Paper, Button, FormLabel, InputAdornment, OutlinedInput, Tooltip } from '@mui/material'
 
-import { CustomModal } from '../dialogBox/deleteDialogBox'
+import { ActionsDialog } from '../dialogBox/deleteDialogBox'
 import { useSettings } from '@/@core/hooks/useSettings'
 
 interface Color {
@@ -132,7 +132,7 @@ const ColorPalette: React.FC<ColorPaletteProps> = ({ onClose, setColorSelect, se
         </div>
       </Paper>
 
-      <CustomModal
+      <ActionsDialog
         open={open}
         onClose={handleClose}
         title='Are you sure you want to delete this item?'

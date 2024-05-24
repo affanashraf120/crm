@@ -56,8 +56,8 @@ import styles from '@core/styles/table.module.css'
 import Dropdown from '@/components/dropDowns/dropDown'
 import DropDownButton from '@/components/dropDowns/dropDownButton'
 import DropdownWithChip from '@/components/dropDowns/dropDownChip'
-import SliderInputModal from '@/components/sliderModal'
-import { CustomModal } from '@/components/dialogBox/deleteDialogBox'
+import { ActionsDialog } from '@/components/dialogBox/deleteDialogBox'
+import FormDrawer from '@/components/formDrawer'
 
 // Column Definitions
 const columnHelper = createColumnHelper<any>()
@@ -331,6 +331,7 @@ const ClientTable = ({ defaultData }: any) => {
         cell: ({ row }) => (
           <div className='flex justify-start items-center gap-3'>
             <Typography>{row.original.umpire_name}</Typography>
+            {row.original.umpire_status && 
             <DropdownWithChip
               value={row.original.umpire_status}
               options={[
@@ -345,6 +346,7 @@ const ClientTable = ({ defaultData }: any) => {
                 { id: 8, value: 'Inspection Schedule', color: 'primary' }
               ]}
             />
+            }
           </div>
         )
       }),
@@ -457,7 +459,7 @@ const ClientTable = ({ defaultData }: any) => {
     }
   })
 
-  const handleSliderInputModal = () => {
+  const handleFormDrawer = () => {
     setIsOpen(!isOpen)
   }
 
@@ -476,7 +478,7 @@ const ClientTable = ({ defaultData }: any) => {
             <Button
               variant='contained'
               type='submit'
-              onClick={handleSliderInputModal}
+              onClick={handleFormDrawer}
               startIcon={<i className='ri-add-line' />}
               fullWidth
             >
@@ -540,7 +542,7 @@ const ClientTable = ({ defaultData }: any) => {
           </>
         )}
 
-        <SliderInputModal
+        <FormDrawer
           dir='ltr'
           open={isOpen}
           setOpen={setIsOpen}
@@ -548,7 +550,7 @@ const ClientTable = ({ defaultData }: any) => {
           setRowSelection={setRowSelection}
         />
 
-        <CustomModal
+        <ActionsDialog
           open={isOpenDelete}
           onClose={() => setIsOpenDelete(false)}
           title='Are you sure you want to delete this row?'

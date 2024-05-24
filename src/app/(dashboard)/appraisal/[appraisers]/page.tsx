@@ -1,6 +1,6 @@
 import React from 'react'
 
-import AppraisalClient from '@/views/app/appraisal'
+import AppraisalClient from '@/views/app/appraisers'
 
 function App() {
   return (

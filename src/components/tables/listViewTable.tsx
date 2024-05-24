@@ -1,13 +1,12 @@
 'use client'
 
-import { useState } from 'react'
+import React, { useState } from 'react'
 
 import { useRouter } from 'next/navigation'
 
 import { Button, Card, Chip, Grid, MenuItem, TablePagination, TextField } from '@mui/material'
 
 import CustomAvatar from '@/@core/components/mui/Avatar'
-
 import { useSettings } from '@/@core/hooks/useSettings'
 import { AddClient } from '@/components/dialogBox/apps/apprasialClient/AddClient'
 
@@ -22,17 +21,14 @@ const listData = [
   { companyName: 'Builditect', closed: 3, open: 8, schedule: 1, amount: '$8,500' },
   { companyName: 'Zeus', closed: 1, open: 12, schedule: 2, amount: '$12,300' },
   { companyName: 'Spartan', closed: 3, open: 8, schedule: 1, amount: '$8,500' }
-
-  // { companyName: 'Roof Experts', closed: 1, open: 12, schedule: 2, amount: '$12,300' },
-  // { companyName: 'Maverick', closed: 3, open: 8, schedule: 1, amount: '$8,500' },
-  // { companyName: 'J&K', closed: 3, open: 8, schedule: 1, amount: '$8,500' },
 ]
 
-const AppraisalClientTable = () => {
+const ListViewTable = ({ clickable, actionButton }: any) => {
   const { settings } = useSettings()
   const [data, setData] = useState(listData)
   const [open, setOpen] = useState(false)
-
+  const [page, setPage] = useState(0)
+  const [rowsPerPage, setRowsPerPage] = useState(10)
   const router = useRouter()
 
   const handle = (id: number) => {
@@ -41,27 +37,25 @@ const AppraisalClientTable = () => {
 
   const handleInput = (e: any) => {
     const searchValue = e.target.value
-
     const filteredData = listData.filter(item => item.companyName.toLowerCase().includes(searchValue.toLowerCase()))
 
     setData(filteredData)
   }
 
-  // Table List data
+  const handleChangePage = (newPage: any) => {
+    setPage(newPage)
+  }
+
+  const handleChangeRowsPerPage = (event: any) => {
+    setRowsPerPage(parseInt(event.target.value, 10))
+    setPage(0)
+  }
 
   const itemData = [
-    {
-      value: 'Last Week'
-    },
-    {
-      value: 'Last Month'
-    },
-    {
-      value: 'Last Year'
-    },
-    {
-      value: 'Custom Date Range'
-    }
+    { value: 'Last Week' },
+    { value: 'Last Month' },
+    { value: 'Last Year' },
+    { value: 'Custom Date Range' }
   ]
 
   return (
@@ -81,22 +75,28 @@ const AppraisalClientTable = () => {
                 ))}
               </TextField>
             </div>
-            <Button
-              variant='contained'
-              type='submit'
-              startIcon={<i className='ri-add-line' />}
-              className='is-full sm:is-auto'
-              onClick={()=>setOpen(true)}
-            >
-              Add Client
-            </Button>
+            {actionButton && (
+              <Button
+                variant='contained'
+                type='submit'
+                startIcon={<i className='ri-add-line' />}
+                className='is-full sm:is-auto'
+                onClick={() => setOpen(true)}
+              >
+                Add Client
+              </Button>
+            )}
           </div>
         </div>
       </Grid>
-      {data.map((item, index) => (
-        <Card key={index} className='my-4' onClick={() => handle(index)}>
+      {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item, index) => (
+        <Card
+          key={index}
+          className={`my-4 ${clickable ? 'cursor-pointer' : ''}`}
+          onClick={clickable ? () => handle(index) : undefined}
+        >
           <div
-            className={`grid grid-cols-8 p-4 items-center justify-center gap-2  ${
+            className={`grid grid-cols-8 p-4 items-center justify-center gap-2 ${
               settings.mode === 'dark' ? 'hover:bg-[#37334C]' : 'hover:bg-[#E5E5EB]'
             }`}
           >
@@ -118,10 +118,11 @@ const AppraisalClientTable = () => {
               </CustomAvatar>
               <p>{item.amount}</p>
             </div>
-
-            <div className='hidden  md:col-span-1 md:flex justify-end  cursor-pointer'>
-              <i className='ri-arrow-right-s-line text-'></i>
-            </div>
+            {clickable && (
+              <div className='hidden  md:col-span-1 md:flex justify-end  cursor-pointer'>
+                <i className='ri-arrow-right-s-line text-'></i>
+              </div>
+            )}
           </div>
         </Card>
       ))}
@@ -130,20 +131,16 @@ const AppraisalClientTable = () => {
           rowsPerPageOptions={[10, 25, 50]}
           component='div'
           className='border-bs'
-          count={10}
-          rowsPerPage={10}
-          page={10}
-          onPageChange={() => {}}
+          count={data.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Grid>
-      <AddClient
-        open={open}
-        onClose={()=>setOpen(false)}
-       
-      />{' '}
-      */
+      <AddClient open={open} onClose={() => setOpen(false)} />
     </>
   )
 }
 
-export default AppraisalClientTable
+export default ListViewTable

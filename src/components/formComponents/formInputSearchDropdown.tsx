@@ -9,8 +9,8 @@ import { Autocomplete, Button, IconButton, Paper, TextField } from '@mui/materia
 
 // Import tamplate theme
 import { useSettings } from '@/@core/hooks/useSettings'
+import { ActionsDialog } from '../dialogBox/deleteDialogBox'
 
-import { CustomModal } from '../dialogBox/deleteDialogBox'
 
 export const FormInputSearchDropdown = ({ control, name, label, options, icon }: any) => {
   const [value, setValue] = useState('')
@@ -112,7 +112,7 @@ export const FormInputSearchDropdown = ({ control, name, label, options, icon }:
           />
         )}
       />
-      <CustomModal
+      <ActionsDialog
         open={open}
         onClose={handleClose}
         title='Are you sure you want to delete this item?'

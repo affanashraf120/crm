@@ -1,13 +1,12 @@
-'use client'
-
 // Mui Imports
 import { Grid } from '@mui/material'
 
 // Import Custom Components
-import AppraisalCard from './Card'
 import Table from '../../../components/tables/table'
+import AppraisalCard from './Card'
 
 const Umpire = () => {
+
   return (
     <Grid container spacing={6}>
       <Grid item xs={12}>
@@ -24,6 +23,7 @@ const Umpire = () => {
           />
         )}
       </Grid>
+
     </Grid>
   )
 }

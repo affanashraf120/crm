@@ -16,7 +16,7 @@ interface DeleteModalProps {
   actions: Action[]
 }
 
-export const CustomModal: React.FC<DeleteModalProps> = ({ open, onClose, title, actions }) => {
+export const ActionsDialog: React.FC<DeleteModalProps> = ({ open, onClose, title, actions }) => {
   return (
     <Modal open={open} onClose={onClose}>
       <Box
@@ -65,7 +65,7 @@ export const CustomModal: React.FC<DeleteModalProps> = ({ open, onClose, title, 
 //   }
 
 {
-  /* <CustomModal
+  /* <ActionsDialog
         open={open}
         onClose={handleClose}
         title='Are you sure you want to delete this item?'

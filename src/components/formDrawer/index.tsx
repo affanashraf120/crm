@@ -28,7 +28,7 @@ import { StatusDropdown } from '../formComponents/statusDropdown'
 import { FormInputSearchDropdown } from '../formComponents/formInputSearchDropdown'
 import { FormCalendarPicker } from '../formComponents/formCalenderPiker'
 import { FormTextArea } from '../formComponents/formTextArea'
-import { CustomModal } from '../dialogBox/deleteDialogBox'
+import { ActionsDialog } from '../dialogBox/deleteDialogBox'
 import { useSideBarForm } from '../validation/appraisalSideBar/hookForm'
 
 // Types
@@ -43,7 +43,7 @@ type SliderInputModalProps = {
   setRowSelection: React.Dispatch<React.SetStateAction<FormData | null>>
 }
 
-const SliderInputModal = ({ open, setOpen, clientName, setRowSelection }: SliderInputModalProps) => {
+const FormDrawer = ({ open, setOpen, clientName, setRowSelection }: SliderInputModalProps) => {
   // States
   const [openClearModal, setopenClearModal] = useState(false)
 
@@ -449,7 +449,7 @@ const SliderInputModal = ({ open, setOpen, clientName, setRowSelection }: Slider
           </div>
         </ScrollWrapper>
 
-        <CustomModal
+        <ActionsDialog
           open={openClearModal}
           onClose={handleClose}
           title='Are you sure you want to clear the form?'
@@ -463,7 +463,7 @@ const SliderInputModal = ({ open, setOpen, clientName, setRowSelection }: Slider
   )
 }
 
-export default SliderInputModal
+export default FormDrawer
 
 const Title = ({ icon, label }: { icon: string; label: string }) => {
   return (

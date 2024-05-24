@@ -53,7 +53,7 @@ import type { RowData } from '@tanstack/react-table'
 import styles from '@core/styles/table.module.css'
 
 // Custom component
-import { CustomModal } from '@/components/dialogBox/deleteDialogBox'
+import { ActionsDialog } from '@/components/dialogBox/deleteDialogBox'
 import DropDownButton from '@/components/dropDowns/dropDownButton'
 
 // Column Definitions
@@ -165,7 +165,7 @@ const Table = ({ defaultData, columnArray, handleActions, RowDragRows, tableTitl
 
   // const updatedData = useMemo(() => transformData(rowSelection), [rowSelection])
 
-  const handleMenuItemClick = (menuItem: any) => {
+  const handleActionsRow = (menuItem: any) => {
     if (menuItem?.label === 'Edit') {
       setIsOpen(!isOpen)
     } else if (menuItem?.label === 'Delete') {
@@ -197,8 +197,8 @@ const Table = ({ defaultData, columnArray, handleActions, RowDragRows, tableTitl
     cell: ({ row }) => (
       <div className='flex items-start '>
         <DropDownButton
-          buttonLabel='ri-more-2-fill w-5 h-5 rotate-90 ease-in-out duration-500 transition-all'
-          onMenuItemClick={handleMenuItemClick}
+          buttonLabel='ri-more-2-fill w-5 h-5  ease-in-out duration-500 transition-all'
+          onMenuItemClick={handleActionsRow}
           menuOptions={[
             { label: 'Delete', icon: 'ri-delete-bin-7-line ', id: row.original.id },
             { label: 'Edit', icon: 'ri-pencil-line', id: row.original.id }
@@ -213,7 +213,7 @@ const Table = ({ defaultData, columnArray, handleActions, RowDragRows, tableTitl
   }
 
   if (handleActions) {
-    columnArrays.splice(1, 0, handleActionColumn)
+    columnArrays.splice(4, 0, handleActionColumn)
   }
 
   const columns = useMemo(() => columnArrays, [])
@@ -305,7 +305,7 @@ const Table = ({ defaultData, columnArray, handleActions, RowDragRows, tableTitl
           </>
         )}
 
-        <CustomModal
+        <ActionsDialog
           open={isOpenDelete}
           onClose={() => setIsOpenDelete(false)}
           title='Are you sure you want to delete this row?'

@@ -19,8 +19,10 @@ import useVerticalNav from '@menu/hooks/useVerticalNav'
 // Styled Component Imports
 import StyledVerticalNavExpandIcon from '@menu/styles/vertical/StyledVerticalNavExpandIcon'
 
+// Imports Routes
+import { appraisal, clients, estimates, invoice, supplement } from '@/configs/routes'
+
 // Style Imports
-import { appraisal, estimates, invoice, supplement } from '@/utils/routes'
 import menuItemStyles from '@core/styles/vertical/menuItemStyles'
 import menuSectionStyles from '@core/styles/vertical/menuSectionStyles'
 
@@ -80,6 +82,8 @@ const VerticalMenu = ({ scrollMenu }: Props) => {
 
           // suffix={<Chip label='3' size='small' color='error' />}
         >
+
+          <MenuItem href={clients}>List</MenuItem>
           <MenuItem href={appraisal}>Appraisals</MenuItem>
           <MenuItem href={estimates}>Estimates</MenuItem>
           <MenuItem href={supplement}>Supplements</MenuItem>
