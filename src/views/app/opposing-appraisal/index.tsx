@@ -1,13 +1,23 @@
 'use client'
 
+import { useState } from 'react'
+
 // Mui Imports
 import { Grid } from '@mui/material'
 
 // Import Custom Components
 import AppraisalCard from './Card'
 import Table from '../../../components/tables/table'
+import Drawer from '@/components/formDrawer'
+import OpposingAppraisalForm from '@/modules/app/opposingAppraiser/opposingAppraisalForm'
 
 const OpposingAppraisal = () => {
+  const [open, setOpen] = useState(false)
+
+  const handleOpen = () => {
+    setOpen(true)
+  }
+
   return (
     <Grid container spacing={6}>
       <Grid item xs={12}>
@@ -21,9 +31,14 @@ const OpposingAppraisal = () => {
             RowDragRows={true}
             handleActions={true}
             tableTitle='Opposing Appraisal Table'
+            actionButton={handleOpen}
           />
         )}
       </Grid>
+
+      <Drawer open={open} setOpen={() => setOpen(false)}>
+        <OpposingAppraisalForm />
+      </Drawer>
     </Grid>
   )
 }

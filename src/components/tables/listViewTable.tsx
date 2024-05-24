@@ -8,7 +8,6 @@ import { Button, Card, Chip, Grid, MenuItem, TablePagination, TextField } from '
 
 import CustomAvatar from '@/@core/components/mui/Avatar'
 import { useSettings } from '@/@core/hooks/useSettings'
-import { AddClient } from '@/components/dialogBox/apps/apprasialClient/AddClient'
 
 const listData = [
   { companyName: 'Alpha', closed: 1, open: 12, schedule: 2, amount: '$12,300' },
@@ -23,10 +22,9 @@ const listData = [
   { companyName: 'Spartan', closed: 3, open: 8, schedule: 1, amount: '$8,500' }
 ]
 
-const ListViewTable = ({ clickable, actionButton }: any) => {
+const ListViewTable = ({ clickable, actionButton, handleAction }: any) => {
   const { settings } = useSettings()
   const [data, setData] = useState(listData)
-  const [open, setOpen] = useState(false)
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(10)
   const router = useRouter()
@@ -81,7 +79,7 @@ const ListViewTable = ({ clickable, actionButton }: any) => {
                 type='submit'
                 startIcon={<i className='ri-add-line' />}
                 className='is-full sm:is-auto'
-                onClick={() => setOpen(true)}
+                onClick={handleAction}
               >
                 Add Client
               </Button>
@@ -138,7 +136,6 @@ const ListViewTable = ({ clickable, actionButton }: any) => {
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Grid>
-      <AddClient open={open} onClose={() => setOpen(false)} />
     </>
   )
 }

@@ -57,7 +57,7 @@ import Dropdown from '@/components/dropDowns/dropDown'
 import DropDownButton from '@/components/dropDowns/dropDownButton'
 import DropdownWithChip from '@/components/dropDowns/dropDownChip'
 import { ActionsDialog } from '@/components/dialogBox/deleteDialogBox'
-import FormDrawer from '@/components/formDrawer'
+import FormDrawer from '@/components/formDrawer/formDrawer'
 
 // Column Definitions
 const columnHelper = createColumnHelper<any>()

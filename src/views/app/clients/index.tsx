@@ -1,31 +1,44 @@
+'use client'
+
+import { useState } from 'react'
+
 // Mui imports
 import { Grid } from '@mui/material'
 
 // import Custom Components
 import ListViewTable from '@/components/tables/listViewTable'
 import SummaryDetailCard from '@/components/cards/summaryDetailsCard'
+import AddClient from './addClient'
 
 function Clients() {
-  return (
-    <div className='App'>
-      <Grid container spacing={6} >
-        <Grid item xs={12}>
-          {data &&
-          <SummaryDetailCard data={data} />
-          }
-        </Grid>
+  const [openAddClientForm, setOpenAddClientForm] = useState(false)
+  
+  const handleOpen = ()=>{
+    setOpenAddClientForm(true)
+    console.log("🚀 ~ Clients ~ openAddClientForm:", openAddClientForm)
+    
+  }
 
-        <Grid item xs={12}>
-          <ListViewTable clickable={false} actionButton={true}/>
+  return (
+    <>
+      {openAddClientForm ?(
+        <AddClient />
+      ): (
+        <Grid container spacing={6}>
+          <Grid item xs={12}>
+            {data && <SummaryDetailCard data={data} />}
+          </Grid>
+
+          <Grid item xs={12}>
+            <ListViewTable clickable={false} actionButton={true} handleAction={handleOpen}  />
+          </Grid>
         </Grid>
-      </Grid>
-    </div>
+      ) }
+    </>
   )
 }
 
 export default Clients
-
-
 
 const data: any[] = [
   {

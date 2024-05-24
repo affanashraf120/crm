@@ -137,7 +137,7 @@ const DraggableRow = ({ row }: { row: any }) => {
   )
 }
 
-const Table = ({ defaultData, columnArray, handleActions, RowDragRows, tableTitle }: any) => {
+const Table = ({ defaultData, columnArray, handleActions, RowDragRows, tableTitle,actionButton }: any) => {
   // States
   const [isOpen, setIsOpen] = useState(false)
   const [isOpenDelete, setIsOpenDelete] = useState(false)
@@ -244,7 +244,7 @@ const Table = ({ defaultData, columnArray, handleActions, RowDragRows, tableTitl
           <CardHeader title={tableTitle} />
           <div className='flex justify-center items-center gap-2 flex-col w-full sm:flex-row md:w-auto'>
             <TextField id='outlined-basic' label='Search' variant='outlined' fullWidth size='small' />
-            <Button variant='contained' type='submit' startIcon={<i className='ri-add-line' />} fullWidth>
+            <Button variant='contained' type='submit' startIcon={<i className='ri-add-line' />} fullWidth onClick={actionButton}>
               Action Button
             </Button>
           </div>

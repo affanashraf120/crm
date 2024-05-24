@@ -1,11 +1,22 @@
+'use client'
+
+import { useState } from 'react'
+
 // Mui Imports
-import { Grid } from '@mui/material'
+import {  Grid } from '@mui/material'
 
 // Import Custom Components
 import Table from '../../../components/tables/table'
 import AppraisalCard from './Card'
+import UmpireInfoForm from '@/modules/app/umpireInfo/umpireInfoForm'
+import Drawer from '@/components/formDrawer'
 
 const Umpire = () => {
+  const [open, setOpen] = useState(false)
+
+  const handleOpen = () => {
+    setOpen(true)
+  }
 
   return (
     <Grid container spacing={6}>
@@ -20,10 +31,14 @@ const Umpire = () => {
             RowDragRows={true}
             handleActions={true}
             tableTitle='Opposing Appraisal Table'
+            actionButton={handleOpen}
           />
         )}
       </Grid>
 
+      <Drawer open={open} setOpen={() => setOpen(false)}>
+        <UmpireInfoForm />
+      </Drawer>
     </Grid>
   )
 }

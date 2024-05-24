@@ -9,7 +9,7 @@ interface ModalProps {
   dialogTitle:string
 }
 
-const FormDialog: React.FC<ModalProps> = ({ open, onClose, children,dialogTitle }) => {
+const FormDialog: React.FC<ModalProps> = ({ open, onClose, children, dialogTitle }) => {
   return (
     <Dialog onClose={onClose} open={open} fullWidth>
       <DialogTitle>{dialogTitle}</DialogTitle>
