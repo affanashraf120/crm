@@ -1,6 +1,5 @@
-
-import Inprogress from '@/components/inprogressPage/Inprogress'
+import Umpire from '@/views/app/umpire'
 
 export default function Page() {
-  return <Inprogress />
+  return <Umpire />
 }

@@ -21,9 +21,7 @@ interface ModalProps {
 const schema = z.object({
   com_name: z.string(),
   com_address: z.string(),
-  com_logo: z
-  .any()
-  .refine(file => file instanceof File, 'You must select a file.'),
+  com_logo: z.any(),
   owner_name: z.string(),
   owner_phone_no: z.string(),
   owner_email: z.string(),
@@ -79,7 +77,7 @@ export const AddClient: React.FC<ModalProps> = ({ open, onClose }) => {
             />
           </Grid>
           <Grid item xs={6}>
-            <FileInput 
+            <FileInput
              register={register('com_logo')}
              error={!!errors.com_logo}
              helperText={errors.com_logo?.message}
@@ -168,7 +166,7 @@ export const AddClient: React.FC<ModalProps> = ({ open, onClose }) => {
           </Grid>
         </Grid>
 
-        <div className='py-4 flex justify-between items-center'> 
+        <div className='py-4 flex justify-between items-center'>
           <Button  variant='outlined' color='inherit' onClick={onClose}>
             Cancel
           </Button>

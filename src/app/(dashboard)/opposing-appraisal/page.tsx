@@ -1,6 +1,9 @@
-
-import Inprogress from '@/components/inprogressPage/Inprogress'
+import OpposingAppraisal from '@/views/app/opposing-appraisal'
 
 export default function Page() {
-  return <Inprogress />
+  return (
+    <div className='App'>
+      <OpposingAppraisal />
+    </div>
+  )
 }

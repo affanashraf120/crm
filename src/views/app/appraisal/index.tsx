@@ -7,7 +7,7 @@ import { Autocomplete, Grid, TextField } from '@mui/material'
 import AppraisalCard from './Card'
 import ClientTable from './Table'
 
-import { data } from '@/utils/data'
+import { data } from '@/data/data'
 
 const AppraisalClient = () => {
   return (

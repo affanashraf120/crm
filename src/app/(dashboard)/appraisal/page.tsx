@@ -2,8 +2,8 @@
 import { Grid } from '@mui/material'
 
 // import Custom Components
-import AppraisalClientCard from '@/views/app/appraisalClient/Card'
-import AppraisalClientTable from '@/views/app/appraisalClient/Table'
+import AppraisalClientCard from '@/views/app/clients/Card'
+import AppraisalClientTable from '@/views/app/clients/Table'
 
 function App() {
   return (
