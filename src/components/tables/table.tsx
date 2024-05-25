@@ -33,7 +33,7 @@ import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 
 // MUI Imports
-import { Button, IconButton, TablePagination, TextField, Typography } from '@mui/material'
+import { Avatar, Button, IconButton, TablePagination, TextField, Tooltip, Typography } from '@mui/material'
 import Card from '@mui/material/Card'
 import CardHeader from '@mui/material/CardHeader'
 
@@ -53,8 +53,10 @@ import type { RowData } from '@tanstack/react-table'
 import styles from '@core/styles/table.module.css'
 
 // Custom component
-import { ActionsDialog } from '@/components/dialogBox/deleteDialogBox'
 import DropDownButton from '@/components/dropDowns/dropDownButton'
+import ConfirmationDialog from '../dialogs/confirmation-dialog'
+import DropdownWithChip from '../dropDowns/dropDownChip'
+import Dropdown from '../dropDowns/dropDown'
 
 // Column Definitions
 const columnHelper = createColumnHelper<any>()
@@ -137,7 +139,7 @@ const DraggableRow = ({ row }: { row: any }) => {
   )
 }
 
-const Table = ({ defaultData, columnArray, handleActions, RowDragRows, tableTitle,actionButton }: any) => {
+const Table = ({ defaultData, columnArray, tableTitle, actionButton }: any) => {
   // States
   const [isOpen, setIsOpen] = useState(false)
   const [isOpenDelete, setIsOpenDelete] = useState(false)
@@ -176,45 +178,91 @@ const Table = ({ defaultData, columnArray, handleActions, RowDragRows, tableTitl
   // Todo send data to the db
   // console.log('🚀 ~ Table ~ rowSelection:', updatedData)
 
-  const columnArrays = columnArray?.map((item: any) =>
-    columnHelper.accessor(item.name, {
-      header: item.header,
-      cell: ({ row }) => <Typography>{`${row.original[item.name]}`}</Typography>
+  function generateColumns(columnConfigurations: any) {
+    return columnConfigurations.map((config: any) => {
+      const { name, header, type, options, size } = config
+      const accessor = name
+
+      const cell = ({ row }: any) => {
+        if (type === 'simple') {
+          return <Typography>{row.original[name]}</Typography>
+        } else if (type === 'DropdownWithChip') {
+          return <DropdownWithChip value={row.original[name]} options={options} />
+        } else if (type === 'Dropdown') {
+          return <Dropdown value={row.original[name]} options={options} />
+        } else if (type === 'DND') {
+          return (
+            <div className='flex justify-start items-center'>
+              <RowDragHandleCell rowId={row.id} />
+            </div>
+          )
+        } else if (type === 'ClientDetails') {
+          return (
+            <div className='flex items-center justify-between gap-3 group'>
+              <div className='flex items-center gap-3'>
+                <Avatar alt='John Doe' src='/images/avatars/1.png' className='cursor-pointer bs-[38px] is-[38px]' />
+                <div className='flex flex-col'>
+                  <Typography className='font-medium' color='text.primary'>
+                    {row.original.client_name}
+                  </Typography>
+                  <Typography variant='body2'>{row.original.email}</Typography>
+                </div>
+              </div>
+            </div>
+          )
+        } else if (type === 'DropdownWithChipAndText') {
+          return (
+            <div className='flex justify-start items-center gap-3'>
+              <Typography>{row.original[name]}</Typography>
+              {row.original.umpire_status && <DropdownWithChip value={row.original.umpire_status} options={options} />}
+            </div>
+          )
+        } else if (type === 'TextWithTooltip') {
+          return row.original[name].length > size ? (
+            <Tooltip title={row.original[name]}>
+              <Typography
+                variant='body1'
+                style={{
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                  width: '200px',
+                  cursor: 'pointer'
+                }}
+              >
+                {row.original[name]}
+              </Typography>
+            </Tooltip>
+          ) : (
+            <Typography>{`${row.original[name]}`}</Typography>
+          )
+        } else if (type === 'Action') {
+          return (
+            <div className='flex items-start '>
+              <DropDownButton
+                buttonLabel='ri-more-2-fill w-5 h-5 ease-in-out duration-500 transition-all'
+                onMenuItemClick={handleActionsRow}
+                menuOptions={options.map((option: any) => ({
+                  label: option.label,
+                  icon: option.icon,
+                  id: row.original.id
+                }))}
+              />
+            </div>
+          )
+        }
+
+        return null
+      }
+
+      return columnHelper.accessor(accessor, {
+        header: header,
+        cell: cell
+      })
     })
-  )
-
-  const RowDragColumn = columnHelper.accessor('id', {
-    header: '',
-    cell: ({ row }) => (
-      <div className='flex justify-start items-center'>
-        <RowDragHandleCell rowId={row.id} />
-      </div>
-    )
-  })
-
-  const handleActionColumn = columnHelper.accessor('action', {
-    header: 'Action',
-    cell: ({ row }) => (
-      <div className='flex items-start '>
-        <DropDownButton
-          buttonLabel='ri-more-2-fill w-5 h-5  ease-in-out duration-500 transition-all'
-          onMenuItemClick={handleActionsRow}
-          menuOptions={[
-            { label: 'Delete', icon: 'ri-delete-bin-7-line ', id: row.original.id },
-            { label: 'Edit', icon: 'ri-pencil-line', id: row.original.id }
-          ]}
-        />
-      </div>
-    )
-  })
-
-  if (RowDragRows) {
-    columnArrays.splice(0, 0, RowDragColumn)
   }
 
-  if (handleActions) {
-    columnArrays.splice(4, 0, handleActionColumn)
-  }
+  const columnArrays = generateColumns(columnArray)
 
   const columns = useMemo(() => columnArrays, [])
 
@@ -244,7 +292,13 @@ const Table = ({ defaultData, columnArray, handleActions, RowDragRows, tableTitl
           <CardHeader title={tableTitle} />
           <div className='flex justify-center items-center gap-2 flex-col w-full sm:flex-row md:w-auto'>
             <TextField id='outlined-basic' label='Search' variant='outlined' fullWidth size='small' />
-            <Button variant='contained' type='submit' startIcon={<i className='ri-add-line' />} fullWidth onClick={actionButton}>
+            <Button
+              variant='contained'
+              type='submit'
+              startIcon={<i className='ri-add-line' />}
+              fullWidth
+              onClick={actionButton}
+            >
               Action Button
             </Button>
           </div>
@@ -305,14 +359,11 @@ const Table = ({ defaultData, columnArray, handleActions, RowDragRows, tableTitl
           </>
         )}
 
-        <ActionsDialog
+        <ConfirmationDialog
           open={isOpenDelete}
-          onClose={() => setIsOpenDelete(false)}
+          setOpen={setIsOpenDelete}
+          type='delete-account'
           title='Are you sure you want to delete this row?'
-          actions={[
-            { label: 'Delete', onClick: () => setIsOpenDelete(false), color: 'error' }, // todo add delete functionality
-            { label: 'Cancel', onClick: () => setIsOpenDelete(false), color: 'inherit' }
-          ]}
         />
       </Card>
     </DndContext>

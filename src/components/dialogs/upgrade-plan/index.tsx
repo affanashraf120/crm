@@ -17,7 +17,7 @@ import Divider from '@mui/material/Divider'
 import IconButton from '@mui/material/IconButton'
 
 // Style Imports
-import ConfirmationDialog from '../confirmation-dialog'
+// import ConfirmationDialog from '../confirmation-dialog'
 
 type UpgradePlanProps = {
   open: boolean
@@ -27,8 +27,9 @@ type UpgradePlanProps = {
 const UpgradePlan = ({ open, setOpen }: UpgradePlanProps) => {
   // States
   const [openConfirmation, setOpenConfirmation] = useState(false)
-
+  
   const handleClose = () => {
+    console.log("🚀 ~ UpgradePlan ~ openConfirmation:", openConfirmation)
     setOpen(false)
   }
 
@@ -89,7 +90,7 @@ const UpgradePlan = ({ open, setOpen }: UpgradePlanProps) => {
           </div>
         </DialogContent>
       </Dialog>
-      <ConfirmationDialog open={openConfirmation} setOpen={setOpenConfirmation} type='unsubscribe' />
+      {/* <ConfirmationDialog open={openConfirmation} setOpen={setOpenConfirmation} type='unsubscribe' /> */}
     </>
   )
 }

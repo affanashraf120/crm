@@ -6,34 +6,42 @@ import { useState } from 'react'
 import { Grid } from '@mui/material'
 
 // import Custom Components
-import ListViewTable from '@/components/tables/listViewTable'
 import SummaryDetailCard from '@/components/cards/summaryDetailsCard'
-import AddClient from './addClient'
+import ListViewTable from '@/components/tables/listViewTable'
+import AddClient from '@/modules/app/clients/addClientForm'
+import ConfirmationDeleteAccount from '@/modules/app/clients/confirmationDeleteAccount'
 
 function Clients() {
   const [openAddClientForm, setOpenAddClientForm] = useState(false)
-  
-  const handleOpen = ()=>{
-    setOpenAddClientForm(true)
-    console.log("🚀 ~ Clients ~ openAddClientForm:", openAddClientForm)
+
+  const handleAction = () => {
+    setOpenAddClientForm(!openAddClientForm)
+
     
   }
 
   return (
     <>
-      {openAddClientForm ?(
-        <AddClient />
-      ): (
+      {openAddClientForm ? (
+        <Grid container spacing={6}>
+          <Grid item xs={12}>
+            <AddClient handleAction={handleAction} />
+          </Grid>
+          <Grid item xs={12}>
+            <ConfirmationDeleteAccount />
+          </Grid>
+        </Grid>
+      ) : (
         <Grid container spacing={6}>
           <Grid item xs={12}>
             {data && <SummaryDetailCard data={data} />}
           </Grid>
 
           <Grid item xs={12}>
-            <ListViewTable clickable={false} actionButton={true} handleAction={handleOpen}  />
+            <ListViewTable clickable={false} actionButton={true} handleAction={handleAction} />
           </Grid>
         </Grid>
-      ) }
+      )}
     </>
   )
 }

@@ -36,11 +36,8 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>
 
-const onSubmit = (data: FormData) => {
-  console.log(data)
-}
 
-const AddClient = () => {
+const AddClient = ({handleAction}:any) => {
   // States
   const [fileInput, setFileInput] = useState<string>('')
   const [imgSrc, setImgSrc] = useState<string>('/images/avatars/1.png')
@@ -67,6 +64,11 @@ const AddClient = () => {
     }
   })
 
+  const onSubmit = (data: FormData) => {
+    handleAction
+    console.log("clicked",data)
+  }
+
   const handleFileInputChange = (file: ChangeEvent) => {
     const reader = new FileReader()
     const { files } = file.target as HTMLInputElement
@@ -89,8 +91,8 @@ const AddClient = () => {
   return (
     <Card>
       <div className='px-4 pt-4'>
-        <IconButton>
-          <i className='ri-arrow-right-s-line cursor-pointer rotate-180' onClick={() => {}}></i>
+        <IconButton onClick={handleAction}>
+          <i className='ri-arrow-right-s-line cursor-pointer rotate-180'></i>
         </IconButton>
       </div>
       <CardContent className='mbe-1'>
@@ -126,6 +128,7 @@ const AddClient = () => {
                 register={register('com_name')}
                 error={!!errors.com_name}
                 helperText={errors.com_name?.message}
+                fieldSize='medium'
               />
             </Grid>
 
@@ -135,6 +138,8 @@ const AddClient = () => {
                 register={register('owner_name')}
                 error={!!errors.owner_name}
                 helperText={errors.owner_name?.message}
+                fieldSize='medium'
+
               />
             </Grid>
             <Grid item xs={6}>
@@ -143,6 +148,8 @@ const AddClient = () => {
                 register={register('owner_phone_no')}
                 error={!!errors.owner_phone_no}
                 helperText={errors.owner_phone_no?.message}
+                fieldSize='medium'
+
               />
             </Grid>
             <Grid item xs={6}>
@@ -151,6 +158,8 @@ const AddClient = () => {
                 register={register('owner_email')}
                 error={!!errors.owner_email}
                 helperText={errors.owner_email?.message}
+                fieldSize='medium'
+
               />
             </Grid>
             <Grid item xs={6}>
@@ -159,6 +168,8 @@ const AddClient = () => {
                 register={register('gm_sale_name')}
                 error={!!errors.gm_sale_name}
                 helperText={errors.gm_sale_name?.message}
+                fieldSize='medium'
+
               />
             </Grid>
             <Grid item xs={6}>
@@ -167,6 +178,8 @@ const AddClient = () => {
                 register={register('gm_sale_phone_no')}
                 error={!!errors.gm_sale_phone_no}
                 helperText={errors.gm_sale_phone_no?.message}
+                fieldSize='medium'
+
               />
             </Grid>
             <Grid item xs={6}>
@@ -175,6 +188,8 @@ const AddClient = () => {
                 register={register('gm_sale_email')}
                 error={!!errors.gm_sale_email}
                 helperText={errors.gm_sale_email?.message}
+                fieldSize='medium'
+
               />
             </Grid>
             <Grid item xs={6}>
@@ -183,6 +198,8 @@ const AddClient = () => {
                 register={register('client_username')}
                 error={!!errors.client_username}
                 helperText={errors.client_username?.message}
+                fieldSize='medium'
+
               />
             </Grid>
             <Grid item xs={6}>
@@ -191,6 +208,8 @@ const AddClient = () => {
                 register={register('client_email')}
                 error={!!errors.client_email}
                 helperText={errors.client_email?.message}
+                fieldSize='medium'
+
               />
             </Grid>
             <Grid item xs={6}>
@@ -199,6 +218,8 @@ const AddClient = () => {
                 register={register('client_password')}
                 error={!!errors.client_password}
                 helperText={errors.client_password?.message}
+                fieldSize='medium'
+
               />
             </Grid>
 

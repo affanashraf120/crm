@@ -76,41 +76,47 @@ const VerticalMenu = ({ scrollMenu }: Props) => {
         renderExpandedMenuItemIcon={{ icon: <i className='ri-circle-line' /> }}
         menuSectionStyles={menuSectionStyles(verticalNavOptions, theme)}
       >
-        <SubMenu
-          label='Clients'
-          icon={<i className='ri-parent-line' />}
+        <MenuItem href='/dashBoard' icon={<i className='ri-bubble-chart-line' />}>
+            Dashboard
+          </MenuItem>
 
-          // suffix={<Chip label='3' size='small' color='error' />}
-        >
+        <MenuSection label='Page'>
+          <SubMenu
+            label='Clients'
+            icon={<i className='ri-parent-line' />}
 
-          <MenuItem href={clients}>List</MenuItem>
-          <MenuItem href={appraisal}>Appraisals</MenuItem>
-          <MenuItem href={estimates}>Estimates</MenuItem>
-          <MenuItem href={supplement}>Supplements</MenuItem>
-          <MenuItem href={invoice}>Invoices</MenuItem>
-        </SubMenu>
-        <MenuItem href='/opposing-appraisal' icon={<i className='ri-bubble-chart-line' />}>
-          Opposing Appraiser
-        </MenuItem>
-        <MenuItem href='/umpire' icon={<i className='ri-user-follow-line' />}>
-          Umpire Info
-        </MenuItem>
-        <MenuItem href='/adjuster' icon={<i className='ri-user-3-line' />}>
-          Adjuster Info
-        </MenuItem>
-        <MenuItem href='/users' icon={<i className='ri-team-line' />}>
-          Users
-        </MenuItem>
-        <MenuItem href='/insurance-company' icon={<i className='ri-building-line' />}>
-          Insurance Company
-        </MenuItem>
+            // suffix={<Chip label='3' size='small' color='error' />}
+          >
+            <MenuItem href={clients}>List</MenuItem>
+            <MenuItem href={appraisal}>Appraisals</MenuItem>
+            <MenuItem href={estimates}>Estimates</MenuItem>
+            <MenuItem href={supplement}>Supplements</MenuItem>
+            <MenuItem href={invoice}>Invoices</MenuItem>
+          </SubMenu>
+          <MenuItem href='/opposing-appraisal' icon={<i className='ri-bubble-chart-line' />}>
+            Opposing Appraiser
+          </MenuItem>
+          <MenuItem href='/umpire' icon={<i className='ri-user-follow-line' />}>
+            Umpire Info
+          </MenuItem>
+          <MenuItem href='/adjuster' icon={<i className='ri-user-3-line' />}>
+            Adjuster Info
+          </MenuItem>
+          <MenuItem href='/users' icon={<i className='ri-team-line' />}>
+            Users
+          </MenuItem>
+          <MenuItem href='/insurance-company' icon={<i className='ri-building-line' />}>
+            Insurance Company
+          </MenuItem>
+        </MenuSection>
+
         <MenuSection label='Info'>
-        <MenuItem href='/contact' icon={<i className='ri-contacts-book-3-line' />}>
-          Contact
-        </MenuItem>
-        <MenuItem href='/about' icon={<i className='ri-information-line' />}>
-          About
-        </MenuItem>
+          <MenuItem href='/contact' icon={<i className='ri-contacts-book-3-line' />}>
+            Contact
+          </MenuItem>
+          <MenuItem href='/about' icon={<i className='ri-information-line' />}>
+            About
+          </MenuItem>
         </MenuSection>
       </Menu>
       {/* <Menu

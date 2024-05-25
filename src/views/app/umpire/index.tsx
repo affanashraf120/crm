@@ -3,7 +3,7 @@
 import { useState } from 'react'
 
 // Mui Imports
-import {  Grid } from '@mui/material'
+import { Grid } from '@mui/material'
 
 // Import Custom Components
 import Table from '../../../components/tables/table'
@@ -28,9 +28,7 @@ const Umpire = () => {
           <Table
             defaultData={data}
             columnArray={column}
-            RowDragRows={true}
-            handleActions={true}
-            tableTitle='Opposing Appraisal Table'
+            tableTitle='Umpire Table'
             actionButton={handleOpen}
           />
         )}
@@ -229,8 +227,38 @@ const data = [
   }
 ]
 
+// const column = [
+//   { name: 'umpire_name', header: 'Umpire Name' },
+//   { name: 'umpire_email', header: 'Umpire Email' },
+//   { name: 'umpire_phone_no', header: 'Umpire Phone No' }
+// ]
+
 const column = [
-  { name: 'umpire_name', header: 'Umpire Name' },
-  { name: 'umpire_email', header: 'Umpire Email' },
-  { name: 'umpire_phone_no', header: 'Umpire Phone No' }
+  { name: 'id', header: '', type: 'DND' },
+
+  {
+    name: 'umpire_name',
+    header: 'Umpire Name',
+    type: 'simple'
+  },
+  {
+    name: 'umpire_email',
+    header: 'Umpire Email',
+    type: 'simple'
+  },
+  {
+    name: 'umpire_phone_no',
+    header: 'Umpire Phone NO',
+    type: 'simple'
+  },
+
+  {
+    name: 'action',
+    header: 'Action',
+    type: 'Action',
+    options: [
+      { label: 'Delete', icon: 'ri-delete-bin-7-line' },
+      { label: 'Edit', icon: 'ri-pencil-line' }
+    ]
+  }
 ]

@@ -9,8 +9,7 @@ import { Autocomplete, Button, IconButton, Paper, TextField } from '@mui/materia
 
 // Import tamplate theme
 import { useSettings } from '@/@core/hooks/useSettings'
-import { ActionsDialog } from '../dialogBox/deleteDialogBox'
-
+import ConfirmationDialog from '../dialogs/confirmation-dialog'
 
 export const FormInputSearchDropdown = ({ control, name, label, options, icon }: any) => {
   const [value, setValue] = useState('')
@@ -20,11 +19,7 @@ export const FormInputSearchDropdown = ({ control, name, label, options, icon }:
   const { settings } = useSettings()
   const [open, setOpen] = useState(false)
 
-  const handleClose = () => setOpen(false)
-
-  const handleDelete = () => {
-    // TODO
-  }
+  
 
   const addNewData = () => {
     console.log('🚀 ~ FormInputSearchDropdown ~ value:', value)
@@ -112,14 +107,11 @@ export const FormInputSearchDropdown = ({ control, name, label, options, icon }:
           />
         )}
       />
-      <ActionsDialog
+      <ConfirmationDialog
         open={open}
-        onClose={handleClose}
+        setOpen={setOpen}
+        type='delete-account'
         title='Are you sure you want to delete this item?'
-        actions={[
-          { label: 'Delete', onClick: handleDelete, color: 'error' },
-          { label: 'Cancel', onClick: handleClose, color: 'inherit' }
-        ]}
       />
     </div>
   )

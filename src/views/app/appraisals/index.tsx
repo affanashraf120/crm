@@ -2,8 +2,9 @@
 import { Grid } from '@mui/material'
 
 // import Custom Components
-import ListViewTable from '@/components/tables/listViewTable'
+// import ListViewTable from '@/components/tables/listViewTable'
 import SummaryDetailCard from '@/components/cards/summaryDetailsCard'
+import ListViewTable from '@/components/tables/listViewTable'
 
 function Appraisals() {
   return (

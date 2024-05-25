@@ -3,8 +3,8 @@
 import { useState } from 'react'
 
 // MUI Imports
-import type { Breakpoint } from '@mui/material/styles'
 import { Button, Input } from '@mui/material'
+import type { Breakpoint } from '@mui/material/styles'
 
 // Third-party Imports
 import classnames from 'classnames'
@@ -13,8 +13,8 @@ import { useMedia } from 'react-use'
 import type { z } from 'zod'
 
 // Type Imports
-import type { schema } from '../validation/appraisalSideBar/sideBarFormSchema'
 import type { Direction } from '@core/types'
+import type { schema } from '../validation/appraisalSideBar/sideBarFormSchema'
 
 type FormData = z.infer<typeof schema>
 
@@ -22,14 +22,14 @@ type FormData = z.infer<typeof schema>
 import { useSettings } from '@core/hooks/useSettings'
 
 // Style Imports
-import styles from './styles.module.css'
-import { FormInput } from '../formComponents/formInput'
-import { StatusDropdown } from '../formComponents/statusDropdown'
-import { FormInputSearchDropdown } from '../formComponents/formInputSearchDropdown'
+import ConfirmationDialog from '../dialogs/confirmation-dialog'
 import { FormCalendarPicker } from '../formComponents/formCalenderPiker'
+import { FormInput } from '../formComponents/formInput'
+import { FormInputSearchDropdown } from '../formComponents/formInputSearchDropdown'
 import { FormTextArea } from '../formComponents/formTextArea'
-import { ActionsDialog } from '../dialogBox/deleteDialogBox'
+import { StatusDropdown } from '../formComponents/statusDropdown'
 import { useSideBarForm } from '../validation/appraisalSideBar/hookForm'
+import styles from './styles.module.css'
 
 // Types
 
@@ -47,11 +47,7 @@ const FormDrawer = ({ open, setOpen, clientName, setRowSelection }: SliderInputM
   // States
   const [openClearModal, setopenClearModal] = useState(false)
 
-  const handleClose = () => setopenClearModal(false)
 
-  const handleClear = () => {
-    // TODO
-  }
 
   const { settings } = useSettings()
 
@@ -448,16 +444,10 @@ const FormDrawer = ({ open, setOpen, clientName, setRowSelection }: SliderInputM
             </form>
           </div>
         </ScrollWrapper>
+        <ConfirmationDialog open={openClearModal} setOpen={setopenClearModal} type='clear' title='Are you sure you want to clear the form?'/>
 
-        <ActionsDialog
-          open={openClearModal}
-          onClose={handleClose}
-          title='Are you sure you want to clear the form?'
-          actions={[
-            { label: 'Clear Data', onClick: handleClear, color: 'error' },
-            { label: 'Cancel', onClick: handleClose, color: 'inherit' }
-          ]}
-        />
+
+
       </div>
     )
   )

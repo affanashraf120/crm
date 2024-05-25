@@ -28,8 +28,6 @@ const OpposingAppraisal = () => {
           <Table
             defaultData={data}
             columnArray={column}
-            RowDragRows={true}
-            handleActions={true}
             tableTitle='Opposing Appraisal Table'
             actionButton={handleOpen}
           />
@@ -230,7 +228,31 @@ const data = [
 ]
 
 const column = [
-  { name: 'oa_name', header: 'OA Name' },
-  { name: 'oa_email', header: 'OA Email' },
-  { name: 'oa_phone_no', header: 'OA Phone No' }
+  { name: 'id', header: '', type: 'DND' },
+
+  {
+    name: 'oa_name',
+    header: 'OA Name',
+    type: 'simple'
+  },
+  {
+    name: 'oa_email',
+    header: 'OA Email',
+    type: 'simple'
+  },
+  {
+    name: 'oa_phone_no',
+    header: 'OA Phone NO',
+    type: 'simple'
+  },
+
+  {
+    name: 'action',
+    header: 'Action',
+    type: 'Action',
+    options: [
+      { label: 'Delete', icon: 'ri-delete-bin-7-line' },
+      { label: 'Edit', icon: 'ri-pencil-line' }
+    ]
+  }
 ]

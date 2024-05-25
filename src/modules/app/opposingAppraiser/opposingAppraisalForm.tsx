@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react'
+import { useState } from 'react'
 
 // Mui Imports
 import { Button } from '@mui/material'
@@ -10,8 +10,8 @@ import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 
 // Custom components
+import ConfirmationDialog from '@/components/dialogs/confirmation-dialog'
 import { FormInput } from '@/components/formComponents/formInput'
-import { ActionsDialog } from '@/components/dialogBox/deleteDialogBox'
 
 const schema = z.object({
   oa_name: z.string(),
@@ -94,15 +94,9 @@ const onSubmit = (data: FormData) => {
         </div>
       </form>
 
-      <ActionsDialog
-        open={open}
-        onClose={() => setOpen(false)}
-        title='Are you sure you want to clear the form data?'
-        actions={[
-          { label: 'Delete', onClick: () => setOpen(false), color: 'error' },
-          { label: 'Cancel', onClick: () => setOpen(false), color: 'inherit' }
-        ]}
-      />
+      <ConfirmationDialog open={open} setOpen={setOpen} type='delete-account' title='Are you sure you want to clear the form data?'/>
+
+
     </>
   )
 }

@@ -2,8 +2,8 @@ import React, { useEffect, useRef, useState } from 'react'
 
 import { Paper, Button, FormLabel, InputAdornment, OutlinedInput, Tooltip } from '@mui/material'
 
-import { ActionsDialog } from '../dialogBox/deleteDialogBox'
 import { useSettings } from '@/@core/hooks/useSettings'
+import ConfirmationDialog from '../dialogs/confirmation-dialog'
 
 interface Color {
   name: string
@@ -24,11 +24,6 @@ const ColorPalette: React.FC<ColorPaletteProps> = ({ onClose, setColorSelect, se
   const [selectedColor, setSelectedColor] = useState(selclr)
   const inputRef = useRef<HTMLInputElement>(null)
 
-  const handleClose = () => setOpen(false)
-
-  const handleDelete = () => {
-    // Handle delete action here
-  }
 
   const handleInputChange = (selectedColor: Color) => {
     const inputValue = inputRef.current?.value || value
@@ -131,16 +126,9 @@ const ColorPalette: React.FC<ColorPaletteProps> = ({ onClose, setColorSelect, se
           ))}
         </div>
       </Paper>
+      <ConfirmationDialog open={open} setOpen={setOpen} type='delete-account' title='Are you sure you want to delete this item?'/>
 
-      <ActionsDialog
-        open={open}
-        onClose={handleClose}
-        title='Are you sure you want to delete this item?'
-        actions={[
-          { label: 'Delete', onClick: handleDelete, color: 'error' },
-          { label: 'Cancel', onClick: handleClose, color: 'inherit' }
-        ]}
-      />
+
     </>
   )
 }

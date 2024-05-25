@@ -13,15 +13,16 @@ import Button from '@mui/material/Button'
 // Third-party Imports
 import classnames from 'classnames'
 
-type ConfirmationType = 'delete-account' | 'unsubscribe' | 'suspend-account'
+type ConfirmationType = 'delete-account' | 'clear' | 'suspend-account'
 
 type ConfirmationDialogProps = {
   open: boolean
   setOpen: (open: boolean) => void
   type: ConfirmationType
+  title: string
 }
 
-const ConfirmationDialog = ({ open, setOpen, type }: ConfirmationDialogProps) => {
+const ConfirmationDialog = ({ open, setOpen, type, title }: ConfirmationDialogProps) => {
   // States
   const [secondDialog, setSecondDialog] = useState(false)
   const [userInput, setUserInput] = useState(false)
@@ -51,9 +52,9 @@ const ConfirmationDialog = ({ open, setOpen, type }: ConfirmationDialogProps) =>
             })}
           >
             <Typography variant='h5'>
-              {type === 'delete-account' && 'Are you sure you want to deactivate your account?'}
-              {type === 'unsubscribe' && 'Are you sure to cancel your subscription?'}
-              {type === 'suspend-account' && 'Are you sure?'}
+              {type === 'delete-account' && title}
+              {type === 'clear' && title}
+              {type === 'suspend-account' && title}
             </Typography>
             {type === 'suspend-account' && (
               <Typography color='text.primary'>You won&#39;t be able to revert user!</Typography>
@@ -89,21 +90,21 @@ const ConfirmationDialog = ({ open, setOpen, type }: ConfirmationDialogProps) =>
           />
           <Typography variant='h4' className='mbe-5'>
             {userInput
-              ? `${type === 'delete-account' ? 'Deactivated' : type === 'unsubscribe' ? 'Unsubscribed' : 'Suspended!'}`
+              ? `${type === 'delete-account' ? 'Delete' : type === 'clear' ? 'Cleared' : 'Suspended!'}`
               : 'Cancelled'}
           </Typography>
           <Typography color='text.primary'>
             {userInput ? (
               <>
-                {type === 'delete-account' && 'Your account has been deactivated successfully.'}
-                {type === 'unsubscribe' && 'Your subscription cancelled successfully.'}
+                {type === 'delete-account' && 'Delete successfully.'}
+                {type === 'clear' && 'Cleared successfully.'}
                 {type === 'suspend-account' && 'User has been suspended.'}
               </>
             ) : (
               <>
-                {type === 'delete-account' && 'Account Deactivation Cancelled!'}
-                {type === 'unsubscribe' && 'Unsubscription Cancelled!!'}
-                {type === 'suspend-account' && 'Cancelled Suspension :)'}
+                {type === 'delete-account' && 'Cancelled Process!'}
+                {type === 'clear' && ' Cancelled Process!'}
+                {type === 'suspend-account' && 'Cancelled Process!'}
               </>
             )}
           </Typography>
