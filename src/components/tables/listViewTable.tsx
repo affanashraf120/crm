@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react'
 
-import { useRouter } from 'next/navigation'
 
 import { Button, Card, Chip, Grid, MenuItem, TablePagination, TextField } from '@mui/material'
 
@@ -22,16 +21,13 @@ const listData = [
   { companyName: 'Spartan', closed: 3, open: 8, schedule: 1, amount: '$8,500' }
 ]
 
-const ListViewTable = ({ clickable, actionButton, handleAction }: any) => {
+const ListViewTable = ({ clickable, actionButton, handleAction, onRowClick }: any) => {
   const { settings } = useSettings()
   const [data, setData] = useState(listData)
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(10)
-  const router = useRouter()
 
-  const handle = (id: number) => {
-    router.push(`appraisal/${id}`)
-  }
+
 
   const handleInput = (e: any) => {
     const searchValue = e.target.value
@@ -88,11 +84,7 @@ const ListViewTable = ({ clickable, actionButton, handleAction }: any) => {
         </div>
       </Grid>
       {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item, index) => (
-        <Card
-          key={index}
-          className={`my-4 ${clickable ? 'cursor-pointer' : ''}`}
-          onClick={clickable ? () => handle(index) : undefined}
-        >
+        <Card key={index} className='my-4 cursor-pointer' onClick={() => onRowClick(index)}>
           <div
             className={`grid grid-cols-8 p-4 items-center justify-center gap-2 ${
               settings.mode === 'dark' ? 'hover:bg-[#37334C]' : 'hover:bg-[#E5E5EB]'

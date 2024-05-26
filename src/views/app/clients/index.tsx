@@ -13,11 +13,16 @@ import ConfirmationDeleteAccount from '@/modules/app/clients/confirmationDeleteA
 
 function Clients() {
   const [openAddClientForm, setOpenAddClientForm] = useState(false)
+  const [selectedRowId, setSelectedRowId] = useState(null)
+
+  const handleRowClick = (id: any) => {
+    setSelectedRowId(id)
+    setOpenAddClientForm(true)
+    console.log("🚀 ~ Clients ~ selectedRowId:", selectedRowId)
+  }
 
   const handleAction = () => {
     setOpenAddClientForm(!openAddClientForm)
-
-    
   }
 
   return (
@@ -38,7 +43,12 @@ function Clients() {
           </Grid>
 
           <Grid item xs={12}>
-            <ListViewTable clickable={false} actionButton={true} handleAction={handleAction} />
+            <ListViewTable
+              clickable={false}
+              actionButton={true}
+              handleAction={handleAction}
+              onRowClick={handleRowClick}
+            />
           </Grid>
         </Grid>
       )}

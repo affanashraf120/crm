@@ -1,3 +1,9 @@
+'use client'
+
+import { useState } from 'react'
+
+import { useRouter } from 'next/navigation'
+
 // Mui imports
 import { Grid } from '@mui/material'
 
@@ -7,6 +13,15 @@ import SummaryDetailCard from '@/components/cards/summaryDetailsCard'
 import ListViewTable from '@/components/tables/listViewTable'
 
 function Appraisals() {
+  const router = useRouter()
+  const [selectedRowId, setSelectedRowId] = useState(null)
+
+  const handleRowClick = (id: any) => {
+    setSelectedRowId(id)
+    router.push(`/appraisal/${id}`)
+    console.log('🚀 ~ Clients ~ selectedRowId:', selectedRowId)
+  }
+
   return (
     <div className='App'>
       <Grid container spacing={6}>
@@ -15,7 +30,7 @@ function Appraisals() {
         </Grid>
 
         <Grid item xs={12}>
-          <ListViewTable clickable={true} actionButton={false} />
+          <ListViewTable clickable={true} actionButton={false} onRowClick={handleRowClick} />
         </Grid>
       </Grid>
     </div>
