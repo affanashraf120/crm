@@ -139,9 +139,9 @@ const DraggableRow = ({ row }: { row: any }) => {
   )
 }
 
-const Table = ({ defaultData, columnArray, tableTitle, actionButton }: any) => {
+const Table = ({ defaultData, columnArray, tableTitle, actionButton, onEditRow }: any) => {
   // States
-  const [isOpen, setIsOpen] = useState(false)
+  // const [isOpen, setIsOpen] = useState(false)
   const [isOpenDelete, setIsOpenDelete] = useState(false)
   const [data, setData] = useState<any>(defaultData)
 
@@ -167,13 +167,7 @@ const Table = ({ defaultData, columnArray, tableTitle, actionButton }: any) => {
 
   // const updatedData = useMemo(() => transformData(rowSelection), [rowSelection])
 
-  const handleActionsRow = (menuItem: any) => {
-    if (menuItem?.label === 'Edit') {
-      setIsOpen(!isOpen)
-    } else if (menuItem?.label === 'Delete') {
-      setIsOpenDelete(!isOpenDelete)
-    }
-  }
+
 
   // Todo send data to the db
   // console.log('🚀 ~ Table ~ rowSelection:', updatedData)
@@ -241,7 +235,7 @@ const Table = ({ defaultData, columnArray, tableTitle, actionButton }: any) => {
             <div className='flex items-start '>
               <DropDownButton
                 buttonLabel='ri-more-2-fill w-5 h-5 ease-in-out duration-500 transition-all'
-                onMenuItemClick={handleActionsRow}
+                onMenuItemClick={onEditRow}
                 menuOptions={options.map((option: any) => ({
                   label: option.label,
                   icon: option.icon,

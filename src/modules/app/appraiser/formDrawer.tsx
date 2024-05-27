@@ -389,7 +389,7 @@ const AppraiserForm = () => {
       <ConfirmationDialog
         open={openClearModal}
         setOpen={() => setopenClearModal(false)}
-        type='delete-account'
+        type='clear'
         title='Are you sure you want to clear the form data?'
       />
     </form>

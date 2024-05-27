@@ -21,6 +21,14 @@ const AppraisalClient = () => {
     setOpen(true)
   }
 
+  const handleActionsRow = (menuItem: any) => {
+    if (menuItem?.label === 'Edit') {
+      setOpen(true)
+    } else if (menuItem?.label === 'Delete') {
+      console.log('🚀 ~ handleActionsRow ~ menuItem?.label:', menuItem?.label)
+    }
+  }
+
   return (
     <Grid container spacing={6}>
       <Grid item xs={12}>
@@ -45,7 +53,13 @@ const AppraisalClient = () => {
 
       <Grid item xs={12}>
         {data && (
-          <Table defaultData={dummyData} columnArray={column} tableTitle='Umpire Table' actionButton={handleOpen} />
+          <Table
+            defaultData={dummyData}
+            columnArray={column}
+            tableTitle='Umpire Table'
+            actionButton={handleOpen}
+            onEditRow={handleActionsRow}
+          />
         )}
       </Grid>
 

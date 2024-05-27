@@ -24,7 +24,6 @@ const ColorPalette: React.FC<ColorPaletteProps> = ({ onClose, setColorSelect, se
   const [selectedColor, setSelectedColor] = useState(selclr)
   const inputRef = useRef<HTMLInputElement>(null)
 
-
   const handleInputChange = (selectedColor: Color) => {
     const inputValue = inputRef.current?.value || value
     const newColor = selectedColor.name || selclr
@@ -126,9 +125,12 @@ const ColorPalette: React.FC<ColorPaletteProps> = ({ onClose, setColorSelect, se
           ))}
         </div>
       </Paper>
-      <ConfirmationDialog open={open} setOpen={setOpen} type='delete-account' title='Are you sure you want to delete this item?'/>
-
-
+      <ConfirmationDialog
+        open={open}
+        setOpen={() => setOpen(!open)}
+        type='delete-account'
+        title='Are you sure you want to delete this item?'
+      />
     </>
   )
 }

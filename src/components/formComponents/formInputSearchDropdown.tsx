@@ -19,7 +19,7 @@ export const FormInputSearchDropdown = ({ control, name, label, options, icon }:
   const { settings } = useSettings()
   const [open, setOpen] = useState(false)
 
-  
+
 
   const addNewData = () => {
     console.log('🚀 ~ FormInputSearchDropdown ~ value:', value)
