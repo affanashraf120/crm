@@ -7,7 +7,7 @@ import { Button, Card, Chip, Grid, MenuItem, TablePagination, TextField } from '
 import CustomAvatar from '@/@core/components/mui/Avatar'
 import { useSettings } from '@/@core/hooks/useSettings'
 
-const ListViewTable = ({ clickable, actionButton, handleAction, onRowClick, listData }: any) => {
+const ListViewTable = ({ clickable, actionButton, handleAction, onActions, data:listData }: any) => {
   const { settings } = useSettings()
   const [data, setData] = useState(listData)
   const [page, setPage] = useState(0)
@@ -71,7 +71,7 @@ const ListViewTable = ({ clickable, actionButton, handleAction, onRowClick, list
         </div>
       </Grid>
       {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item:any, index:any) => (
-        <Card key={index} className='my-4 cursor-pointer' onClick={() => onRowClick(index)}>
+        <Card key={index} className='my-4 cursor-pointer' onClick={() => onActions(index)}>
           <div
             className={`grid grid-cols-8 p-4 items-center justify-center gap-2 ${
               settings.mode === 'dark' ? 'hover:bg-[#37334C]' : 'hover:bg-[#E5E5EB]'

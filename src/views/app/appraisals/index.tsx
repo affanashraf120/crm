@@ -30,7 +30,7 @@ function Appraisals() {
         </Grid>
 
         <Grid item xs={12}>
-          <ListViewTable listData={listData} clickable={true} actionButton={false} onRowClick={handleRowClick}  />
+          <ListViewTable data={listData} clickable={true} actionButton={false} onActions={handleRowClick}  />
         </Grid>
       </Grid>
     </div>

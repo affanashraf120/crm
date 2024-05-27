@@ -44,11 +44,11 @@ function Clients() {
 
           <Grid item xs={12}>
             <ListViewTable
-              listData={listData}
+              data={listData}
               clickable={false}
               actionButton={true}
               handleAction={handleAction}
-              onRowClick={handleRowClick}
+              onActions={handleRowClick}
             />
           </Grid>
         </Grid>
