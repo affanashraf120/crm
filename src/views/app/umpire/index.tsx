@@ -24,14 +24,7 @@ const Umpire = () => {
         <AppraisalCard />
       </Grid>
       <Grid item xs={12}>
-        {data && (
-          <Table
-            defaultData={data}
-            columnArray={column}
-            tableTitle='Umpire Table'
-            actionButton={handleOpen}
-          />
-        )}
+        {data && <Table data={data} columns={column} title='Umpire Table' onAdd={handleOpen} />}
       </Grid>
 
       <Drawer open={open} setOpen={() => setOpen(false)}>

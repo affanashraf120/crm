@@ -1,4 +1,3 @@
-
 import { useState } from 'react'
 
 // Mui Imports
@@ -11,7 +10,7 @@ import { z } from 'zod'
 
 // Custom components
 import ConfirmationDialog from '@/components/dialogs/confirmation-dialog'
-import { FormInput } from '@/components/formComponents/formInput'
+import FormGenerator from '@/components/form'
 
 const schema = z.object({
   oa_name: z.string(),
@@ -25,7 +24,7 @@ const onSubmit = (data: FormData) => {
   console.log(data)
 }
 
- const OpposingAppraisalForm = () => {
+const OpposingAppraisalForm = () => {
   const [open, setOpen] = useState(false)
 
   const {
@@ -45,42 +44,16 @@ const onSubmit = (data: FormData) => {
     <>
       <form onSubmit={handleSubmit(onSubmit)} className='px-4 w-full flex flex-col gap-3 h-full'>
         <div className='h-full flex justify-between flex-col '>
-          <div className='flex flex-col gap-3'>
-            <div className='grid grid-cols-12  gap-3 md:gap-0 mt-10'>
-              <Title icon='ri-bar-chart-horizontal-line' label='OA Name' />
-              <div className='col-span-12 md:col-span-8 flex justify-start items-center gap-2 text-sm'>
-                <FormInput
-                  label='Enter Opposing Appraisal...'
-                  register={register('oa_name')}
-                  error={!!errors.oa_name}
-                  helperText={errors.oa_name?.message}
-                />{' '}
-              </div>
-            </div>
-
-            <div className='grid grid-cols-12  gap-3 md:gap-0'>
-              <Title icon='ri-mail-line' label='OA Email' />
-              <div className='col-span-12 md:col-span-8 flex justify-start items-center gap-2 text-sm'>
-                <FormInput
-                  label='Enter Email...'
-                  register={register('oa_email')}
-                  error={!!errors.oa_email}
-                  helperText={errors.oa_email?.message}
-                />{' '}
-              </div>
-            </div>
-
-            <div className='grid grid-cols-12  gap-3 md:gap-0'>
-              <Title icon='ri-phone-line' label='OA Phone Number' />
-              <div className='col-span-12 md:col-span-8 flex justify-start items-center gap-2 text-sm'>
-                <FormInput
-                  label='Enter Phone Number...'
-                  register={register('oa_phone_no')}
-                  error={!!errors.oa_phone_no}
-                  helperText={errors.oa_phone_no?.message}
-                />{' '}
-              </div>
-            </div>
+          <div className='flex flex-col gap-3 mt-10'>
+            {formFields &&
+              formFields.map((field, index) => (
+                <div className='grid grid-cols-12  gap-3 md:gap-0 ' key={index}>
+                  <Title icon={field.icon} label={field.title} />
+                  <div className='col-span-12 md:col-span-8 flex justify-start items-center gap-2 text-sm'>
+                    <FormGenerator field={field} register={register} errors={errors} />
+                  </div>
+                </div>
+              ))}
           </div>
 
           <div className='py-4 flex justify-between items-center'>
@@ -94,9 +67,12 @@ const onSubmit = (data: FormData) => {
         </div>
       </form>
 
-      <ConfirmationDialog open={open} setOpen={setOpen} type='delete-account' title='Are you sure you want to clear the form data?'/>
-
-
+      <ConfirmationDialog
+        open={open}
+        setOpen={setOpen}
+        type='delete-account'
+        title='Are you sure you want to clear the form data?'
+      />
     </>
   )
 }
@@ -111,3 +87,21 @@ const Title = ({ icon, label }: { icon: string; label: string }) => {
     </div>
   )
 }
+
+const formFields = [
+  {
+    type: 'formInput',
+    name: 'oa_name',
+    label: 'Enter Opposing Appraisal...',
+    title: 'OA Name',
+    icon: 'ri-bar-chart-horizontal-line'
+  },
+  { type: 'formInput', name: 'oa_email', label: 'Enter Email...', title: 'OA Email', icon: 'ri-mail-line' },
+  {
+    type: 'formInput',
+    name: 'oa_phone_no',
+    label: 'Enter Phone No...',
+    title: 'OA Phone No',
+    icon: 'ri-phone-line'
+  }
+]

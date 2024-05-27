@@ -10,7 +10,7 @@ import PerfectScrollbar from 'react-perfect-scrollbar'
 import type { VerticalMenuContextProps } from '@menu/components/vertical-menu/Menu'
 
 // Component Imports
-import { Menu, MenuItem, MenuSection, SubMenu } from '@menu/vertical-menu'
+import { Menu, MenuItem, SubMenu } from '@menu/vertical-menu'
 
 // Hook Imports
 import { useSettings } from '@core/hooks/useSettings'
@@ -76,48 +76,65 @@ const VerticalMenu = ({ scrollMenu }: Props) => {
         renderExpandedMenuItemIcon={{ icon: <i className='ri-circle-line' /> }}
         menuSectionStyles={menuSectionStyles(verticalNavOptions, theme)}
       >
-        <MenuItem href='/dashBoard' icon={<i className='ri-bubble-chart-line' />}>
-            Dashboard
-          </MenuItem>
+        <MenuItem href='/dashBoard' icon={<i className='ri-home-smile-line' />}>
+          Dashboard
+        </MenuItem>
 
-        <MenuSection label='Page'>
-          <SubMenu
-            label='Clients'
-            icon={<i className='ri-parent-line' />}
+        <SubMenu
+          label='Clients'
+          icon={<i className='ri-parent-line' />}
 
-            // suffix={<Chip label='3' size='small' color='error' />}
-          >
-            <MenuItem href={clients}>List</MenuItem>
-            <MenuItem href={appraisal}>Appraisals</MenuItem>
-            <MenuItem href={estimates}>Estimates</MenuItem>
-            <MenuItem href={supplement}>Supplements</MenuItem>
-            <MenuItem href={invoice}>Invoices</MenuItem>
-          </SubMenu>
-          <MenuItem href='/opposing-appraisal' icon={<i className='ri-bubble-chart-line' />}>
-            Opposing Appraiser
-          </MenuItem>
-          <MenuItem href='/umpire' icon={<i className='ri-user-follow-line' />}>
-            Umpire Info
-          </MenuItem>
-          <MenuItem href='/adjuster' icon={<i className='ri-user-3-line' />}>
-            Adjuster Info
-          </MenuItem>
-          <MenuItem href='/users' icon={<i className='ri-team-line' />}>
-            Users
-          </MenuItem>
-          <MenuItem href='/insurance-company' icon={<i className='ri-building-line' />}>
-            Insurance Company
-          </MenuItem>
-        </MenuSection>
+          // suffix={<Chip label='3' size='small' color='error' />}
+        >
+          <MenuItem href={clients}>List</MenuItem>
+          <MenuItem href={appraisal}>Appraisals</MenuItem>
+          <MenuItem href={estimates}>Estimates</MenuItem>
+          <MenuItem href={supplement}>Supplements</MenuItem>
+          <MenuItem href={invoice}>Invoices</MenuItem>
+        </SubMenu>
+        <MenuItem href='/opposing-appraisal' icon={<i className='ri-bubble-chart-line' />}>
+          Opposing Appraiser
+        </MenuItem>
+        <MenuItem
+          href='/umpire'
+          icon={
+            <svg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 24 24'>
+              <path
+                fill='currentColor'
+                d='M11.314 15.5a6.5 6.5 0 0 1 .708-1.5h-6.77a2.25 2.25 0 0 0-2.248 2.249v.578c0 .892.318 1.756.898 2.435c1.566 1.834 3.952 2.74 7.098 2.74q.9 0 1.717-.1a6.5 6.5 0 0 1-.994-1.42q-.351.02-.723.02c-2.738 0-4.704-.747-5.957-2.214a2.25 2.25 0 0 1-.54-1.462v-.577a.75.75 0 0 1 .75-.75zM11 2.005a5 5 0 1 1 0 10a5 5 0 0 1 0-10m0 1.5a3.5 3.5 0 1 0 0 7a3.5 3.5 0 0 0 0-7M23 17.5a5.5 5.5 0 1 1-11 0a5.5 5.5 0 0 1 11 0m-9.5 0a4 4 0 1 0 8 0a4 4 0 0 0-8 0m5-2a1 1 0 1 1-2 0a1 1 0 0 1 2 0m-.25 2.5a.75.75 0 0 0-1.5 0v1.75a.75.75 0 0 0 1.5 0z'
+              />
+            </svg>
+          }
+        >
+          Umpire Info
+        </MenuItem>
+        {/* todo add libraries for icon */}
+        <MenuItem
+          href='/adjuster'
+          icon={
+            <svg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 14 14'>
+              <g fill='none' stroke='currentColor' stroke-linecap='round' stroke-linejoin='round'>
+                <path d='M9.901 4.317v1.364M9.9 2.662a.124.124 0 0 1-.124-.125c0-.07.056-.125.124-.125m.002.25a.125.125 0 0 0 .124-.125a.124.124 0 0 0-.124-.125M.857 12.864h12.007M1.989 6.829a1.939 1.939 0 1 0 3.878 0a1.939 1.939 0 1 0-3.878 0' />
+                <path d='M.855 12.865v-1.024a3.072 3.072 0 1 1 6.145 0v1.024m.394-6.149A3.554 3.554 0 1 0 6.33 4' />
+              </g>
+            </svg>
+          }
+        >
+          Adjuster Info
+        </MenuItem>
+        <MenuItem href='/users' icon={<i className='ri-team-line' />}>
+          Users
+        </MenuItem>
+        <MenuItem href='/insurance-company' icon={<i className='ri-building-line' />}>
+          Insurance Company
+        </MenuItem>
 
-        <MenuSection label='Info'>
-          <MenuItem href='/contact' icon={<i className='ri-contacts-book-3-line' />}>
-            Contact
-          </MenuItem>
-          <MenuItem href='/about' icon={<i className='ri-information-line' />}>
-            About
-          </MenuItem>
-        </MenuSection>
+        <MenuItem href='/contact' icon={<i className='ri-contacts-book-3-line' />}>
+          Contact
+        </MenuItem>
+        <MenuItem href='/about' icon={<i className='ri-information-line' />}>
+          About
+        </MenuItem>
       </Menu>
       {/* <Menu
         popoutMenuOffset={{ mainAxis: 10 }}

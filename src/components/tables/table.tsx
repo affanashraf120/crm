@@ -139,11 +139,11 @@ const DraggableRow = ({ row }: { row: any }) => {
   )
 }
 
-const Table = ({ defaultData, columnArray, tableTitle, actionButton, onEditRow }: any) => {
+const Table = ({ data: Data, columns: columnArray, title, onAdd, onActions, buttonName }: any) => {
   // States
   // const [isOpen, setIsOpen] = useState(false)
   const [isOpenDelete, setIsOpenDelete] = useState(false)
-  const [data, setData] = useState<any>(defaultData)
+  const [data, setData] = useState<any>(Data)
 
   // const [rowSelection, setRowSelection] = useState<any>({})
 
@@ -235,7 +235,7 @@ const Table = ({ defaultData, columnArray, tableTitle, actionButton, onEditRow }
             <div className='flex items-start '>
               <DropDownButton
                 buttonLabel='ri-more-2-fill w-5 h-5 ease-in-out duration-500 transition-all'
-                onMenuItemClick={onEditRow}
+                onMenuItemClick={onActions}
                 menuOptions={options.map((option: any) => ({
                   label: option.label,
                   icon: option.icon,
@@ -283,7 +283,7 @@ const Table = ({ defaultData, columnArray, tableTitle, actionButton, onEditRow }
     >
       <Card>
         <div className='flex justify-between items-start md:items-center flex-col px-2 md:flex-row mb-2 text-left w-full'>
-          <CardHeader title={tableTitle} />
+          <CardHeader title={title} />
           <div className='flex justify-center items-center gap-2 flex-col w-full sm:flex-row md:w-auto'>
             <TextField id='outlined-basic' label='Search' variant='outlined' fullWidth size='small' />
             <Button
@@ -291,9 +291,10 @@ const Table = ({ defaultData, columnArray, tableTitle, actionButton, onEditRow }
               type='submit'
               startIcon={<i className='ri-add-line' />}
               fullWidth
-              onClick={actionButton}
+              onClick={onAdd}
             >
-              Action Button
+                              {buttonName ? buttonName :'Action button'}
+
             </Button>
           </div>
         </div>

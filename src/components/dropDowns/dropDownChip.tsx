@@ -79,14 +79,15 @@ const DropdownWithChip: React.FC<Props> = ({ value, options }) => {
           </div>
         )}
       >
-        {options.map(option => (
-          <MenuItem key={option.id} value={option.value}>
-            <div className='flex justify-between items-center w-full md:min-w-[160px] gap-6'>
-              <Chip key={option.id} label={option.value} variant='tonal' color={option.color} size='small' />
-              {selectedValue.value === option.value && <i className='ri-check-line w-4 h-4 me-2'></i>}
-            </div>
-          </MenuItem>
-        ))}
+        {options &&
+          options.map(option => (
+            <MenuItem key={option.id} value={option.value}>
+              <div className='flex justify-between items-center w-full md:min-w-[160px] gap-6'>
+                <Chip key={option.id} label={option.value} variant='tonal' color={option.color} size='small' />
+                {selectedValue.value === option.value && <i className='ri-check-line w-4 h-4 me-2'></i>}
+              </div>
+            </MenuItem>
+          ))}
       </Select>
     </div>
   )

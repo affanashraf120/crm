@@ -1,6 +1,6 @@
 import { TextField } from '@mui/material'
 
-export const FormInput = ({ label, type = 'text', error, helperText, register, disable, icon,fieldSize }: any) => {
+export const FormInput = ({ label, type = 'text', error, helperText, register, disable, icon, fieldSize }: any) => {
   const inputProps = icon ? { style: { paddingLeft: '12px' } } : { style: { paddingLeft: '0px' } }
 
   return (

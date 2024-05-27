@@ -30,7 +30,7 @@ function Appraisals() {
         </Grid>
 
         <Grid item xs={12}>
-          <ListViewTable clickable={true} actionButton={false} onRowClick={handleRowClick} />
+          <ListViewTable listData={listData} clickable={true} actionButton={false} onRowClick={handleRowClick}  />
         </Grid>
       </Grid>
     </div>
@@ -64,4 +64,17 @@ const data: any[] = [
     avatarIcon: 'ri-money-dollar-circle-line',
     avatarColor: 'warning'
   }
+]
+
+const listData = [
+  { companyName: 'Alpha', closed: 1, open: 12, schedule: 2, amount: '$12,300' },
+  { companyName: 'Priority', closed: 3, open: 8, schedule: 1, amount: '$8,500' },
+  { companyName: 'Rubinsky', closed: 1, open: 12, schedule: 2, amount: '$12,300' },
+  { companyName: 'Veterans', closed: 3, open: 8, schedule: 1, amount: '$8,500' },
+  { companyName: 'Buccy', closed: 1, open: 12, schedule: 2, amount: '$12,300' },
+  { companyName: 'Miller Storm', closed: 3, open: 8, schedule: 1, amount: '$8,500' },
+  { companyName: 'AJ', closed: 1, open: 12, schedule: 2, amount: '$12,300' },
+  { companyName: 'Builditect', closed: 3, open: 8, schedule: 1, amount: '$8,500' },
+  { companyName: 'Zeus', closed: 1, open: 12, schedule: 2, amount: '$12,300' },
+  { companyName: 'Spartan', closed: 3, open: 8, schedule: 1, amount: '$8,500' }
 ]

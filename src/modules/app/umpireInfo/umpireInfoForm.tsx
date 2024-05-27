@@ -12,7 +12,7 @@ import { z } from 'zod'
 
 // Custom components
 import ConfirmationDialog from '@/components/dialogs/confirmation-dialog'
-import { FormInput } from '@/components/formComponents/formInput'
+import FormGenerator from '@/components/form'
 
 const schema = z.object({
   umpire_name: z.string(),
@@ -46,8 +46,17 @@ const UmpireInfoForm = () => {
     <>
       <form onSubmit={handleSubmit(onSubmit)} className='px-4 w-full flex flex-col gap-3 h-full'>
         <div className='h-full flex justify-between flex-col '>
-          <div className='flex flex-col gap-3'>
-            <div className='grid grid-cols-12  gap-3 md:gap-0 mt-10'>
+          <div className='flex flex-col gap-3 mt-10'>
+            {formFields &&
+              formFields.map((field, index) => (
+                <div className='grid grid-cols-12  gap-3 md:gap-0 ' key={index}>
+                  <Title icon={field.icon} label={field.title} />
+                  <div className='col-span-12 md:col-span-8 flex justify-start items-center gap-2 text-sm'>
+                    <FormGenerator field={field} register={register} errors={errors} />
+                  </div>
+                </div>
+              ))}
+            {/* <div className='grid grid-cols-12  gap-3 md:gap-0 mt-10'>
               <Title icon='ri-bar-chart-horizontal-line' label='Umpire Name' />
               <div className='col-span-12 md:col-span-8 flex justify-start items-center gap-2 text-sm'>
                 <FormInput
@@ -81,7 +90,7 @@ const UmpireInfoForm = () => {
                   helperText={errors.umpire_phone_no?.message}
                 />{' '}
               </div>
-            </div>
+            </div> */}
           </div>
 
           <div className='py-4 flex justify-between items-center'>
@@ -95,10 +104,12 @@ const UmpireInfoForm = () => {
         </div>
       </form>
 
-      <ConfirmationDialog open={open} setOpen={setOpen} type='delete-account' title='Are you sure you want to clear the form data?'/>
-
-
-
+      <ConfirmationDialog
+        open={open}
+        setOpen={setOpen}
+        type='delete-account'
+        title='Are you sure you want to clear the form data?'
+      />
     </>
   )
 }
@@ -113,3 +124,21 @@ const Title = ({ icon, label }: { icon: string; label: string }) => {
     </div>
   )
 }
+
+const formFields = [
+  {
+    type: 'formInput',
+    name: 'umpire_name',
+    label: 'Enter Umpire Name...',
+    title: 'umpire Name',
+    icon: 'ri-bar-chart-horizontal-line'
+  },
+  { type: 'formInput', name: 'umpire_email', label: 'Enter Email...', title: 'umpire Email', icon: 'ri-mail-line' },
+  {
+    type: 'formInput',
+    name: 'umpire_phone_no',
+    label: 'Enter Phone No...',
+    title: 'umpire Phone No',
+    icon: 'ri-phone-line'
+  }
+]

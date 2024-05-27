@@ -16,13 +16,13 @@ import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import { IconButton } from '@mui/material'
 
-import { FormInput } from '@/components/formComponents/formInput'
-import { FormTextArea } from '@/components/formComponents/formTextArea'
+import FormGenerator from '@/components/form'
+import ConfirmationDialog from '@/components/dialogs/confirmation-dialog'
 
 const schema = z.object({
   com_name: z.string(),
   com_address: z.string(),
-  com_logo: z.any().refine(file => file instanceof File, 'You must select a file.'),
+  com_logo: z.any(),
   owner_name: z.string(),
   owner_phone_no: z.string(),
   owner_email: z.string(),
@@ -36,11 +36,19 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>
 
-
-const AddClient = ({handleAction}:any) => {
+const AddClient = ({ handleAction }: any) => {
   // States
   const [fileInput, setFileInput] = useState<string>('')
   const [imgSrc, setImgSrc] = useState<string>('/images/avatars/1.png')
+  const [openClearModal, setOpenClearModal] = useState(false)
+
+  const OnOpen = () => {
+    setOpenClearModal(true)
+  }
+
+  const OnClose = () => {
+    setOpenClearModal(false)
+  }
 
   const {
     register,
@@ -66,7 +74,7 @@ const AddClient = ({handleAction}:any) => {
 
   const onSubmit = (data: FormData) => {
     handleAction
-    console.log("clicked",data)
+    console.log('clicked', data)
   }
 
   const handleFileInputChange = (file: ChangeEvent) => {
@@ -95,11 +103,11 @@ const AddClient = ({handleAction}:any) => {
           <i className='ri-arrow-right-s-line cursor-pointer rotate-180'></i>
         </IconButton>
       </div>
-      <CardContent className='mbe-1'>
-        <div className='flex items-start sm:items-center gap-6'>
+      <CardContent className='px-7'>
+        <div className='flex items-center justify-center flex-col md:flex-row gap-6'>
           <img height={100} width={100} className='rounded' src={imgSrc} alt='Profile' />
           <div className='flex flex-grow flex-col gap-4'>
-            <div className='flex flex-col sm:flex-row gap-4'>
+            <div className='flex flex-col items-center justify-center md:items-start md:justify-start sm:flex-row gap-4'>
               <Button component='label' size='small' variant='contained' htmlFor='account-settings-upload-image'>
                 Upload New Photo
                 <input
@@ -120,127 +128,29 @@ const AddClient = ({handleAction}:any) => {
         </div>
       </CardContent>
       <CardContent>
-        <form onSubmit={handleSubmit(onSubmit)} className=' w-full flex flex-col gap-3 '>
+        <form onSubmit={handleSubmit(onSubmit)} className='px-2 w-full flex flex-col gap-3'>
           <Grid container spacing={3}>
-            <Grid item xs={6}>
-              <FormInput
-                label='Enter Company Name...'
-                register={register('com_name')}
-                error={!!errors.com_name}
-                helperText={errors.com_name?.message}
-                fieldSize='medium'
-              />
-            </Grid>
-
-            <Grid item xs={6}>
-              <FormInput
-                label='Enter Owner Name...'
-                register={register('owner_name')}
-                error={!!errors.owner_name}
-                helperText={errors.owner_name?.message}
-                fieldSize='medium'
-
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <FormInput
-                label='Enter Owner Phone No...'
-                register={register('owner_phone_no')}
-                error={!!errors.owner_phone_no}
-                helperText={errors.owner_phone_no?.message}
-                fieldSize='medium'
-
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <FormInput
-                label='Enter Owner Email...'
-                register={register('owner_email')}
-                error={!!errors.owner_email}
-                helperText={errors.owner_email?.message}
-                fieldSize='medium'
-
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <FormInput
-                label='Enter GM Sales Name...'
-                register={register('gm_sale_name')}
-                error={!!errors.gm_sale_name}
-                helperText={errors.gm_sale_name?.message}
-                fieldSize='medium'
-
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <FormInput
-                label='Enter GM Sales Phone No...'
-                register={register('gm_sale_phone_no')}
-                error={!!errors.gm_sale_phone_no}
-                helperText={errors.gm_sale_phone_no?.message}
-                fieldSize='medium'
-
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <FormInput
-                label='Enter GM Sales Email...'
-                register={register('gm_sale_email')}
-                error={!!errors.gm_sale_email}
-                helperText={errors.gm_sale_email?.message}
-                fieldSize='medium'
-
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <FormInput
-                label='Enter Client Username...'
-                register={register('client_username')}
-                error={!!errors.client_username}
-                helperText={errors.client_username?.message}
-                fieldSize='medium'
-
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <FormInput
-                label='Enter Client Email...'
-                register={register('client_email')}
-                error={!!errors.client_email}
-                helperText={errors.client_email?.message}
-                fieldSize='medium'
-
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <FormInput
-                label='Enter Client Password...'
-                register={register('client_password')}
-                error={!!errors.client_password}
-                helperText={errors.client_password?.message}
-                fieldSize='medium'
-
-              />
-            </Grid>
-
-            <Grid item xs={12}>
-              <FormTextArea
-                label='Enter Company Address...'
-                register={register('com_address')}
-                error={!!errors.com_address}
-                helperText={errors.com_address?.message}
-              />
-            </Grid>
+            {formFields.map((field, index) => (
+              <Grid item xs={12} md={field.type === 'formTextArea' ? 12 : 6} key={index}>
+                <FormGenerator field={field} register={register} errors={errors} fieldSize={field.fieldSize} />
+              </Grid>
+            ))}
           </Grid>
-
-          <div className='py-4 flex justify-between items-center'>
-            <Button variant='outlined' color='inherit' onClick={() => {}}>
-              Cancel
+          <div className='flex justify-between items-center py-4'>
+            <Button variant='outlined' color='inherit' onClick={OnOpen}>
+              Clear
             </Button>
             <Button type='submit' variant='contained' color='primary'>
               Submit
             </Button>
           </div>
+
+          <ConfirmationDialog
+            open={openClearModal}
+            setOpen={OnClose}
+            type='clear'
+            title='Are you sure you want to clear the form data?'
+          />
         </form>
       </CardContent>
     </Card>
@@ -248,3 +158,17 @@ const AddClient = ({handleAction}:any) => {
 }
 
 export default AddClient
+
+const formFields = [
+  { type: 'formInput', name: 'com_name', label: 'Enter Company Name...', fieldSize: 'medium' },
+  { type: 'formInput', name: 'owner_name', label: 'Enter Owner Name...', fieldSize: 'medium' },
+  { type: 'formInput', name: 'owner_phone_no', label: 'Enter Owner Phone No...', fieldSize: 'medium' },
+  { type: 'formInput', name: 'owner_email', label: 'Enter Owner Email...', fieldSize: 'medium' },
+  { type: 'formInput', name: 'gm_sale_name', label: 'Enter GM Sales Name...', fieldSize: 'medium' },
+  { type: 'formInput', name: 'gm_sale_phone_no', label: 'Enter GM Sales Phone No...', fieldSize: 'medium' },
+  { type: 'formInput', name: 'gm_sale_email', label: 'Enter GM Sales Email...', fieldSize: 'medium' },
+  { type: 'formInput', name: 'client_username', label: 'Enter Client Username...', fieldSize: 'medium' },
+  { type: 'formInput', name: 'client_email', label: 'Enter Client Email...', fieldSize: 'medium' },
+  { type: 'formInput', name: 'client_password', label: 'Enter Client Password...', fieldSize: 'medium' },
+  { type: 'formTextArea', name: 'com_address', label: 'Enter Company Address...' }
+]

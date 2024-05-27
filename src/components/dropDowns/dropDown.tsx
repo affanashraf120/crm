@@ -38,18 +38,19 @@ const Dropdown: React.FC<Props> = ({ value, options }) => {
         renderValue={() => (
           <Button color='inherit' className='flex justify-start items-center gap-1'>
             {selectedValue}
-            <KeyboardArrowDownIcon />
+            {options && <KeyboardArrowDownIcon />}
           </Button>
         )}
       >
-        {options.map(option => (
-          <MenuItem key={option.toLocaleLowerCase().replaceAll(' ', '-')} value={option}>
-            <div className='flex justify-between items-center w-full md:min-w-[160px] gap-6'>
-              {option}
-              {selectedValue === option && <i className='ri-check-line w-4 h-4 me-2'></i>}
-            </div>
-          </MenuItem>
-        ))}
+        {options &&
+          options.map(option => (
+            <MenuItem key={option.toLocaleLowerCase().replaceAll(' ', '-')} value={option}>
+              <div className='flex justify-between items-center w-full md:min-w-[160px] gap-6'>
+                {option}
+                {selectedValue === option && <i className='ri-check-line w-4 h-4 me-2'></i>}
+              </div>
+            </MenuItem>
+          ))}
       </Select>
     </div>
   )

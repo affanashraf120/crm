@@ -54,11 +54,12 @@ const AppraisalClient = () => {
       <Grid item xs={12}>
         {data && (
           <Table
-            defaultData={dummyData}
-            columnArray={column}
-            tableTitle='Umpire Table'
-            actionButton={handleOpen}
-            onEditRow={handleActionsRow}
+            data={dummyData}
+            columns={column}
+            title='Alpha Appraisals (10% or $250 min)'
+            onAdd={handleOpen}
+            onActions={handleActionsRow}
+            buttonName='Add New'
           />
         )}
       </Grid>

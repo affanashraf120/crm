@@ -2,36 +2,23 @@
 
 import React, { useState } from 'react'
 
-
 import { Button, Card, Chip, Grid, MenuItem, TablePagination, TextField } from '@mui/material'
 
 import CustomAvatar from '@/@core/components/mui/Avatar'
 import { useSettings } from '@/@core/hooks/useSettings'
 
-const listData = [
-  { companyName: 'Alpha', closed: 1, open: 12, schedule: 2, amount: '$12,300' },
-  { companyName: 'Priority', closed: 3, open: 8, schedule: 1, amount: '$8,500' },
-  { companyName: 'Rubinsky', closed: 1, open: 12, schedule: 2, amount: '$12,300' },
-  { companyName: 'Veterans', closed: 3, open: 8, schedule: 1, amount: '$8,500' },
-  { companyName: 'Buccy', closed: 1, open: 12, schedule: 2, amount: '$12,300' },
-  { companyName: 'Miller Storm', closed: 3, open: 8, schedule: 1, amount: '$8,500' },
-  { companyName: 'AJ', closed: 1, open: 12, schedule: 2, amount: '$12,300' },
-  { companyName: 'Builditect', closed: 3, open: 8, schedule: 1, amount: '$8,500' },
-  { companyName: 'Zeus', closed: 1, open: 12, schedule: 2, amount: '$12,300' },
-  { companyName: 'Spartan', closed: 3, open: 8, schedule: 1, amount: '$8,500' }
-]
-
-const ListViewTable = ({ clickable, actionButton, handleAction, onRowClick }: any) => {
+const ListViewTable = ({ clickable, actionButton, handleAction, onRowClick, listData }: any) => {
   const { settings } = useSettings()
   const [data, setData] = useState(listData)
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(10)
 
-
-
   const handleInput = (e: any) => {
     const searchValue = e.target.value
-    const filteredData = listData.filter(item => item.companyName.toLowerCase().includes(searchValue.toLowerCase()))
+
+    const filteredData = listData.filter((item: any) =>
+      item.companyName.toLowerCase().includes(searchValue.toLowerCase())
+    )
 
     setData(filteredData)
   }
@@ -83,7 +70,7 @@ const ListViewTable = ({ clickable, actionButton, handleAction, onRowClick }: an
           </div>
         </div>
       </Grid>
-      {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item, index) => (
+      {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item:any, index:any) => (
         <Card key={index} className='my-4 cursor-pointer' onClick={() => onRowClick(index)}>
           <div
             className={`grid grid-cols-8 p-4 items-center justify-center gap-2 ${

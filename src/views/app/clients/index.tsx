@@ -18,7 +18,7 @@ function Clients() {
   const handleRowClick = (id: any) => {
     setSelectedRowId(id)
     setOpenAddClientForm(true)
-    console.log("🚀 ~ Clients ~ selectedRowId:", selectedRowId)
+    console.log('🚀 ~ Clients ~ selectedRowId:', selectedRowId)
   }
 
   const handleAction = () => {
@@ -44,6 +44,7 @@ function Clients() {
 
           <Grid item xs={12}>
             <ListViewTable
+              listData={listData}
               clickable={false}
               actionButton={true}
               handleAction={handleAction}
@@ -83,4 +84,17 @@ const data: any[] = [
     avatarIcon: 'ri-money-dollar-circle-line',
     avatarColor: 'warning'
   }
+]
+
+const listData = [
+  { companyName: 'xyz', closed: 123, open: 345, schedule: 678, amount: '$1234' },
+  { companyName: 'xyz', closed: 123, open: 345, schedule: 678, amount: '$1234'},
+  { companyName: 'xyz', closed: 123, open: 345, schedule: 678, amount: '$1234' },
+  { companyName: 'xyz', closed: 123, open: 345, schedule: 678, amount: '$1234'},
+  { companyName: 'xyz', closed: 123, open: 345, schedule: 678, amount: '$1234' },
+  { companyName: 'xyz', closed: 123, open: 345, schedule: 678, amount: '$1234'},
+  { companyName: 'xyz', closed: 123, open: 345, schedule: 678, amount: '$1234' },
+  { companyName: 'xyz', closed: 123, open: 345, schedule: 678, amount: '$1234'},
+  { companyName: 'xyz', closed: 123, open: 345, schedule: 678, amount: '$1234' },
+  { companyName: 'xyz', closed: 123, open: 345, schedule: 678, amount: '$1234'}
 ]
