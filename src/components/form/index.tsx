@@ -17,6 +17,8 @@ const FormGenerator = ({ field, control, register, setValue, errors, fieldSize }
           {...register(field.name)}
           error={!!errors[field.name]}
           sx={{ fontSize: '20px', fontWeight: '600' }}
+          fieldSize={fieldSize}
+          inputIcon={field.inputIcon}
         />
       )
     } else if (field.type === 'formInput') {
@@ -28,15 +30,24 @@ const FormGenerator = ({ field, control, register, setValue, errors, fieldSize }
           helperText={errors[field.name]?.message}
           disable={field.disable}
           fieldSize={fieldSize}
+          inputIcon={field.inputIcon}
 
         />
       )
     } else if (field.type === 'statusDropdown') {
       return <StatusDropdown register={register} name={field.name} setValue={setValue} options={field.options} />
     } else if (field.type === 'formInputSearchDropdown') {
-      return <FormInputSearchDropdown control={control} name={field.name} label={field.label} options={field.options} />
+      return (
+        <FormInputSearchDropdown
+          control={control}
+          name={field.name}
+          label={field.label}
+          options={field.options}
+          fieldSize={fieldSize}
+        />
+      )
     } else if (field.type === 'formCalendarPicker') {
-      return <FormCalendarPicker name={field.name} control={control} label={field.label} />
+      return <FormCalendarPicker name={field.name} control={control} label={field.label} fieldSize={fieldSize} />
     } else if (field.type === 'formTextArea') {
       return (
         <FormTextArea

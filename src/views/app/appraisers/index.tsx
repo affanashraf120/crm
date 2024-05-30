@@ -1,6 +1,8 @@
 'use client'
 
-import { useState } from 'react'
+// import { useState } from 'react'
+
+import { usePathname, useRouter } from 'next/navigation'
 
 // Mui Imports
 import { Autocomplete, Grid, TextField } from '@mui/material'
@@ -11,19 +13,23 @@ import SummaryDetailCard from '@/components/cards/summaryDetailsCard'
 // Import Data
 import dummyData from '@/data/data'
 import Table from '@/components/tables/table'
-import Drawer from '@/components/formDrawer'
-import AppraiserForm from '@/modules/app/appraiser/formDrawer'
+
+// import Drawer from '@/components/formDrawer'
+// import AppraiserForm from '@/modules/app/appraiser/formDrawer'
 
 const AppraisalClient = () => {
-  const [open, setOpen] = useState(false)
+  const pathname = usePathname()
+  const route = useRouter()
+
+  // const [open, setOpen] = useState(false)
 
   const handleOpen = () => {
-    setOpen(true)
+    route.push(`${pathname}/add`)
   }
 
   const handleActionsRow = (menuItem: any) => {
     if (menuItem?.label === 'Edit') {
-      setOpen(true)
+      route.push(`${pathname}/${menuItem.id}`)
     } else if (menuItem?.label === 'Delete') {
       console.log('🚀 ~ handleActionsRow ~ menuItem?.label:', menuItem?.label)
     }
@@ -64,9 +70,10 @@ const AppraisalClient = () => {
         )}
       </Grid>
 
-      <Drawer open={open} setOpen={() => setOpen(false)}>
+      {/* drawer */}
+      {/* <Drawer open={open} setOpen={() => setOpen(false)}>
         <AppraiserForm />
-      </Drawer>
+      </Drawer> */}
     </Grid>
   )
 }

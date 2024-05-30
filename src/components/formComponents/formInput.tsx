@@ -1,11 +1,11 @@
 import { TextField } from '@mui/material'
 
-export const FormInput = ({ label, type = 'text', error, helperText, register, disable, icon, fieldSize }: any) => {
-  const inputProps = icon ? { style: { paddingLeft: '12px' } } : { style: { paddingLeft: '0px' } }
+export const FormInput = ({ label, type = 'text', error, helperText, register, disable, inputIcon, fieldSize }: any) => {
+  const inputProps = inputIcon ? { style: { paddingLeft: '12px' } } : { style: { paddingLeft: '0px' } }
 
   return (
     <div className='relative w-full'>
-      {icon && <span className='absolute left-3 top-2'>{icon}</span>}
+      {inputIcon && <span className='absolute left-3 top-4'>{inputIcon}</span>}
       <TextField
         size={fieldSize ? fieldSize : 'small'}
         label={label}
@@ -16,7 +16,7 @@ export const FormInput = ({ label, type = 'text', error, helperText, register, d
         helperText={helperText}
         disabled={disable}
         InputProps={inputProps}
-        InputLabelProps={icon && { shrink: true }}
+        InputLabelProps={inputIcon && { shrink: true }}
       />
     </div>
   )

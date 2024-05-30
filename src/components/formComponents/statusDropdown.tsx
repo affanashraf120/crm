@@ -125,7 +125,7 @@ export const StatusDropdown: React.FC<CustomAutocompleteProps> = ({ options, reg
   return (
     <div ref={dropdownRef} className='relative w-full'>
       <div className='relative flex gap-1'>
-        <div className='absolute top-2 left-4'>
+        <div className='absolute top-4 left-4'>
           {selectedChip && selectedChip.value && (
             <Chip
               label={selectedChip.value}
@@ -144,9 +144,9 @@ export const StatusDropdown: React.FC<CustomAutocompleteProps> = ({ options, reg
           onChange={handleInputChange}
           onFocus={handleInputFocus}
           disabled={disable}
-          className='w-full px-[14px] py-[8.5px] text-sm text-[#B1ACC7] bg-transparent border focus:border-2 border-[#595572] rounded-md focus:outline-none focus:border-[#1b5e20] placeholder:text-[#9C97B3] placeholder:text-sm'
+          className='w-full px-[14px] py-[16px] text-sm text-[#B1ACC7] bg-transparent border focus:border-2 border-[#595572] rounded-md focus:outline-none focus:border-[#1b5e20] placeholder:text-[#9C97B3] placeholder:text-sm'
         />
-        <div className='absolute right-4 top-1.5 flex justify-end items-center'>
+        <div className='absolute right-4 top-4 flex justify-end items-center'>
           <IconButton onClick={() => setShowOptions(!showOptions)} sx={{ padding: '2px' }}>
             <i
               className={`ri-arrow-down-s-line w-5 h-5 transition-all duration-300 ease-in-out ${

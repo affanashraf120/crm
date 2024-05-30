@@ -11,15 +11,13 @@ import { Autocomplete, Button, IconButton, Paper, TextField } from '@mui/materia
 import { useSettings } from '@/@core/hooks/useSettings'
 import ConfirmationDialog from '../dialogs/confirmation-dialog'
 
-export const FormInputSearchDropdown = ({ control, name, label, options, icon }: any) => {
+export const FormInputSearchDropdown = ({ control, name, label, options, icon, fieldSize }: any) => {
   const [value, setValue] = useState('')
 
   const [isValueExist, setisValueExist] = useState(false)
 
   const { settings } = useSettings()
   const [open, setOpen] = useState(false)
-
-
 
   const addNewData = () => {
     console.log('🚀 ~ FormInputSearchDropdown ~ value:', value)
@@ -50,7 +48,7 @@ export const FormInputSearchDropdown = ({ control, name, label, options, icon }:
           <Autocomplete
             {...field}
             fullWidth
-            size='small'
+            size={fieldSize ? fieldSize : 'small'}
             options={options}
             disableClearable={true}
             renderOption={(props, option) => (

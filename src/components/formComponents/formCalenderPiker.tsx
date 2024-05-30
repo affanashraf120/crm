@@ -13,9 +13,10 @@ interface FormCalendarPickerProps {
   control: Control<any>
   name: string
   label: string
+  fieldSize: any
 }
 
-export const FormCalendarPicker: React.FC<FormCalendarPickerProps> = ({ control, name, label }) => {
+export const FormCalendarPicker: React.FC<FormCalendarPickerProps> = ({ control, name, label, fieldSize }) => {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DemoContainer components={['DatePicker']} sx={{ width: '100%' }}>
@@ -28,7 +29,7 @@ export const FormCalendarPicker: React.FC<FormCalendarPickerProps> = ({ control,
               value={field.value}
               inputRef={field.ref}
               onChange={date => field.onChange(date)}
-              slotProps={{ textField: { size: 'small' } }}
+              slotProps={{ textField: { size: fieldSize ? fieldSize : 'small' } }}
               sx={{ width: '100%' }}
               format='YYYY-MM-DD'
             />
