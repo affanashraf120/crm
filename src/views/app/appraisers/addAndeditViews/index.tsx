@@ -47,9 +47,9 @@ const tabs = [
     component: Documents
   },
   {
-    label: 'Photo',
+    label: 'Photo & Video',
     icon: 'ri-camera-line',
-    value: 'photo',
+    value: 'photo ',
     component: Photo
   },
   {

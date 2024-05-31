@@ -7,16 +7,30 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 interface Props {
   value: string | null
   options: string[]
+  onChange?: (value: string) => void
+  variant?: string
 }
 
-const Dropdown: React.FC<Props> = ({ value, options }) => {
+const Dropdown: React.FC<Props> = ({ value, options, onChange, variant = 'asad' }) => {
   const [selectedValue, setSelectedValue] = useState<string | null>(value)
 
   const handleChange = (event: SelectChangeEvent) => {
     setSelectedValue(event.target.value)
+    onChange && onChange(event.target.value)
   }
 
-  return (
+  return variant ? (
+    <Select value={selectedValue || ''} onChange={handleChange} displayEmpty size='small'>
+      {options &&
+        options.map(option => (
+          <MenuItem key={option.toLocaleLowerCase().replaceAll(' ', '-')} value={option}>
+            <div className='flex justify-between items-center w-full md:min-w-[160px] gap-6'>
+              {option}
+            </div>
+          </MenuItem>
+        ))}
+    </Select>
+  ) : (
     <div>
       <Select
         value={selectedValue || ''}
