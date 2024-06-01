@@ -11,7 +11,7 @@ interface Props {
   variant?: string
 }
 
-const Dropdown: React.FC<Props> = ({ value, options, onChange, variant = 'asad' }) => {
+const Dropdown: React.FC<Props> = ({ value, options, onChange, variant  }) => {
   const [selectedValue, setSelectedValue] = useState<string | null>(value)
 
   const handleChange = (event: SelectChangeEvent) => {
@@ -24,49 +24,45 @@ const Dropdown: React.FC<Props> = ({ value, options, onChange, variant = 'asad' 
       {options &&
         options.map(option => (
           <MenuItem key={option.toLocaleLowerCase().replaceAll(' ', '-')} value={option}>
-            <div className='flex justify-between items-center w-full md:min-w-[160px] gap-6'>
-              {option}
-            </div>
+            <div className='flex justify-between items-center w-full md:min-w-[160px] gap-6'>{option}</div>
           </MenuItem>
         ))}
     </Select>
   ) : (
-    <div>
-      <Select
-        value={selectedValue || ''}
-        onChange={handleChange}
-        variant='outlined'
-        IconComponent={'span'}
-        input={<Input disableUnderline />}
-        MenuProps={{
-          anchorOrigin: {
-            vertical: 'bottom',
-            horizontal: 'left'
-          },
-          transformOrigin: {
-            vertical: 'top',
-            horizontal: 'left'
-          }
-        }}
-        sx={{ minWidth: 130 }}
-        renderValue={() => (
-          <Button color='inherit' className='flex justify-start items-center gap-1'>
-            {selectedValue}
-            {options && <KeyboardArrowDownIcon />}
-          </Button>
-        )}
-      >
-        {options &&
-          options.map(option => (
-            <MenuItem key={option.toLocaleLowerCase().replaceAll(' ', '-')} value={option}>
-              <div className='flex justify-between items-center w-full md:min-w-[160px] gap-6'>
-                {option}
-                {selectedValue === option && <i className='ri-check-line w-4 h-4 me-2'></i>}
-              </div>
-            </MenuItem>
-          ))}
-      </Select>
-    </div>
+    <Select
+      value={selectedValue || ''}
+      onChange={handleChange}
+      variant='outlined'
+      IconComponent={'span'}
+      input={<Input disableUnderline />}
+      MenuProps={{
+        anchorOrigin: {
+          vertical: 'bottom',
+          horizontal: 'left'
+        },
+        transformOrigin: {
+          vertical: 'top',
+          horizontal: 'left'
+        }
+      }}
+      sx={{ minWidth: 130 }}
+      renderValue={() => (
+        <Button color='inherit' className='flex justify-start items-center gap-1'>
+          {selectedValue}
+          {options && <KeyboardArrowDownIcon />}
+        </Button>
+      )}
+    >
+      {options &&
+        options.map(option => (
+          <MenuItem key={option.toLocaleLowerCase().replaceAll(' ', '-')} value={option}>
+            <div className='flex justify-between items-center w-full md:min-w-[160px] gap-6'>
+              {option}
+              {selectedValue === option && <i className='ri-check-line w-4 h-4 me-2'></i>}
+            </div>
+          </MenuItem>
+        ))}
+    </Select>
   )
 }
 
