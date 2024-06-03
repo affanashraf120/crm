@@ -24,7 +24,7 @@ const Dropdown: React.FC<Props> = ({ value, options, onChange, variant  }) => {
       {options &&
         options.map(option => (
           <MenuItem key={option.toLocaleLowerCase().replaceAll(' ', '-')} value={option}>
-            <div className='flex justify-between items-center w-full md:min-w-[160px] gap-6'>{option}</div>
+            <div className='flex justify-between items-center min-w-[160px] gap-6'>{option}</div>
           </MenuItem>
         ))}
     </Select>

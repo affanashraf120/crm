@@ -48,7 +48,8 @@ import {
 
 // Style Imports
 
-import type { RowData } from '@tanstack/react-table'
+import type { RowData, SortingState } from '@tanstack/react-table'
+import { getSortedRowModel } from '@tanstack/react-table'
 
 import styles from '@core/styles/table.module.css'
 
@@ -57,6 +58,8 @@ import DropDownButton from '@/components/dropDowns/dropDownButton'
 import ConfirmationDialog from '../dialogs/confirmation-dialog'
 import DropdownWithChip from '../dropDowns/dropDownChip'
 import Dropdown from '../dropDowns/dropDown'
+import FormDialog from '../dialogBox/formDialog'
+import CheckboxListForm from '@/modules/app/appraiser/displayColumnsForm'
 
 // Column Definitions
 const columnHelper = createColumnHelper<any>()
@@ -141,9 +144,29 @@ const DraggableRow = ({ row }: { row: any }) => {
 
 const Table = ({ data: Data, columns: columnArray, title, onAdd, onActions, buttonName }: any) => {
   // States
-  // const [isOpen, setIsOpen] = useState(false)
+  const [open, setOpen] = useState(false)
   const [isOpenDelete, setIsOpenDelete] = useState(false)
   const [data, setData] = useState<any>(Data)
+  const [sorting, setSorting] = useState<SortingState>([])
+  const [selectedItems, setSelectedItems] = useState(columnArray)
+
+  const handleCheckboxSubmit = (selectedItems:any) => {
+    setSelectedItems(selectedItems)
+    setOpen(false)
+
+    // Filter the headers array to get only active headers
+
+    const activeHeaders = selectedItems.filter((h:any) => h.active).map((h:any) => h.header)
+
+    // Filter the data array to get objects with headers that are active
+    const activeData = columnArray.filter((d:any) => activeHeaders.includes(d.header))
+
+    setSelectedItems(activeData)
+  }
+
+  const handleClose = () => {
+    setOpen(!open)
+  }
 
   // const [rowSelection, setRowSelection] = useState<any>({})
 
@@ -166,8 +189,6 @@ const Table = ({ data: Data, columns: columnArray, title, onAdd, onActions, butt
   const sensors = useSensors(useSensor(MouseSensor, {}), useSensor(TouchSensor, {}), useSensor(KeyboardSensor, {}))
 
   // const updatedData = useMemo(() => transformData(rowSelection), [rowSelection])
-
-
 
   // Todo send data to the db
   // console.log('🚀 ~ Table ~ rowSelection:', updatedData)
@@ -256,9 +277,9 @@ const Table = ({ data: Data, columns: columnArray, title, onAdd, onActions, butt
     })
   }
 
-  const columnArrays = generateColumns(columnArray)
+  const columnArrays = generateColumns(selectedItems)
 
-  const columns = useMemo(() => columnArrays, [])
+  const columns = useMemo(() => columnArrays, [selectedItems])
 
   // Hooks
   const table = useReactTable({
@@ -267,6 +288,11 @@ const Table = ({ data: Data, columns: columnArray, title, onAdd, onActions, butt
     getCoreRowModel: getCoreRowModel(),
     getRowId: (row: any) => row.id,
     getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    onSortingChange: setSorting,
+    state: {
+      sorting
+    },
     initialState: {
       pagination: {
         pageSize: 10
@@ -293,8 +319,10 @@ const Table = ({ data: Data, columns: columnArray, title, onAdd, onActions, butt
               fullWidth
               onClick={onAdd}
             >
-                              {buttonName ? buttonName :'Action button'}
-
+              {buttonName ? buttonName : 'Action button'}
+            </Button>
+            <Button variant='contained' type='submit' fullWidth onClick={() => setOpen(true)}>
+              Display
             </Button>
           </div>
         </div>
@@ -320,6 +348,15 @@ const Table = ({ data: Data, columns: columnArray, title, onAdd, onActions, butt
                           {header.isPlaceholder
                             ? null
                             : flexRender(header.column.columnDef.header, header.getContext())}
+
+                          <i
+                            className='ri-arrow-up-down-line w-3 h-3 ml-2'
+                            onClick={header.column.getToggleSortingHandler()}
+                          ></i>
+                          {{
+                            asc: '',
+                            desc: ''
+                          }[header.column.getIsSorted() as string] ?? null}
                         </th>
                       ))}
                     </tr>
@@ -361,6 +398,10 @@ const Table = ({ data: Data, columns: columnArray, title, onAdd, onActions, butt
           title='Are you sure you want to delete this row?'
         />
       </Card>
+
+      <FormDialog open={open} onClose={handleClose} dialogTitle='Choose in Column'>
+        <CheckboxListForm columns={columnArray} onSubmit={handleCheckboxSubmit} onClose={handleClose} />
+      </FormDialog>
     </DndContext>
   )
 }

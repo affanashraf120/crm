@@ -81,12 +81,12 @@ export default function DNDImage() {
 
   return (
     <div
-      className={`flex items-center w-1/2 justify-center border border-dashed border-gray-500 rounded-2xl  ${
+      className={`flex items-center w-full md:w-1/2 justify-center border border-dashed border-gray-500 rounded-2xl  ${
         dragActive ? (settings.mode === 'dark' ? 'bg-[rgba(255,255,255,0.21)]' : 'bg-[rgba(0,0,0,0.21)]') : ''
       }`}
     >
       <form
-        className=' p-4  rounded-lg  min-h-[10rem] text-center flex flex-col items-center justify-center'
+        className='p-4 rounded-lg  min-h-[10rem] text-center flex flex-col items-center justify-center'
         onDragEnter={handleDragEnter}
         onSubmit={e => e.preventDefault()}
         onDrop={handleDrop}

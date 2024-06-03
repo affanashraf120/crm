@@ -35,6 +35,7 @@ const AppraisalClient = () => {
     }
   }
 
+
   return (
     <Grid container spacing={6}>
       <Grid item xs={12}>
@@ -70,10 +71,7 @@ const AppraisalClient = () => {
         )}
       </Grid>
 
-      {/* drawer */}
-      {/* <Drawer open={open} setOpen={() => setOpen(false)}>
-        <AppraiserForm />
-      </Drawer> */}
+
     </Grid>
   )
 }
