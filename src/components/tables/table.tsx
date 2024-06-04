@@ -322,7 +322,7 @@ const Table = ({ data: Data, columns: columnArray, title, onAdd, onActions, butt
               {buttonName ? buttonName : 'Action button'}
             </Button>
             <Button variant='contained' type='submit' fullWidth onClick={() => setOpen(true)}>
-              Display
+              Columns
             </Button>
           </div>
         </div>
@@ -353,10 +353,7 @@ const Table = ({ data: Data, columns: columnArray, title, onAdd, onActions, butt
                             className='ri-arrow-up-down-line w-3 h-3 ml-2'
                             onClick={header.column.getToggleSortingHandler()}
                           ></i>
-                          {{
-                            asc: '',
-                            desc: ''
-                          }[header.column.getIsSorted() as string] ?? null}
+                          {[header.column.getIsSorted() as string] ?? null}
                         </th>
                       ))}
                     </tr>
@@ -399,7 +396,7 @@ const Table = ({ data: Data, columns: columnArray, title, onAdd, onActions, butt
         />
       </Card>
 
-      <FormDialog open={open} onClose={handleClose} dialogTitle='Choose in Column'>
+      <FormDialog open={open} onClose={handleClose} dialogTitle='Manage Columns'>
         <CheckboxListForm columns={columnArray} onSubmit={handleCheckboxSubmit} onClose={handleClose} />
       </FormDialog>
     </DndContext>
