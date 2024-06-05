@@ -34,7 +34,7 @@ const Photo: React.FC = () => {
 
       <div className='flex justify-center items-center w-full'>
         {isGalleryShown ? (
-          <ImageGallery images={images} size={size} alt={images} />
+          <ImageGallery images={images} size={size} />
         ) : (
           <div className='flex justify-center h-96 items-center w-full flex-col'>
             <DNDImage />
@@ -47,17 +47,18 @@ const Photo: React.FC = () => {
 
 export default Photo
 
+
 const images = [
-  { src: 'https://flowbite.s3.amazonaws.com/docs/gallery/square/image.jpg', alt: '', date: '2023-01-01' },
-  { src: 'https://flowbite.s3.amazonaws.com/docs/gallery/square/image-1.jpg', alt: '', date: '2023-01-01' },
-  { src: 'https://flowbite.s3.amazonaws.com/docs/gallery/square/image-2.jpg', alt: '', date: '2023-01-01' },
-  { src: 'https://flowbite.s3.amazonaws.com/docs/gallery/square/image-3.jpg', alt: '', date: '2023-05-01' },
-  { src: 'https://flowbite.s3.amazonaws.com/docs/gallery/square/image-4.jpg', alt: '', date: '2023-05-01' },
-  { src: 'https://flowbite.s3.amazonaws.com/docs/gallery/square/image-5.jpg', alt: '', date: '2023-02-01' },
-  { src: 'https://flowbite.s3.amazonaws.com/docs/gallery/square/image-6.jpg', alt: '', date: '2023-02-01' },
-  { src: 'https://flowbite.s3.amazonaws.com/docs/gallery/square/image-7.jpg', alt: '', date: '2023-09-01' },
-  { src: 'https://flowbite.s3.amazonaws.com/docs/gallery/square/image-8.jpg', alt: '', date: '2023-01-01' },
-  { src: 'https://flowbite.s3.amazonaws.com/docs/gallery/square/image-9.jpg', alt: '', date: '2023-01-01' },
-  { src: 'https://flowbite.s3.amazonaws.com/docs/gallery/square/image-10.jpg', alt: '', date: '2023-01-01' },
-  { src: 'https://flowbite.s3.amazonaws.com/docs/gallery/square/image-11.jpg', alt: '', date: '2023-01-01' }
-]
+  { src: 'https://flowbite.s3.amazonaws.com/docs/gallery/square/image.jpg', alt: 'Image 1', date: '2023-01-01', selected: false },
+  { src: 'https://flowbite.s3.amazonaws.com/docs/gallery/square/image-1.jpg', alt: 'Image 2', date: '2023-01-01', selected: false },
+  { src: 'https://flowbite.s3.amazonaws.com/docs/gallery/square/image-2.jpg', alt: 'Image 3', date: '2023-01-01', selected: false },
+  { src: 'https://flowbite.s3.amazonaws.com/docs/gallery/square/image-3.jpg', alt: 'Image 4', date: '2023-05-01', selected: false },
+  { src: 'https://flowbite.s3.amazonaws.com/docs/gallery/square/image-4.jpg', alt: 'Image 5', date: '2023-05-01', selected: false },
+  { src: 'https://flowbite.s3.amazonaws.com/docs/gallery/square/image-5.jpg', alt: 'Image 6', date: '2023-02-01', selected: false },
+  { src: 'https://flowbite.s3.amazonaws.com/docs/gallery/square/image-6.jpg', alt: 'Image 7', date: '2023-02-01', selected: false },
+  { src: 'https://flowbite.s3.amazonaws.com/docs/gallery/square/image-7.jpg', alt: 'Image 8', date: '2023-09-01', selected: false },
+  { src: 'https://flowbite.s3.amazonaws.com/docs/gallery/square/image-8.jpg', alt: 'Image 9', date: '2023-01-01', selected: false },
+  { src: 'https://flowbite.s3.amazonaws.com/docs/gallery/square/image-9.jpg', alt: 'Image 10', date: '2023-01-01', selected: false },
+  { src: 'https://flowbite.s3.amazonaws.com/docs/gallery/square/image-10.jpg', alt: 'Image 11', date: '2023-01-01', selected: false },
+  { src: 'https://flowbite.s3.amazonaws.com/docs/gallery/square/image-11.jpg', alt: 'Image 12', date: '2023-01-01', selected: false }
+];
