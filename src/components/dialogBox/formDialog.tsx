@@ -12,7 +12,7 @@ interface ModalProps {
 const FormDialog: React.FC<ModalProps> = ({ open, onClose, children, dialogTitle }) => {
   return (
     <Dialog onClose={onClose} open={open} maxWidth='md'>
-      <DialogTitle>{dialogTitle}</DialogTitle>
+      <DialogTitle>{dialogTitle} </DialogTitle>
       {children}
     </Dialog>
   )

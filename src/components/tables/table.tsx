@@ -33,7 +33,7 @@ import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 
 // MUI Imports
-import { Avatar, Button, IconButton, TablePagination, TextField, Tooltip, Typography } from '@mui/material'
+import { Avatar, Button, IconButton, Stack, TablePagination, TextField, Tooltip, Typography } from '@mui/material'
 import Card from '@mui/material/Card'
 import CardHeader from '@mui/material/CardHeader'
 
@@ -56,10 +56,8 @@ import styles from '@core/styles/table.module.css'
 // Custom component
 import DropDownButton from '@/components/dropDowns/dropDownButton'
 import ConfirmationDialog from '../dialogs/confirmation-dialog'
-import DropdownWithChip from '../dropDowns/dropDownChip'
 import Dropdown from '../dropDowns/dropDown'
-import FormDialog from '../dialogBox/formDialog'
-import CheckboxListForm from '@/modules/app/appraiser/displayColumnsForm'
+import DropdownWithChip from '../dropDowns/dropDownChip'
 
 // Column Definitions
 const columnHelper = createColumnHelper<any>()
@@ -142,31 +140,11 @@ const DraggableRow = ({ row }: { row: any }) => {
   )
 }
 
-const Table = ({ data: Data, columns: columnArray, title, onAdd, onActions, buttonName }: any) => {
+const Table = ({ data: Data, columns: columnArray, title, onAdd, onActions, onActionColumn, buttonName }: any) => {
   // States
-  const [open, setOpen] = useState(false)
   const [isOpenDelete, setIsOpenDelete] = useState(false)
   const [data, setData] = useState<any>(Data)
   const [sorting, setSorting] = useState<SortingState>([])
-  const [selectedItems, setSelectedItems] = useState(columnArray)
-
-  const handleCheckboxSubmit = (selectedItems:any) => {
-    setSelectedItems(selectedItems)
-    setOpen(false)
-
-    // Filter the headers array to get only active headers
-
-    const activeHeaders = selectedItems.filter((h:any) => h.active).map((h:any) => h.header)
-
-    // Filter the data array to get objects with headers that are active
-    const activeData = columnArray.filter((d:any) => activeHeaders.includes(d.header))
-
-    setSelectedItems(activeData)
-  }
-
-  const handleClose = () => {
-    setOpen(!open)
-  }
 
   // const [rowSelection, setRowSelection] = useState<any>({})
 
@@ -277,9 +255,9 @@ const Table = ({ data: Data, columns: columnArray, title, onAdd, onActions, butt
     })
   }
 
-  const columnArrays = generateColumns(selectedItems)
+  const columnArrays = generateColumns(columnArray)
 
-  const columns = useMemo(() => columnArrays, [selectedItems])
+  const columns = useMemo(() => columnArrays, [columnArray])
 
   // Hooks
   const table = useReactTable({
@@ -312,18 +290,26 @@ const Table = ({ data: Data, columns: columnArray, title, onAdd, onActions, butt
           <CardHeader title={title} />
           <div className='flex justify-center items-center gap-2 flex-col w-full sm:flex-row md:w-auto'>
             <TextField id='outlined-basic' label='Search' variant='outlined' fullWidth size='small' />
-            <Button
-              variant='contained'
-              type='submit'
-              startIcon={<i className='ri-add-line' />}
-              fullWidth
-              onClick={onAdd}
-            >
-              {buttonName ? buttonName : 'Action button'}
-            </Button>
-            <Button variant='contained' type='submit' fullWidth onClick={() => setOpen(true)}>
-              Columns
-            </Button>
+            <Stack spacing={2} direction='row'>
+              <Button
+                variant='contained'
+                type='submit'
+                startIcon={<i className='ri-add-line' />}
+                fullWidth
+                onClick={onAdd}
+              >
+                {buttonName ? buttonName : 'Action button'}
+              </Button>
+              <Button
+                variant='contained'
+                type='submit'
+                sx={{ paddingLeft: '38px', paddingRight: '38px' }}
+                onClick={onActionColumn}
+                startIcon={<i className='ri-settings-5-line' />}
+              >
+                Columns
+              </Button>
+            </Stack>
           </div>
         </div>
         {table.getFilteredRowModel().rows.length === 0 ? (
@@ -344,16 +330,20 @@ const Table = ({ data: Data, columns: columnArray, title, onAdd, onActions, butt
                   {table.getHeaderGroups().map(headerGroup => (
                     <tr key={headerGroup.id}>
                       {headerGroup.headers.map(header => (
-                        <th key={header.id}>
+                        <th key={header.id} className='group '>
                           {header.isPlaceholder
                             ? null
                             : flexRender(header.column.columnDef.header, header.getContext())}
 
-                          <i
+                          {/* <i
                             className='ri-arrow-up-down-line w-3 h-3 ml-2'
                             onClick={header.column.getToggleSortingHandler()}
-                          ></i>
-                          {[header.column.getIsSorted() as string] ?? null}
+                          ></i> */}
+                          {/* {{ asc: '', desc: '' }[header.column.getIsSorted() as string] ?? null} */}
+
+                          <IconButton onClick={()=>{console.log(header.id)}}>
+                            <i className='ri-more-2-fill w-3 h-3 hidden group-hover:inline-block cursor-pointer'></i>
+                          </IconButton>
                         </th>
                       ))}
                     </tr>
@@ -395,10 +385,6 @@ const Table = ({ data: Data, columns: columnArray, title, onAdd, onActions, butt
           title='Are you sure you want to delete this row?'
         />
       </Card>
-
-      <FormDialog open={open} onClose={handleClose} dialogTitle='Manage Columns'>
-        <CheckboxListForm columns={columnArray} onSubmit={handleCheckboxSubmit} onClose={handleClose} />
-      </FormDialog>
     </DndContext>
   )
 }

@@ -1,6 +1,7 @@
 'use client'
 
-// import { useState } from 'react'
+// import
+import { useState } from 'react'
 
 import { usePathname, useRouter } from 'next/navigation'
 
@@ -13,13 +14,42 @@ import SummaryDetailCard from '@/components/cards/summaryDetailsCard'
 // Import Data
 import dummyData from '@/data/data'
 import Table from '@/components/tables/table'
+import FormDialog from '@/components/dialogBox/formDialog'
+import CheckboxListForm from '@/modules/app/appraiser/displayColumnsForm'
+import { sortAndFilterArray2 } from '@/utils'
 
-// import Drawer from '@/components/formDrawer'
-// import AppraiserForm from '@/modules/app/appraiser/formDrawer'
 
 const AppraisalClient = () => {
   const pathname = usePathname()
   const route = useRouter()
+  const [open, setOpen] = useState(false)
+  const [selectedItems, setSelectedItems] = useState(column)
+
+  const handleCheckboxSubmit = (selectedItems: any) => {
+    setSelectedItems(selectedItems)
+
+    setOpen(false)
+
+    // Filter the headers array to get only active headers and position
+    const activeHeaders = sortAndFilterArray2(selectedItems, column)
+
+    activeHeaders.unshift({ name: 'id', header: '', type: 'DND' })
+    activeHeaders.push({
+      name: 'action',
+      header: 'Action',
+      type: 'Action',
+      options: [
+        { label: 'Delete', icon: 'ri-delete-bin-7-line' },
+        { label: 'Edit', icon: 'ri-pencil-line' }
+      ]
+    })
+    setSelectedItems(activeHeaders)
+
+  }
+
+  const handleClose = () => {
+    setOpen(!open)
+  }
 
   // const [open, setOpen] = useState(false)
 
@@ -35,6 +65,9 @@ const AppraisalClient = () => {
     }
   }
 
+  const handleMangeColumn = () => {
+    setOpen(true)
+  }
 
   return (
     <Grid container spacing={6}>
@@ -62,16 +95,19 @@ const AppraisalClient = () => {
         {data && (
           <Table
             data={dummyData}
-            columns={column}
+            columns={selectedItems}
+            buttonName='Add New'
             title='Alpha Appraisals (10% or $250 min)'
             onAdd={handleOpen}
             onActions={handleActionsRow}
-            buttonName='Add New'
+            onActionColumn={handleMangeColumn}
           />
         )}
       </Grid>
 
-
+      <FormDialog open={open} onClose={handleClose} dialogTitle='Manage Columns'>
+        <CheckboxListForm columns={column} onSubmit={handleCheckboxSubmit} onClose={handleClose} />
+      </FormDialog>
     </Grid>
   )
 }
