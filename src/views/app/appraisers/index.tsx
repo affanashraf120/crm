@@ -65,6 +65,12 @@ const AppraisalClient = () => {
     }
   }
 
+  const handleSortActions = (item:any) => {
+    console.log("🚀 ~ handleSortActions ~ item:", item)
+    
+    
+  }
+
   const handleMangeColumn = () => {
     setOpen(true)
   }
@@ -101,6 +107,7 @@ const AppraisalClient = () => {
             onAdd={handleOpen}
             onActions={handleActionsRow}
             onActionColumn={handleMangeColumn}
+            onSortActions={handleSortActions}
           />
         )}
       </Grid>

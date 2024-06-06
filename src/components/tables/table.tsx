@@ -140,7 +140,16 @@ const DraggableRow = ({ row }: { row: any }) => {
   )
 }
 
-const Table = ({ data: Data, columns: columnArray, title, onAdd, onActions, onActionColumn, buttonName }: any) => {
+const Table = ({
+  data: Data,
+  columns: columnArray,
+  title,
+  onAdd,
+  onActions,
+  onSortActions,
+  onActionColumn,
+  buttonName
+}: any) => {
   // States
   const [isOpenDelete, setIsOpenDelete] = useState(false)
   const [data, setData] = useState<any>(Data)
@@ -303,7 +312,7 @@ const Table = ({ data: Data, columns: columnArray, title, onAdd, onActions, onAc
               <Button
                 variant='contained'
                 type='submit'
-                sx={{ paddingLeft: '38px', paddingRight: '38px' }}
+                sx={{ paddingLeft: '50px', paddingRight: '50px' }}
                 onClick={onActionColumn}
                 startIcon={<i className='ri-settings-5-line' />}
               >
@@ -330,20 +339,30 @@ const Table = ({ data: Data, columns: columnArray, title, onAdd, onActions, onAc
                   {table.getHeaderGroups().map(headerGroup => (
                     <tr key={headerGroup.id}>
                       {headerGroup.headers.map(header => (
-                        <th key={header.id} className='group '>
-                          {header.isPlaceholder
-                            ? null
-                            : flexRender(header.column.columnDef.header, header.getContext())}
+                        <th key={header.id} className=''>
+                          <div className='flex justify-start items-center'>
+                            {header.isPlaceholder
+                              ? null
+                              : flexRender(header.column.columnDef.header, header.getContext())}
 
-                          {/* <i
+                            {/* <i
                             className='ri-arrow-up-down-line w-3 h-3 ml-2'
                             onClick={header.column.getToggleSortingHandler()}
                           ></i> */}
-                          {/* {{ asc: '', desc: '' }[header.column.getIsSorted() as string] ?? null} */}
+                            {/* {{ asc: '', desc: '' }[header.column.getIsSorted() as string] ?? null} */}
 
-                          <IconButton onClick={()=>{console.log(header.id)}}>
-                            <i className='ri-more-2-fill w-3 h-3 hidden group-hover:inline-block cursor-pointer'></i>
-                          </IconButton>
+                            <DropDownButton
+                              buttonLabel='ri-arrow-drop-up-fill rotate-180 w-6 h-6   cursor-pointer'
+                              onMenuItemClick={onSortActions}
+                              menuOptions={[
+                                { label: 'Sort By ASC', icon: 'ri-sort-alphabet-asc' },
+                                { label: 'Sort By DESC', icon: 'ri-sort-alphabet-desc' }
+                              ].map((option: any) => ({
+                                label: option.label,
+                                icon: option.icon
+                              }))}
+                            />
+                          </div>
                         </th>
                       ))}
                     </tr>

@@ -1,8 +1,17 @@
 import React, { useState, useRef } from 'react'
 
 // Import MUI
-import { Checkbox, Button, FormControlLabel, Box, Typography, IconButton, TextField, InputAdornment } from '@mui/material'
-import SearchIcon from '@mui/icons-material/Search';
+import {
+  Checkbox,
+  Button,
+  FormControlLabel,
+  Box,
+  Typography,
+  IconButton,
+  TextField,
+  InputAdornment
+} from '@mui/material'
+import SearchIcon from '@mui/icons-material/Search'
 
 // Import DnD
 import { useDrag, useDrop, DndProvider } from 'react-dnd'
@@ -38,6 +47,13 @@ interface DragItem {
 const CheckboxListForm: React.FC<CheckboxListFormProps> = ({ columns, onSubmit, onClose }) => {
   const [selectedChips, setSelectedChips] = useState<SelectedChip[]>([])
   const [selectAll, setSelectAll] = useState(false)
+  const [error, setError] = useState(false)
+
+  const [totalCount, setTotalCount] = useState(
+    columns.filter(item => item.header !== 'Action' && item.header !== '').length
+  )
+
+  const [selectedCount, setSelectedCount] = useState(0)
 
   const [checkboxes, setCheckboxes] = useState<CheckboxItem[]>(
     columns
@@ -61,6 +77,7 @@ const CheckboxListForm: React.FC<CheckboxListFormProps> = ({ columns, onSubmit, 
             active: false
           }))
       )
+      setTotalCount(columns.filter(item => item.header !== 'Action' && item.header !== '').length)
     } else {
       // Filter checkboxes based on search term
       const searchItems = columns
@@ -71,6 +88,7 @@ const CheckboxListForm: React.FC<CheckboxListFormProps> = ({ columns, onSubmit, 
         }))
 
       setCheckboxes(searchItems)
+      setTotalCount(searchItems.length)
     }
   }
 
@@ -85,6 +103,7 @@ const CheckboxListForm: React.FC<CheckboxListFormProps> = ({ columns, onSubmit, 
       .map((item, idx) => ({ name: item.header, position: idx }))
 
     setSelectedChips(selectedHeaders)
+    setSelectedCount(selectedHeaders.length)
   }
 
   const handleSelectAll = () => {
@@ -100,7 +119,7 @@ const CheckboxListForm: React.FC<CheckboxListFormProps> = ({ columns, onSubmit, 
       .map((item, idx) => ({ name: item.header, position: idx }))
 
     setSelectedChips(selectedHeaders)
-
+    setSelectedCount(selectedHeaders.length)
     setSelectAll(!selectAll)
   }
 
@@ -113,18 +132,27 @@ const CheckboxListForm: React.FC<CheckboxListFormProps> = ({ columns, onSubmit, 
     setCheckboxes(newCheckboxes)
     setSelectedChips([])
     setSelectAll(false)
+    setSelectedCount(0)
   }
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault()
-    onSubmit(selectedChips)
+
+    if (selectedCount <= 3) {
+      setError(true)
+    } else {
+      onSubmit(selectedChips)
+    }
   }
 
   const handleChipDelete = (header: string) => {
     const newCheckboxes = checkboxes.map(item => (item.header === header ? { ...item, active: false } : item))
 
     setCheckboxes(newCheckboxes)
-    setSelectedChips(selectedChips.filter(chip => chip.name !== header))
+    const updatedSelectedChips = selectedChips.filter(chip => chip.name !== header)
+
+    setSelectedChips(updatedSelectedChips)
+    setSelectedCount(updatedSelectedChips.length)
   }
 
   const moveChip = (dragIndex: number, hoverIndex: number) => {
@@ -164,7 +192,7 @@ const CheckboxListForm: React.FC<CheckboxListFormProps> = ({ columns, onSubmit, 
 
     return (
       <div ref={ref} style={{ opacity: isDragging ? 0.5 : 1, zIndex: isDragging ? 999 : 0 }}>
-        <div className='border flex justify-between text-xs p-0 items-center rounded-lg mb-2'>
+        <div className='border flex justify-between text-xs p-0 items-center rounded-lg mb-2 hover:shadow-md'>
           <div>
             <IconButton>
               <svg
@@ -199,11 +227,12 @@ const CheckboxListForm: React.FC<CheckboxListFormProps> = ({ columns, onSubmit, 
                   size='small'
                   checked={selectAll}
                   onChange={handleSelectAll}
-                  sx={{ marginTop: '4px', marginBottom: '4px' , paddingLeft:3}}
+                  sx={{ marginTop: '4px', marginBottom: '8px' }}
                 />
               }
               label={<span className=''>{selectAll ? 'Deselect all' : 'Select all'}</span>}
             />
+
             <TextField
               size='small'
               label='Search for columns'
@@ -213,33 +242,44 @@ const CheckboxListForm: React.FC<CheckboxListFormProps> = ({ columns, onSubmit, 
                   <InputAdornment position='start'>
                     <SearchIcon />
                   </InputAdornment>
-                ),sx: {
-                  height: '30px', 
-                  fontSize: '12px', 
-                  padding: '5px 10px', 
+                ),
+                sx: {
+                  height: '30px',
+                  fontSize: '12px',
+                  padding: '5px 10px',
                   '.MuiInputBase-input': {
-                    padding: '0 5px', 
-                  },
-                },
+                    padding: '0 5px'
+                  }
+                }
               }}
               sx={{
                 '.MuiInputLabel-root': {
-                  fontSize: '12px', 
+                  fontSize: '12px'
                 },
                 '.MuiFormLabel-root': {
-                  top: '-2px', 
+                  top: '-2px'
                 },
                 '.MuiInputBase-root': {
-                  height: '30px', 
-                  fontSize: '12px', 
-                },
+                  height: '30px',
+                  fontSize: '12px'
+                }
               }}
             ></TextField>
-            <div className='flex jc'>
-            <Typography variant='h6' pt={2} pb={2} pl={2}>
-              Available Columns
-            </Typography>
-            <span>7/18</span>
+
+            <div className='flex justify-center items-start gap-1.5 flex-col lg:flex-row py-2 lg:justify-start lg:items-center'>
+              <Typography variant='h6' >
+                Available Columns
+              </Typography>
+              <span
+                className={`bg-white/10 rounded font-semibold md:px-2 ${
+                  selectedCount < 3 ? error && 'text-red-500' : 'text-primary'
+                }`}
+              >
+                {`${selectedCount} out of ${totalCount} Selected`}
+              </span>
+              {error && selectedCount < 3 && (
+                <span className='text-red-500 text-xs'>Select at least three columns.</span>
+              )}
             </div>
             {checkboxes.map((item, index) => (
               <span key={index} className={`rounded border px-2 py-1 my-2 mr-1 ${item.active && 'bg-white/10'}`}>
@@ -268,15 +308,20 @@ const CheckboxListForm: React.FC<CheckboxListFormProps> = ({ columns, onSubmit, 
             </Box>
           </div>
         </div>
-        <div className='flex justify-between gap-2 pb-2'>
-          <Button variant='outlined' color='inherit' type='button' onClick={handleResetAll} sx={{ mt: 2, mb: 2 }}>
+        <div className='flex justify-between gap-2 pb-4 flex-col sm:flex-row'>
+          <Button
+            variant='outlined'
+            color='inherit'
+            type='button'
+            onClick={handleResetAll}
+          >
             Reset
           </Button>
-          <div className='flex justify-start gap-2'>
-            <Button variant='outlined' color='inherit' type='button' onClick={onClose} sx={{ mt: 2, mb: 2 }}>
+          <div className='flex justify-start gap-2 flex-col sm:flex-row'>
+            <Button variant='outlined' color='inherit' type='button' onClick={onClose} >
               Cancel
             </Button>
-            <Button variant='contained' type='submit' sx={{ mt: 2, mb: 2 }}>
+            <Button variant='contained' type='submit' >
               Apply
             </Button>
           </div>
