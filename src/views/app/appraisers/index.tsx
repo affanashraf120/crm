@@ -68,7 +68,6 @@ const AppraisalClient = () => {
   const handleSortActions = (item:any) => {
     console.log("🚀 ~ handleSortActions ~ item:", item)
     
-    
   }
 
   const handleMangeColumn = () => {
@@ -80,6 +79,9 @@ const AppraisalClient = () => {
       <Grid item xs={12}>
         <SummaryDetailCard data={data} />
       </Grid>
+
+
+
       <Grid item xs={12}>
         <Autocomplete
           disablePortal
@@ -96,6 +98,8 @@ const AppraisalClient = () => {
           renderInput={params => <TextField {...params} label='Search New Client' />}
         />
       </Grid>
+
+
 
       <Grid item xs={12}>
         {data && (

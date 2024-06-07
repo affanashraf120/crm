@@ -58,6 +58,7 @@ import DropDownButton from '@/components/dropDowns/dropDownButton'
 import ConfirmationDialog from '../dialogs/confirmation-dialog'
 import Dropdown from '../dropDowns/dropDown'
 import DropdownWithChip from '../dropDowns/dropDownChip'
+import FiltersDropDown from '../dropDowns/manageFilters'
 
 // Column Definitions
 const columnHelper = createColumnHelper<any>()
@@ -300,18 +301,20 @@ const Table = ({
           <div className='flex justify-center items-center gap-2 flex-col w-full sm:flex-row md:w-auto'>
             <TextField id='outlined-basic' label='Search' variant='outlined' fullWidth size='small' />
             <Stack spacing={2} direction='row'>
-              <Button variant='contained' color='primary' type='button'
+              <Button
+                variant='contained'
+                color='primary'
+                type='button'
                 startIcon={<i className='ri-add-line' />}
-                sx={{ paddingLeft: '16px', paddingRight: '16px' , whiteSpace: 'nowrap'}}
+                sx={{ paddingLeft: '16px', paddingRight: '16px', whiteSpace: 'nowrap' }}
                 onClick={onAdd}
-
               >
                 {buttonName ? buttonName : 'Action button'}
               </Button>
               <Button
                 variant='contained'
                 type='submit'
-                sx={{ paddingLeft: '16px', paddingRight: '16px' , whiteSpace: 'nowrap'}}
+                sx={{ paddingLeft: '16px', paddingRight: '16px', whiteSpace: 'nowrap' }}
                 onClick={onActionColumn}
                 startIcon={<i className='ri-settings-5-line' />}
               >
@@ -350,9 +353,18 @@ const Table = ({
                           ></i> */}
                             {/* {{ asc: '', desc: '' }[header.column.getIsSorted() as string] ?? null} */}
 
-                            <DropDownButton
+                            <FiltersDropDown
                               buttonLabel='ri-arrow-drop-up-fill rotate-180 w-6 h-6   cursor-pointer'
                               onMenuItemClick={onSortActions}
+                              type='range'
+                               options= {[
+                                { label: "alice smith" },
+                                { label: "bob johnson" },
+                                { label: "charlie brown" },
+                                { label: "dana white" },
+                                { label: "eve black" },
+                                { label: "frank green" }
+                            ]}
                               menuOptions={[
                                 { label: 'Sort By ASC', icon: 'ri-sort-alphabet-asc' },
                                 { label: 'Sort By DESC', icon: 'ri-sort-alphabet-desc' }
