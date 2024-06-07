@@ -12,7 +12,7 @@ import type { z } from 'zod'
 import ConfirmationDialog from '@/components/dialogs/confirmation-dialog'
 import { useSideBarForm } from '@/components/validation/appraisalSideBar/hookForm'
 
-import FormGenerator from '@/components/form'
+import FormGenerator from '@/components/formDrawer/form'
 import type { schema } from '@/components/validation/appraisalSideBar/sideBarFormSchema'
 
 type FormData = z.infer<typeof schema>

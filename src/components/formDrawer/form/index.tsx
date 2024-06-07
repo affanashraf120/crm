@@ -1,10 +1,10 @@
 import { Input } from '@mui/material'
 
-import { FormInput } from '../formComponents/formInput'
-import { StatusDropdown } from '../formComponents/statusDropdown'
-import { FormInputSearchDropdown } from '../formComponents/formInputSearchDropdown'
-import { FormCalendarPicker } from '../formComponents/formCalenderPiker'
-import { FormTextArea } from '../formComponents/formTextArea'
+import { FormInput } from '../../formComponents/formInput'
+import { StatusDropdown } from '../../formComponents/statusDropdown'
+import { FormInputSearchDropdown } from '../../formComponents/formInputSearchDropdown'
+import { FormCalendarPicker } from '../../formComponents/formCalenderPiker'
+import { FormTextArea } from '../../formComponents/formTextArea'
 
 const FormGenerator = ({ field, control, register, setValue, errors, fieldSize }: any) => {
   const renderField = (field: any) => {

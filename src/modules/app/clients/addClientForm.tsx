@@ -16,7 +16,7 @@ import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
 import { IconButton } from '@mui/material'
 
-import FormGenerator from '@/components/form'
+import FormGenerator from '@/components/formDrawer/form'
 import ConfirmationDialog from '@/components/dialogs/confirmation-dialog'
 
 const schema = z.object({

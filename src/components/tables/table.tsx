@@ -300,19 +300,18 @@ const Table = ({
           <div className='flex justify-center items-center gap-2 flex-col w-full sm:flex-row md:w-auto'>
             <TextField id='outlined-basic' label='Search' variant='outlined' fullWidth size='small' />
             <Stack spacing={2} direction='row'>
-              <Button
-                variant='contained'
-                type='submit'
+              <Button variant='contained' color='primary' type='button'
                 startIcon={<i className='ri-add-line' />}
-                fullWidth
+                sx={{ paddingLeft: '16px', paddingRight: '16px' , whiteSpace: 'nowrap'}}
                 onClick={onAdd}
+
               >
                 {buttonName ? buttonName : 'Action button'}
               </Button>
               <Button
                 variant='contained'
                 type='submit'
-                sx={{ paddingLeft: '50px', paddingRight: '50px' }}
+                sx={{ paddingLeft: '16px', paddingRight: '16px' , whiteSpace: 'nowrap'}}
                 onClick={onActionColumn}
                 startIcon={<i className='ri-settings-5-line' />}
               >

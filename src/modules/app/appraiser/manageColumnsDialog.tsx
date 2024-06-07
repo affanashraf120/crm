@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 
 // Import MUI
 import {
@@ -16,6 +16,8 @@ import SearchIcon from '@mui/icons-material/Search'
 // Import DnD
 import { useDrag, useDrop, DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
+
+import { defaultAppraiserColumns } from '@/utils/defaultSettings'
 
 interface Column {
   header: string
@@ -44,7 +46,7 @@ interface DragItem {
   type: string
 }
 
-const CheckboxListForm: React.FC<CheckboxListFormProps> = ({ columns, onSubmit, onClose }) => {
+const ManageColumnsDialog: React.FC<CheckboxListFormProps> = ({ columns, onSubmit, onClose }) => {
   const [selectedChips, setSelectedChips] = useState<SelectedChip[]>([])
   const [selectAll, setSelectAll] = useState(false)
   const [error, setError] = useState(false)
@@ -64,39 +66,35 @@ const CheckboxListForm: React.FC<CheckboxListFormProps> = ({ columns, onSubmit, 
       }))
   )
 
+  const [displayCheckboxes, setDisplayCheckboxes] = useState<CheckboxItem[]>(checkboxes)
+
+  useEffect(() => {
+    setDisplayCheckboxes(checkboxes)
+  }, [checkboxes])
+
   const handleSearch = (e: any) => {
     const searchTerm = e.target.value.trim().toLowerCase()
 
-    // If search term is empty, reset checkboxes to show all
     if (searchTerm === '') {
-      setCheckboxes(
-        columns
-          .filter(item => item.header !== 'Action' && item.header !== '')
-          .map(item => ({
-            header: item.header,
-            active: false
-          }))
-      )
-      setTotalCount(columns.filter(item => item.header !== 'Action' && item.header !== '').length)
+      setDisplayCheckboxes(checkboxes)
+      setTotalCount(checkboxes.length)
     } else {
-      // Filter checkboxes based on search term
-      const searchItems = columns
-        .filter(item => item.header.toLowerCase().includes(searchTerm))
-        .map(item => ({
-          header: item.header,
-          active: false
-        }))
+      const searchItems = checkboxes.filter(item => item.header.toLowerCase().includes(searchTerm))
 
-      setCheckboxes(searchItems)
+      setDisplayCheckboxes(searchItems)
       setTotalCount(searchItems.length)
     }
   }
 
   const handleCheckboxChange = (index: number) => {
     const newCheckboxes = [...checkboxes]
+    const displayIndex = checkboxes.findIndex(item => item.header === displayCheckboxes[index].header)
 
-    newCheckboxes[index].active = !newCheckboxes[index].active
+    newCheckboxes[displayIndex].active = !newCheckboxes[displayIndex].active
     setCheckboxes(newCheckboxes)
+    setDisplayCheckboxes(
+      newCheckboxes.filter(item => displayCheckboxes.map(dItem => dItem.header).includes(item.header))
+    )
 
     const selectedHeaders = newCheckboxes
       .filter(item => item.active)
@@ -107,12 +105,16 @@ const CheckboxListForm: React.FC<CheckboxListFormProps> = ({ columns, onSubmit, 
   }
 
   const handleSelectAll = () => {
-    const newCheckboxes = checkboxes.map(item => ({
-      ...item,
-      active: !selectAll
-    }))
+    const newCheckboxes = checkboxes
+      .map(item => ({
+        ...item,
+        active: !selectAll
+      }))
 
     setCheckboxes(newCheckboxes)
+    setDisplayCheckboxes(
+      newCheckboxes.filter(item => displayCheckboxes.map(dItem => dItem.header).includes(item.header))
+    )
 
     const selectedHeaders = newCheckboxes
       .filter(item => item.active)
@@ -124,21 +126,28 @@ const CheckboxListForm: React.FC<CheckboxListFormProps> = ({ columns, onSubmit, 
   }
 
   const handleResetAll = () => {
-    const newCheckboxes = checkboxes.map(item => ({
+    const newCheckboxes = defaultAppraiserColumns.map(item => ({
       ...item,
-      active: false
+      active: true
     }))
 
     setCheckboxes(newCheckboxes)
-    setSelectedChips([])
-    setSelectAll(false)
-    setSelectedCount(0)
+    setDisplayCheckboxes(
+      newCheckboxes.filter(item => displayCheckboxes.map(dItem => dItem.header).includes(item.header))
+    )
+
+    const selectedHeaders = newCheckboxes
+      .filter(item => item.active)
+      .map((item, idx) => ({ name: item.header, position: idx }))
+
+    setSelectedChips(selectedHeaders)
+    setSelectedCount(selectedHeaders.length)
   }
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault()
 
-    if (selectedCount <= 3) {
+    if (selectedCount < 3) {
       setError(true)
     } else {
       onSubmit(selectedChips)
@@ -149,6 +158,10 @@ const CheckboxListForm: React.FC<CheckboxListFormProps> = ({ columns, onSubmit, 
     const newCheckboxes = checkboxes.map(item => (item.header === header ? { ...item, active: false } : item))
 
     setCheckboxes(newCheckboxes)
+    setDisplayCheckboxes(
+      newCheckboxes.filter(item => displayCheckboxes.map(dItem => dItem.header).includes(item.header))
+    )
+
     const updatedSelectedChips = selectedChips.filter(chip => chip.name !== header)
 
     setSelectedChips(updatedSelectedChips)
@@ -267,9 +280,7 @@ const CheckboxListForm: React.FC<CheckboxListFormProps> = ({ columns, onSubmit, 
             ></TextField>
 
             <div className='flex justify-center items-start gap-1.5 flex-col lg:flex-row py-2 lg:justify-start lg:items-center'>
-              <Typography variant='h6' >
-                Available Columns
-              </Typography>
+              <Typography variant='h6'>Available Columns</Typography>
               <span
                 className={`bg-white/10 rounded font-semibold md:px-2 ${
                   selectedCount < 3 ? error && 'text-red-500' : 'text-primary'
@@ -281,7 +292,7 @@ const CheckboxListForm: React.FC<CheckboxListFormProps> = ({ columns, onSubmit, 
                 <span className='text-red-500 text-xs'>Select at least three columns.</span>
               )}
             </div>
-            {checkboxes.map((item, index) => (
+            {displayCheckboxes.map((item, index) => (
               <span key={index} className={`rounded border px-2 py-1 my-2 mr-1 ${item.active && 'bg-white/10'}`}>
                 <FormControlLabel
                   control={
@@ -309,19 +320,14 @@ const CheckboxListForm: React.FC<CheckboxListFormProps> = ({ columns, onSubmit, 
           </div>
         </div>
         <div className='flex justify-between gap-2 pb-4 flex-col sm:flex-row'>
-          <Button
-            variant='outlined'
-            color='inherit'
-            type='button'
-            onClick={handleResetAll}
-          >
+          <Button variant='outlined' color='inherit' type='button' onClick={handleResetAll}>
             Reset
           </Button>
           <div className='flex justify-start gap-2 flex-col sm:flex-row'>
-            <Button variant='outlined' color='inherit' type='button' onClick={onClose} >
+            <Button variant='outlined' color='inherit' type='button' onClick={onClose}>
               Cancel
             </Button>
-            <Button variant='contained' type='submit' >
+            <Button variant='contained' type='submit'>
               Apply
             </Button>
           </div>
@@ -331,4 +337,4 @@ const CheckboxListForm: React.FC<CheckboxListFormProps> = ({ columns, onSubmit, 
   )
 }
 
-export default CheckboxListForm
+export default ManageColumnsDialog

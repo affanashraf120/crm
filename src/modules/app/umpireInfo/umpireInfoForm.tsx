@@ -12,7 +12,7 @@ import { z } from 'zod'
 
 // Custom components
 import ConfirmationDialog from '@/components/dialogs/confirmation-dialog'
-import FormGenerator from '@/components/form'
+import FormGenerator from '@/components/formDrawer/form'
 
 const schema = z.object({
   umpire_name: z.string(),
