@@ -12,7 +12,18 @@ interface ModalProps {
 
 const FormDialog: React.FC<ModalProps> = ({ open, onClose, children, dialogTitle, closeButton }) => {
   return (
-    <Dialog onClose={onClose} open={open} maxWidth='md'>
+    <Dialog
+      onClose={onClose}
+      open={open}
+      sx={{
+        '& .MuiDialog-container': {
+          '& .MuiPaper-root': {
+            width: '100%',
+            minWidth: '50%' 
+          }
+        }
+      }}
+    >
       <div className='flex items-center justify-between gap-4 pe-4'>
         <DialogTitle>{dialogTitle} </DialogTitle>
         {closeButton && (

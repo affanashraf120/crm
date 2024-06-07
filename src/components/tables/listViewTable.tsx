@@ -13,7 +13,6 @@ const ListViewTable = ({ clickable, actionButton, handleAction, onActions, data:
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(10)
 
-  console.log("🚀 ~ ListViewTable ~ data:", data)
 
   const handleInput = (e: any) => {
     const searchValue = e.target.value

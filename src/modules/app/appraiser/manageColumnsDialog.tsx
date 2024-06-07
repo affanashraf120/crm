@@ -232,8 +232,8 @@ const ManageColumnsDialog: React.FC<CheckboxListFormProps> = ({ columns, onSubmi
   return (
     <DndProvider backend={HTML5Backend}>
       <form onSubmit={handleSubmit} className='px-4'>
-        <div className='flex justify-start flex-col md:flex-row w-full items-start gap-4 pb-2 max-h-[470px] md:h-[410px] overflow-y-auto md:overflow-hidden'>
-          <div className='w-full md:w-3/5  p-2  md:border-r'>
+        <div className='flex justify-start flex-col md:flex-row w-full items-start gap-1 pb-2 max-h-[470px] md:h-[410px] overflow-y-auto md:overflow-hidden'>
+          <div className='w-full md:w-3/5  p-2  '>
             <FormControlLabel
               control={
                 <Checkbox
@@ -292,8 +292,10 @@ const ManageColumnsDialog: React.FC<CheckboxListFormProps> = ({ columns, onSubmi
                 <span className='text-red-500 text-xs'>Select at least three columns.</span>
               )}
             </div>
+            <div className='md:h-[410px] overflow-y-auto'>
+
             {displayCheckboxes.map((item, index) => (
-              <span key={index} className={`rounded border px-2 py-1 my-2 mr-1 ${item.active && 'bg-white/10'}`}>
+              <span key={index} className={`rounded border px-2 py-1 my-2 mr-1  ${item.active && 'bg-white/10'}`}>
                 <FormControlLabel
                   control={
                     <Checkbox
@@ -307,9 +309,12 @@ const ManageColumnsDialog: React.FC<CheckboxListFormProps> = ({ columns, onSubmi
                 />
               </span>
             ))}
+            </div>
           </div>
 
-          <div className='w-full md:w-2/5 max-h-[470px] md:max-w-[410px] md:overflow-y-auto md:max-h-96'>
+          <div className="w-px h-full bg-zinc-600 hidden md:inline-block"></div>
+
+          <div className='w-full md:w-2/5 max-h-[470px] md:max-w-[410px] md:overflow-y-auto md:max-h-96 ps-0 md:ps-3 '>
             <Typography variant='h6'>Reorder columns</Typography>
             <Typography variant='body2'>Click and drag to reorder the columns</Typography>
             <Box sx={{ padding: '4px', paddingBottom: '12px', paddingTop: '12px', minHeight: '62px' }}>
