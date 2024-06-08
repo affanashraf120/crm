@@ -205,7 +205,7 @@ const ManageColumnsDialog: React.FC<CheckboxListFormProps> = ({ columns, onSubmi
 
     return (
       <div ref={ref} style={{ opacity: isDragging ? 0.5 : 1, zIndex: isDragging ? 999 : 0 }}>
-        <div className='border flex justify-between text-xs p-0 items-center rounded-lg mb-2 hover:shadow-md'>
+        <div className='border hover:border-secondary duration-500 ease-in-out transition-all flex justify-between text-xs p-0 items-center rounded-lg mb-2 hover:shadow-md'>
           <div>
             <IconButton>
               <svg
@@ -279,10 +279,10 @@ const ManageColumnsDialog: React.FC<CheckboxListFormProps> = ({ columns, onSubmi
               }}
             ></TextField>
 
-            <div className='flex justify-center items-start gap-1.5 flex-col lg:flex-row py-2 lg:justify-start lg:items-center'>
+            <div className='flex flex-wrap justify-center items-start gap-1.5 flex-col lg:flex-row py-2 lg:justify-start lg:items-center'>
               <Typography variant='h6'>Available Columns</Typography>
               <span
-                className={`bg-white/10 rounded font-semibold md:px-2 ${
+                className={`bg-white/10 rounded font-semibold px-2 ${
                   selectedCount < 3 ? error && 'text-red-500' : 'text-primary'
                 }`}
               >

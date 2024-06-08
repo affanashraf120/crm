@@ -198,17 +198,7 @@ function FiltersDropDown({ buttonLabel, buttons, onItemClick, type, filterList, 
             horizontal: 'center'
           }}
         >
-          {buttons &&
-            buttons.map((option, index) => (
-              <MenuItem key={index} onClick={() => handleClicked({ searchItem: option?.label, name: name })}>
-                {option.icon && (
-                  <ListItemIcon>
-                    <i className={option.icon}></i>
-                  </ListItemIcon>
-                )}
-                <Typography variant='inherit'>{option.label}</Typography>
-              </MenuItem>
-            ))}
+
           <MenuItem
             sx={{
               '&:hover': {
@@ -261,6 +251,18 @@ function FiltersDropDown({ buttonLabel, buttons, onItemClick, type, filterList, 
               </MenuItem>
             ))}
           </div>
+
+          {buttons &&
+            buttons.map((option, index) => (
+              <MenuItem key={index} onClick={() => handleClicked({ searchItem: option?.label, name: name })}>
+                {option.icon && (
+                  <ListItemIcon>
+                    <i className={option.icon}></i>
+                  </ListItemIcon>
+                )}
+                <Typography variant='inherit'>{option.label}</Typography>
+              </MenuItem>
+            ))}
         </Menu>
       </>
     )
