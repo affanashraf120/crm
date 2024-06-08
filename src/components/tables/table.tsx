@@ -147,7 +147,7 @@ const Table = ({
   title,
   onAdd,
   onActions,
-  onSortActions,
+  onFilterActions,
   onActionColumn,
   buttonName
 }: any) => {
@@ -183,7 +183,7 @@ const Table = ({
 
   function generateColumns(columnConfigurations: any) {
     return columnConfigurations.map((config: any) => {
-      const { name, header, type, options, size } = config
+      const { name, header, type, options, size, filterType, filterOptions, buttonOptions } = config
       const accessor = name
 
       const cell = ({ row }: any) => {
@@ -258,8 +258,78 @@ const Table = ({
         return null
       }
 
+      const headers = () => {
+        if (filterType === 'sort') {
+          return (
+            <>
+              {header}
+              <FiltersDropDown
+                name={header}
+                buttonLabel='ri-arrow-drop-up-fill rotate-180 w-6 h-6 cursor-pointer'
+                onItemClick={onFilterActions}
+                type={filterType}
+                buttons={buttonOptions}
+              />
+            </>
+          )
+        } else if (filterType === 'filter') {
+          return (
+            <>
+              {header}
+              <FiltersDropDown
+                name={header}
+                buttonLabel='ri-arrow-drop-up-fill rotate-180 w-6 h-6 cursor-pointer'
+                onItemClick={onFilterActions}
+                type={filterType}
+                filterList={filterOptions}
+              />
+            </>
+          )
+        } else if (filterType === 'filterSort') {
+          return (
+            <>
+              {header}
+              <FiltersDropDown
+                name={header}
+                buttonLabel='ri-arrow-drop-up-fill rotate-180 w-6 h-6 cursor-pointer'
+                onItemClick={onFilterActions}
+                type={filterType}
+                filterList={filterOptions}
+                buttons={buttonOptions}
+              />
+            </>
+          )
+        } else if (filterType === 'range') {
+          return (
+            <>
+              {header}
+              <FiltersDropDown
+                name={header}
+                buttonLabel='ri-arrow-drop-up-fill rotate-180 w-6 h-6 cursor-pointer'
+                onItemClick={onFilterActions}
+                type={filterType}
+              />
+            </>
+          )
+        } else if (filterType === 'rangeDate') {
+          return (
+            <>
+              {header}
+              <FiltersDropDown
+                name={header}
+                buttonLabel='ri-arrow-drop-up-fill rotate-180 w-6 h-6 cursor-pointer'
+                onItemClick={onFilterActions}
+                type={filterType}
+              />
+            </>
+          )
+        }
+
+        return <> {header}</>
+      }
+
       return columnHelper.accessor(accessor, {
-        header: header,
+        header: headers,
         cell: cell
       })
     })
@@ -352,27 +422,6 @@ const Table = ({
                             onClick={header.column.getToggleSortingHandler()}
                           ></i> */}
                             {/* {{ asc: '', desc: '' }[header.column.getIsSorted() as string] ?? null} */}
-
-                            <FiltersDropDown
-                              buttonLabel='ri-arrow-drop-up-fill rotate-180 w-6 h-6   cursor-pointer'
-                              onMenuItemClick={onSortActions}
-                              type='range'
-                               options= {[
-                                { label: "alice smith" },
-                                { label: "bob johnson" },
-                                { label: "charlie brown" },
-                                { label: "dana white" },
-                                { label: "eve black" },
-                                { label: "frank green" }
-                            ]}
-                              menuOptions={[
-                                { label: 'Sort By ASC', icon: 'ri-sort-alphabet-asc' },
-                                { label: 'Sort By DESC', icon: 'ri-sort-alphabet-desc' }
-                              ].map((option: any) => ({
-                                label: option.label,
-                                icon: option.icon
-                              }))}
-                            />
                           </div>
                         </th>
                       ))}

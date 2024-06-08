@@ -9,7 +9,7 @@ import MenuItem from '@mui/material/MenuItem'
 
 import Typography from '@mui/material/Typography'
 
-
+import DateRangePicker from '../calender'
 
 interface Option {
   label?: string
@@ -17,17 +17,20 @@ interface Option {
   id?: any
   startRange?: string
   endRange?: string
+  searchItem: any
+  name: string
 }
 
 interface Props {
   buttonLabel: string
-  menuOptions: Option[]
-  onMenuItemClick: (menuItem: Option | null) => void
+  buttons?: Option[]
+  onItemClick: (menuItem: Option | null) => void
   type?: string
-  options: Option[]
+  filterList?: Option[]
+  name: string
 }
 
-function FiltersDropDown({ buttonLabel, menuOptions, onMenuItemClick, type, options }: Props) {
+function FiltersDropDown({ buttonLabel, buttons, onItemClick, type, filterList, name }: Props) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const [searchTerm, setSearchTerm] = useState('')
   const [startRange, setStartRange] = useState('')
@@ -38,16 +41,16 @@ function FiltersDropDown({ buttonLabel, menuOptions, onMenuItemClick, type, opti
     setAnchorEl(event.currentTarget)
   }
 
-  const handleClose = (menuItem: Option | null) => {
+  const handleClicked = (menuItem: Option | null) => {
     setAnchorEl(null)
-    onMenuItemClick(menuItem)
+    onItemClick(menuItem)
   }
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value)
   }
 
-  const filteredOptions = options?.filter(
+  const filteredOptions = filterList?.filter(
     option => option?.label && option.label.toLowerCase().includes(searchTerm.toLowerCase())
   )
 
@@ -66,19 +69,19 @@ function FiltersDropDown({ buttonLabel, menuOptions, onMenuItemClick, type, opti
           id='generic-menu'
           anchorEl={anchorEl}
           open={open}
-          onClose={() => handleClose(null)}
+          onClose={() => handleClicked(null)}
           anchorOrigin={{
-            vertical: 'top',
+            vertical: 'bottom',
             horizontal: 'left'
           }}
           transformOrigin={{
             vertical: 'top',
-            horizontal: 'left'
+            horizontal: 'center'
           }}
         >
-          {menuOptions &&
-            menuOptions.map((option, index) => (
-              <MenuItem key={index} onClick={() => handleClose(option)}>
+          {buttons &&
+            buttons.map((option, index) => (
+              <MenuItem key={index} onClick={() => handleClicked({ searchItem: option?.label, name: name })}>
                 {option.icon && (
                   <ListItemIcon>
                     <i className={option.icon}></i>
@@ -105,14 +108,14 @@ function FiltersDropDown({ buttonLabel, menuOptions, onMenuItemClick, type, opti
           id='generic-menu'
           anchorEl={anchorEl}
           open={open}
-          onClose={() => handleClose(null)}
+          onClose={() => handleClicked(null)}
           anchorOrigin={{
-            vertical: 'top',
+            vertical: 'bottom',
             horizontal: 'left'
           }}
           transformOrigin={{
             vertical: 'top',
-            horizontal: 'left'
+            horizontal: 'center'
           }}
         >
           <MenuItem
@@ -157,12 +160,103 @@ function FiltersDropDown({ buttonLabel, menuOptions, onMenuItemClick, type, opti
           </MenuItem>
 
           <div className='max-h-40 overflow-y-auto'>
-            {filteredOptions.length === 0 && (
+            {filteredOptions?.length === 0 && (
               <span className='text-xs items-center w-full flex justify-center'>No options found :(</span>
             )}
 
-            {filteredOptions.map((option, index) => (
-              <MenuItem key={index} onClick={() => handleClose(option)}>
+            {filteredOptions?.map((option, index) => (
+              <MenuItem key={index} onClick={() => handleClicked({ searchItem: option?.label, name: name })}>
+                <Typography variant='inherit'>{option.label}</Typography>
+              </MenuItem>
+            ))}
+          </div>
+        </Menu>
+      </>
+    )
+  } else if (type === 'filterSort') {
+    return (
+      <>
+        <IconButton
+          aria-controls={open ? 'generic-menu' : undefined}
+          aria-haspopup='true'
+          aria-expanded={open ? 'true' : undefined}
+          onClick={handleClick}
+        >
+          <i className={buttonLabel}></i>
+        </IconButton>
+        <Menu
+          id='generic-menu'
+          anchorEl={anchorEl}
+          open={open}
+          onClose={() => handleClicked(null)}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left'
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'center'
+          }}
+        >
+          {buttons &&
+            buttons.map((option, index) => (
+              <MenuItem key={index} onClick={() => handleClicked({ searchItem: option?.label, name: name })}>
+                {option.icon && (
+                  <ListItemIcon>
+                    <i className={option.icon}></i>
+                  </ListItemIcon>
+                )}
+                <Typography variant='inherit'>{option.label}</Typography>
+              </MenuItem>
+            ))}
+          <MenuItem
+            sx={{
+              '&:hover': {
+                backgroundColor: 'transparent'
+              }
+            }}
+          >
+            <TextField
+              size='small'
+              value={searchTerm}
+              onChange={handleSearchChange}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position='start'>
+                    <SearchIcon />
+                  </InputAdornment>
+                ),
+                sx: {
+                  height: '30px',
+                  fontSize: '12px',
+                  padding: '5px 10px',
+                  '.MuiInputBase-input': {
+                    padding: '0 5px'
+                  }
+                }
+              }}
+              sx={{
+                '.MuiInputLabel-root': {
+                  fontSize: '12px'
+                },
+                '.MuiFormLabel-root': {
+                  top: '-2px'
+                },
+                '.MuiInputBase-root': {
+                  height: '30px',
+                  fontSize: '12px'
+                }
+              }}
+            />
+          </MenuItem>
+
+          <div className='max-h-40 overflow-y-auto'>
+            {filteredOptions?.length === 0 && (
+              <span className='text-xs items-center w-full flex justify-center'>No options found :(</span>
+            )}
+
+            {filteredOptions?.map((option, index) => (
+              <MenuItem key={index} onClick={() => handleClicked({ searchItem: option?.label, name: name })}>
                 <Typography variant='inherit'>{option.label}</Typography>
               </MenuItem>
             ))}
@@ -185,14 +279,14 @@ function FiltersDropDown({ buttonLabel, menuOptions, onMenuItemClick, type, opti
           id='range-menu'
           anchorEl={anchorEl}
           open={open}
-          onClose={() => handleClose(null)}
+          onClose={() => handleClicked(null)}
           anchorOrigin={{
-            vertical: 'top',
+            vertical: 'bottom',
             horizontal: 'left'
           }}
           transformOrigin={{
             vertical: 'top',
-            horizontal: 'left'
+            horizontal: 'center'
           }}
         >
           <MenuItem
@@ -204,10 +298,10 @@ function FiltersDropDown({ buttonLabel, menuOptions, onMenuItemClick, type, opti
           >
             <Typography variant='inherit'>Set Range</Typography>
           </MenuItem>
-          <div className='flex justify-center items-center gap-2 px-4'>
+          <div className='flex flex-col gap-2 px-4'>
             <TextField
               size='small'
-              label='Start Range'
+              label='Start Range...'
               value={startRange}
               onChange={e => setStartRange(e.target.value)}
               sx={{
@@ -226,7 +320,7 @@ function FiltersDropDown({ buttonLabel, menuOptions, onMenuItemClick, type, opti
 
             <TextField
               size='small'
-              label='End Range'
+              label='End Range...'
               value={endRange}
               onChange={e => setEndRange(e.target.value)}
               sx={{
@@ -244,11 +338,51 @@ function FiltersDropDown({ buttonLabel, menuOptions, onMenuItemClick, type, opti
             />
           </div>
           <span
-            onClick={() => handleClose({ startRange: startRange, endRange: endRange })}
+            onClick={() => handleClicked({ searchItem: { startRange: startRange, endRange: endRange }, name: name })}
             className='flex justify-end items-end pe-4 text-primary py-2 cursor-pointer'
           >
             Save
           </span>
+        </Menu>
+      </>
+    )
+  } else if (type === 'rangeDate') {
+    return (
+      <>
+        <IconButton
+          aria-controls={open ? 'generic-menu' : undefined}
+          aria-haspopup='true'
+          aria-expanded={open ? 'true' : undefined}
+          onClick={handleClick}
+        >
+          <i className={buttonLabel}></i>
+        </IconButton>
+        <Menu
+          id='range-menu'
+          anchorEl={anchorEl}
+          open={open}
+          onClose={() => handleClicked(null)}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left'
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'center'
+          }}
+        >
+          <MenuItem
+            sx={{
+              '&:hover': {
+                backgroundColor: 'transparent'
+              }
+            }}
+          >
+            <Typography variant='inherit'>Set Date Range</Typography>
+          </MenuItem>
+          <div className='flex flex-col gap-2 px-4'>
+            <DateRangePicker onSave={handleClicked} name={name} />
+          </div>
         </Menu>
       </>
     )

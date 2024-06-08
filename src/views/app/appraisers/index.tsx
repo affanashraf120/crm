@@ -12,12 +12,11 @@ import { Autocomplete, Grid, TextField } from '@mui/material'
 import SummaryDetailCard from '@/components/cards/summaryDetailsCard'
 
 // Import Data
-import dummyData from '@/data/data'
-import Table from '@/components/tables/table'
 import FormDialog from '@/components/dialogBox/formDialog'
-import { sortAndFilterArray2 } from '@/utils'
+import Table from '@/components/tables/table'
+import dummyData from '@/data/data'
 import ManageColumnsDialog from '@/modules/app/appraiser/manageColumnsDialog'
-
+import { sortAndFilterArray2 } from '@/utils'
 
 const AppraisalClient = () => {
   const pathname = usePathname()
@@ -44,7 +43,6 @@ const AppraisalClient = () => {
       ]
     })
     setSelectedItems(activeHeaders)
-
   }
 
   const handleClose = () => {
@@ -65,9 +63,10 @@ const AppraisalClient = () => {
     }
   }
 
-  const handleSortActions = (item:any) => {
-    console.log("🚀 ~ handleSortActions ~ item:", item)
-    
+  const handleSortActions = (item: any) => {
+    console.log('🚀 ~ handleSortActions ~ item:', item)
+
+
   }
 
   const handleMangeColumn = () => {
@@ -79,8 +78,6 @@ const AppraisalClient = () => {
       <Grid item xs={12}>
         <SummaryDetailCard data={data} />
       </Grid>
-
-
 
       <Grid item xs={12}>
         <Autocomplete
@@ -99,8 +96,6 @@ const AppraisalClient = () => {
         />
       </Grid>
 
-
-
       <Grid item xs={12}>
         {data && (
           <Table
@@ -111,7 +106,7 @@ const AppraisalClient = () => {
             onAdd={handleOpen}
             onActions={handleActionsRow}
             onActionColumn={handleMangeColumn}
-            onSortActions={handleSortActions}
+            onFilterActions={handleSortActions}
           />
         )}
       </Grid>
@@ -196,11 +191,25 @@ const data: any[] = [
 
 const column = [
   { name: 'id', header: '', type: 'DND' },
-  { name: 'inv', header: 'INV #', type: 'simple' },
+  {
+    name: 'inv',
+    header: 'INV #',
+    type: 'simple',
+    filterType: 'sort',
+    buttonOptions: [{ label: 'Sort By Latest Invoice ' }, { label: 'Sort By Most Earliest Invoice' }]
+  },
   {
     name: 'status',
     header: 'Status',
     type: 'DropdownWithChip',
+    filterType: 'filter',
+    filterOptions: [
+      { label: 'Closed' },
+      { label: 'None' },
+      { label: 'Open' },
+      { label: 'Scheduling Inspection' },
+      { label: 'Umpire' }
+    ],
     options: [
       { id: 0, value: 'None', color: 'default' },
       { id: 1, value: 'Closed', color: 'info' },
@@ -213,6 +222,17 @@ const column = [
     name: 'assigned_to',
     header: 'Assigned to',
     type: 'Dropdown',
+    filterType: 'filter',
+    filterOptions: [
+      { label: 'John Doe' },
+      { label: 'Jane Smith' },
+      { label: 'Mark Johnson' },
+      { label: 'Emily Brown' },
+      { label: 'Sarah Wilson' },
+      { label: 'Michael Davis' },
+      { label: 'Alex Johnson' },
+      { label: 'Emma Garcia' }
+    ],
     options: [
       'John Doe',
       'Jane Smith',
@@ -227,17 +247,31 @@ const column = [
   {
     name: 'client_name',
     header: 'Client Name',
-    type: 'ClientDetails'
+    type: 'ClientDetails',
+    filterType: 'filter',
+    filterOptions: [
+      { label: 'John Doe' },
+      { label: 'Jane Smith' },
+      { label: 'Mark Johnson' },
+      { label: 'Emily Brown' },
+      { label: 'Sarah Wilson' },
+      { label: 'Michael Davis' },
+      { label: 'Alex Johnson' },
+      { label: 'Emma Garcia' }
+    ]
   },
   {
     name: 'claim_no',
     header: 'Claim No',
-    type: 'simple'
+    type: 'simple',
+    filterType: 'sort',
+    buttonOptions: [{ label: 'Sort By Latest Claim No ' }, { label: 'Sort By Most Earliest Claim No' }]
   },
   {
     name: 'date_sent',
     header: 'Date Sent',
-    type: 'simple'
+    type: 'simple',
+    filterType: 'rangeDate'
   },
   {
     name: 'carrier',
@@ -255,12 +289,33 @@ const column = [
       'Amanda',
       'William',
       'Melissa'
+    ],
+    filterType: 'filter',
+    filterOptions: [
+      { label: 'Amanda Corporation' },
+      { label: 'John Corporation' },
+      { label: 'Melissa Corporation' },
+      { label: 'William Corporation' },
+      { label: 'Ashley Corporation' },
+      { label: 'Emily Corporation' },
+      { label: 'Emma Abc Corporation' }
     ]
   },
   {
     name: 'oa_name',
     header: 'OA Name',
-    type: 'simple'
+    type: 'simple',
+    filterType: 'filter',
+    filterOptions: [
+      { label: 'John Doe' },
+      { label: 'Jane Smith' },
+      { label: 'Mark Johnson' },
+      { label: 'Emily Brown' },
+      { label: 'Sarah Wilson' },
+      { label: 'Michael Davis' },
+      { label: 'Alex Johnson' },
+      { label: 'Emma Garcia' }
+    ]
   },
   {
     name: 'oa_email',
@@ -286,6 +341,17 @@ const column = [
       { id: 6, value: 'Roof Bought', color: 'warning' },
       { id: 7, value: 'Roof Denied', color: 'success' },
       { id: 8, value: 'Inspection Schedule', color: 'primary' }
+    ],
+    filterType: 'filter',
+    filterOptions: [
+      { label: 'John Doe' },
+      { label: 'Jane Smith' },
+      { label: 'Mark Johnson' },
+      { label: 'Emily Brown' },
+      { label: 'Sarah Wilson' },
+      { label: 'Michael Davis' },
+      { label: 'Alex Johnson' },
+      { label: 'Emma Garcia' }
     ]
   },
   {
@@ -311,6 +377,17 @@ const column = [
       'Yetanothercity',
       'Metropolitan City',
       'Capital City'
+    ],
+    filterType: 'filter',
+    filterOptions: [
+      { label: 'Anytown' },
+      { label: 'Othertown' },
+      { label: 'Anycity' },
+      { label: 'Anothercity' },
+      { label: 'Newcity' },
+      { label: 'Yetanothercity' },
+      { label: 'Metropolitan City' },
+      { label: 'Capital City' }
     ]
   },
   {
@@ -322,32 +399,40 @@ const column = [
   {
     name: 'appraisal_amt',
     header: 'Appraisal Amount',
-    type: 'simple'
+    type: 'simple',
+    filterType: 'range'
   },
   {
     name: 'percentage',
     header: 'Percentage',
-    type: 'simple'
+    type: 'simple',
+    filterType: 'filterSort',
+    buttonOptions: [{ label: 'Sort By Latest Invoice ' }, { label: 'Sort By Most Earliest Invoice' }],
+    filterOptions: [{ label: '2.5%' }, { label: '5%' }, { label: '10%' }]
   },
   {
     name: 'date_approved',
     header: 'Date Approved',
-    type: 'simple'
+    type: 'simple',
+    filterType: 'rangeDate'
   },
   {
     name: 'inspection_date',
     header: 'Inspection Date',
-    type: 'simple'
+    type: 'simple',
+    filterType: 'rangeDate'
   },
   {
     name: 'turnaround',
     header: 'Turnaround',
-    type: 'simple'
+    type: 'simple',
+    filterType: 'range'
   },
   {
     name: 'comm_amt',
     header: 'Commission Amount',
-    type: 'simple'
+    type: 'simple',
+    filterType: 'range'
   },
   {
     name: 'notes',
@@ -363,7 +448,8 @@ const column = [
   {
     name: 'date_user_paid',
     header: 'Date User Paid',
-    type: 'simple'
+    type: 'simple',
+    filterType: 'rangeDate'
   },
   {
     name: 'action',
