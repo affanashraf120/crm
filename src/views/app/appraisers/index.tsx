@@ -443,7 +443,9 @@ const column = [
   {
     name: 'date_qb_invoiced',
     header: 'Date QB Invoiced',
-    type: 'simple'
+    type: 'simple',
+    filterType: 'rangeDate'
+
   },
   {
     name: 'date_user_paid',
