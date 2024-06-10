@@ -80,47 +80,48 @@ export default function DNDImage() {
   }
 
   return (
-    <div
-      className={`flex items-center w-full md:w-1/2 justify-center border border-dashed border-gray-500 rounded-2xl  ${
-        dragActive ? (settings.mode === 'dark' ? 'bg-[rgba(255,255,255,0.21)]' : 'bg-[rgba(0,0,0,0.21)]') : ''
-      }`}
-    >
-      <form
-        className='p-4 rounded-lg  min-h-[10rem] text-center flex flex-col items-center justify-center'
-        onDragEnter={handleDragEnter}
-        onSubmit={e => e.preventDefault()}
-        onDrop={handleDrop}
-        onDragLeave={handleDragLeave}
-        onDragOver={handleDragOver}
+    <div className='flex flex-col w-full items-center justify-center'>
+      <div
+        className={`flex items-center md:w-1/2 justify-center border w-full border-dashed border-gray-500 rounded-2xl  ${
+          dragActive ? (settings.mode === 'dark' ? 'bg-[rgba(255,255,255,0.21)]' : 'bg-[rgba(0,0,0,0.21)]') : ''
+        }`}
       >
-        {/* this input element allows us to select files for upload. We make it hidden so we can activate it when the user clicks select files */}
-        <input
-          placeholder='fileInput'
-          className='hidden '
-          ref={inputRef}
-          type='file'
-          multiple={true}
-          onChange={handleChange}
-          accept='.xlsx,.xls,image/*,.doc, .docx,.ppt, .pptx,.txt,.pdf, .mp4'
-        />
-        <Button onClick={openFileExplorer} variant='contained' className='py-3 px-5 gap-2 mb-4'>
-          <i className='ri-upload-cloud-2-line'></i>
-          Upload a File
-        </Button>
+        <form
+          className='p-4 rounded-lg  min-h-[10rem] text-center flex flex-col items-center justify-center'
+          onDragEnter={handleDragEnter}
+          onSubmit={e => e.preventDefault()}
+          onDrop={handleDrop}
+          onDragLeave={handleDragLeave}
+          onDragOver={handleDragOver}
+        >
+          {/* this input element allows us to select files for upload. We make it hidden so we can activate it when the user clicks select files */}
+          <input
+            placeholder='fileInput'
+            className='hidden '
+            ref={inputRef}
+            type='file'
+            multiple={true}
+            onChange={handleChange}
+            accept='.xlsx,.xls,image/*,.doc, .docx,.ppt, .pptx,.txt,.pdf, .mp4'
+          />
+          <Button onClick={openFileExplorer} variant='contained' className='py-3 px-5 gap-2 mb-4'>
+            <i className='ri-upload-cloud-2-line'></i>
+            Upload a File
+          </Button>
 
-        <p>Drag & drop a files or browse computer</p>
-
-        <div className='flex flex-col items-center p-3'>
-          {files.map((file: any, idx: any) => (
-            <div key={idx} className='flex flex-row space-x-5'>
-              <span>{file.name}</span>
-              <span className='text-red-500 cursor-pointer' onClick={() => removeFile(file.name, idx)}>
-                <i className='ri-close-line'></i>
-              </span>
-            </div>
-          ))}
-        </div>
-      </form>
+          <p>Drag & drop a files or browse computer</p>
+        </form>
+      </div>
+      <div className='flex flex-col items-center p-3'>
+        {files.map((file: any, idx: any) => (
+          <div key={idx} className='flex flex-row space-x-5'>
+            <span>{file.name}</span>
+            <span className='text-red-500 cursor-pointer' onClick={() => removeFile(file.name, idx)}>
+              <i className='ri-close-line'></i>
+            </span>
+          </div>
+        ))}
+      </div>
     </div>
   )
 }

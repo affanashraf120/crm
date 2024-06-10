@@ -36,6 +36,11 @@ const DateRangePicker = ({ onSave, name }: any) => {
     })
   }
 
+  const handleClear = () => {
+    setStartDate(null)
+    setEndDate(null)
+  }
+
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <div className='flex flex-col gap-2'>
@@ -94,9 +99,14 @@ const DateRangePicker = ({ onSave, name }: any) => {
             }
           }}
         />
-        <span onClick={handleSave} className='flex justify-end items-end pe-4 text-primary py-2 cursor-pointer'>
-          Save
-        </span>
+        <div className='flex justify-between items-center '>
+          <span onClick={handleClear} className='flex justify-end items-end text-secondary py-2 cursor-pointer'>
+            Clear
+          </span>
+          <span onClick={handleSave} className='flex justify-end items-end  text-primary py-2 cursor-pointer'>
+            Save
+          </span>
+        </div>
       </div>
     </LocalizationProvider>
   )

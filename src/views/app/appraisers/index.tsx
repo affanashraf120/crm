@@ -65,8 +65,6 @@ const AppraisalClient = () => {
 
   const handleSortActions = (item: any) => {
     console.log('🚀 ~ handleSortActions ~ item:', item)
-
-
   }
 
   const handleMangeColumn = () => {
@@ -103,10 +101,35 @@ const AppraisalClient = () => {
             columns={selectedItems}
             buttonName='Add New'
             title='Alpha Appraisals (10% or $250 min)'
-            onAdd={handleOpen}
             onActions={handleActionsRow}
-            onActionColumn={handleMangeColumn}
             onFilterActions={handleSortActions}
+            actionButtons={[
+              {
+                label: 'Add New',
+                onClick: handleOpen,
+                variant: 'contained',
+                color: 'primary',
+                type: 'button',
+                icon: 'ri-add-line'
+              },
+              {
+                label: 'Columns',
+                onClick: handleMangeColumn,
+                variant: 'contained',
+                color: 'primary',
+                type: 'button',
+                icon: 'ri-settings-5-line'
+              },
+              {
+                label: 'Filter',
+                onClick: () => console.log('Open Filter Dialog Box'),
+                variant: 'contained',
+                color: 'primary',
+                type: 'button',
+                icon: 'ri-filter-3-fill',
+                filterCount: 13
+              }
+            ]}
           />
         )}
       </Grid>
@@ -303,8 +326,9 @@ const column = [
   },
   {
     name: 'oa_name',
-    header: 'OA Name',
-    type: 'simple',
+    cellLabels: ['oa_email', 'oa_phone_no'],
+    header: 'OA Info',
+    type: 'cellLabels',
     filterType: 'filter',
     filterOptions: [
       { label: 'John Doe' },
@@ -317,20 +341,12 @@ const column = [
       { label: 'Emma Garcia' }
     ]
   },
-  {
-    name: 'oa_email',
-    header: 'OA Email',
-    type: 'simple'
-  },
-  {
-    name: 'oa_phone_no',
-    header: 'OA Phone NO',
-    type: 'simple'
-  },
+
   {
     name: 'umpire_name',
-    header: 'Umpire Name',
-    type: 'DropdownWithChipAndText',
+    cellLabels: ['umpire_email', 'umpire_phone_no'],
+    header: 'Umpire Info',
+    type: 'dropdown_chip_and_text_with_cellLabels',
     options: [
       { id: 0, value: 'None', color: 'default' },
       { id: 1, value: 'Initiated', color: 'success' },
@@ -354,16 +370,7 @@ const column = [
       { label: 'Emma Garcia' }
     ]
   },
-  {
-    name: 'umpire_email',
-    header: 'Umpire Email',
-    type: 'simple'
-  },
-  {
-    name: 'umpire_phone_no',
-    header: 'Umpire Phone NO',
-    type: 'simple'
-  },
+
   {
     name: 'city',
     header: 'City',
@@ -445,7 +452,6 @@ const column = [
     header: 'Date QB Invoiced',
     type: 'simple',
     filterType: 'rangeDate'
-
   },
   {
     name: 'date_user_paid',

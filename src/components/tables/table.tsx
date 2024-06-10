@@ -141,16 +141,7 @@ const DraggableRow = ({ row }: { row: any }) => {
   )
 }
 
-const Table = ({
-  data: Data,
-  columns: columnArray,
-  title,
-  onAdd,
-  onActions,
-  onFilterActions,
-  onActionColumn,
-  buttonName
-}: any) => {
+const Table = ({ data: Data, columns: columnArray, title, onActions, onFilterActions, actionButtons }: any) => {
   // States
   const [isOpenDelete, setIsOpenDelete] = useState(false)
   const [data, setData] = useState<any>(Data)
@@ -183,12 +174,25 @@ const Table = ({
 
   function generateColumns(columnConfigurations: any) {
     return columnConfigurations.map((config: any) => {
-      const { name, header, type, options, size, filterType, filterOptions, buttonOptions } = config
+      const { name, header, type, options, size, filterType, filterOptions, buttonOptions, cellLabels } = config
       const accessor = name
 
       const cell = ({ row }: any) => {
         if (type === 'simple') {
           return <Typography>{row.original[name]}</Typography>
+        } else if (type === 'cellLabels') {
+          return (
+            <div className='flex flex-col mb-1'>
+              <Typography className='font-medium' color='text.primary'>
+                {row.original.oa_name}
+              </Typography>
+              {cellLabels?.map((item: any, index: any) => (
+                <span key={index} className='text-[12px] mb-1'>
+                  {row.original[item]}
+                </span>
+              ))}
+            </div>
+          )
         } else if (type === 'DropdownWithChip') {
           return <DropdownWithChip value={row.original[name]} options={options} />
         } else if (type === 'Dropdown') {
@@ -218,6 +222,22 @@ const Table = ({
             <div className='flex justify-start items-center gap-3'>
               <Typography>{row.original[name]}</Typography>
               {row.original.umpire_status && <DropdownWithChip value={row.original.umpire_status} options={options} />}
+            </div>
+          )
+        } else if (type === 'dropdown_chip_and_text_with_cellLabels') {
+          return (
+            <div className='flex flex-col'>
+              <div className='flex justify-start items-center gap-3'>
+                <Typography>{row.original[name]}</Typography>
+                {row.original.umpire_status && (
+                  <DropdownWithChip value={row.original.umpire_status} options={options} />
+                )}
+              </div>
+              {cellLabels?.map((item: any, index: any) => (
+                <span key={index} className='text-[12px] mb-1'>
+                  {row.original[item]}
+                </span>
+              ))}
             </div>
           )
         } else if (type === 'TextWithTooltip') {
@@ -371,25 +391,27 @@ const Table = ({
           <div className='flex justify-center items-center gap-2 flex-col w-full sm:flex-row md:w-auto'>
             <TextField id='outlined-basic' label='Search' variant='outlined' fullWidth size='small' />
             <Stack spacing={2} direction='row'>
-              <Button
-                variant='contained'
-                color='primary'
-                type='button'
-                startIcon={<i className='ri-add-line' />}
-                sx={{ paddingLeft: '16px', paddingRight: '16px', whiteSpace: 'nowrap' }}
-                onClick={onAdd}
-              >
-                {buttonName ? buttonName : 'Action button'}
-              </Button>
-              <Button
-                variant='contained'
-                type='submit'
-                sx={{ paddingLeft: '16px', paddingRight: '16px', whiteSpace: 'nowrap' }}
-                onClick={onActionColumn}
-                startIcon={<i className='ri-settings-5-line' />}
-              >
-                Columns
-              </Button>
+              {actionButtons &&
+                actionButtons?.map((action: any) => (
+                  <div key={action.label} className='relative'>
+                    {action.filterCount && (
+                      <span className='absolute -top-3 right-1 z-10 border border-textPrimary bg-primary w-5 h-5 text-[10px] rounded-full flex justify-center items-center'>
+                        {action.filterCount}
+                      </span>
+                    )}
+
+                    <Button
+                      variant={action.variant}
+                      color={action.color}
+                      type={action.type}
+                      startIcon={<i className={action.icon} />}
+                      sx={{ paddingLeft: '16px', paddingRight: '16px', whiteSpace: 'nowrap' }}
+                      onClick={action.onClick}
+                    >
+                      {action.label ? action.label : 'Action button'}
+                    </Button>
+                  </div>
+                ))}
             </Stack>
           </div>
         </div>

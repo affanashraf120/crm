@@ -50,6 +50,11 @@ function FiltersDropDown({ buttonLabel, buttons, onItemClick, type, filterList, 
     setSearchTerm(event.target.value)
   }
 
+  const handleClear = () => {
+    setStartRange('')
+    setEndRange('')
+  }
+
   const filteredOptions = filterList?.filter(
     option => option?.label && option.label.toLowerCase().includes(searchTerm.toLowerCase())
   )
@@ -198,7 +203,6 @@ function FiltersDropDown({ buttonLabel, buttons, onItemClick, type, filterList, 
             horizontal: 'center'
           }}
         >
-
           <MenuItem
             sx={{
               '&:hover': {
@@ -339,12 +343,17 @@ function FiltersDropDown({ buttonLabel, buttons, onItemClick, type, filterList, 
               }}
             />
           </div>
-          <span
-            onClick={() => handleClicked({ searchItem: { startRange: startRange, endRange: endRange }, name: name })}
-            className='flex justify-end items-end pe-4 text-primary py-2 cursor-pointer'
-          >
-            Save
-          </span>
+          <div className='flex justify-between items-center px-4'>
+            <span onClick={handleClear} className='flex justify-end items-end text-secondary py-2 cursor-pointer'>
+              Clear
+            </span>
+            <span
+              onClick={() => handleClicked({ searchItem: { startRange: startRange, endRange: endRange }, name: name })}
+              className='flex justify-end items-end  text-primary py-2 cursor-pointer'
+            >
+              Save
+            </span>
+          </div>
         </Menu>
       </>
     )

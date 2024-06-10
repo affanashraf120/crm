@@ -24,7 +24,23 @@ const OpposingAppraisal = () => {
         <AppraisalCard />
       </Grid>
       <Grid item xs={12}>
-        {data && <Table data={data} columns={column} title='Opposing Appraisal Table' onAdd={handleOpen} />}
+        {data && (
+          <Table
+            data={data}
+            columns={column}
+            title='Opposing Appraisal Table'
+            actionButtons={[
+              {
+                label: 'Add New',
+                onClick: handleOpen,
+                variant: 'contained',
+                color: 'primary',
+                type: 'button',
+                icon: 'ri-add-line'
+              }
+            ]}
+          />
+        )}
       </Grid>
 
       <Drawer open={open} setOpen={() => setOpen(false)}>
