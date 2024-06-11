@@ -1,11 +1,11 @@
 import * as React from 'react'
 import { useState } from 'react'
 
+import { Button, IconButton } from '@mui/material'
+import ListItemIcon from '@mui/material/ListItemIcon'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
-import ListItemIcon from '@mui/material/ListItemIcon'
 import Typography from '@mui/material/Typography'
-import { IconButton } from '@mui/material'
 
 interface Option {
   label: string
@@ -14,12 +14,13 @@ interface Option {
 }
 
 interface Props {
-  buttonLabel: string
+  buttonLabel?: string
   menuOptions: Option[]
   onMenuItemClick: (menuItem: Option | null) => void
+  label?: string
 }
 
-function DropDownButton({ buttonLabel, menuOptions, onMenuItemClick }: Props) {
+function DropDownButton({ buttonLabel, menuOptions, onMenuItemClick, label }: Props) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const open = Boolean(anchorEl)
 
@@ -34,21 +35,39 @@ function DropDownButton({ buttonLabel, menuOptions, onMenuItemClick }: Props) {
 
   return (
     <div>
-      <IconButton
-        aria-controls={open ? 'generic-menu' : undefined}
-        aria-haspopup='true'
-        aria-expanded={open ? 'true' : undefined}
-        onClick={handleClick}
-      >
-        <i className={buttonLabel}></i>
-      </IconButton>
+      {label ? (
+        <Button
+          variant='contained'
+          size='small'
+          sx={{height: '30px'}}
+          aria-controls={open ? 'generic-menu' : undefined}
+          aria-haspopup='true'
+          aria-expanded={open ? 'true' : undefined}
+          onClick={handleClick}
+        >
+          <>
+            {label}
+            <i className='ri-arrow-down-s-line'></i>
+          </>
+        </Button>
+      ) : (
+        <IconButton
+          aria-controls={open ? 'generic-menu' : undefined}
+          aria-haspopup='true'
+          aria-expanded={open ? 'true' : undefined}
+          onClick={handleClick}
+        >
+          <i className={buttonLabel}></i>
+        </IconButton>
+      )}
+
       <Menu
         id='generic-menu'
         anchorEl={anchorEl}
         open={open}
         onClose={() => handleClose(null)}
         anchorOrigin={{
-          vertical: 'top',
+          vertical: 'bottom',
           horizontal: 'left'
         }}
         transformOrigin={{

@@ -14,13 +14,14 @@ interface Props {
 const Dropdown: React.FC<Props> = ({ value, options, onChange, variant  }) => {
   const [selectedValue, setSelectedValue] = useState<string | null>(value)
 
+
   const handleChange = (event: SelectChangeEvent) => {
     setSelectedValue(event.target.value)
     onChange && onChange(event.target.value)
   }
 
   return variant ? (
-    <Select value={selectedValue || ''} onChange={handleChange} displayEmpty size='small'>
+    <Select value={selectedValue || ''} onChange={handleChange} displayEmpty size='small' label='Select'>
       {options &&
         options.map(option => (
           <MenuItem key={option.toLocaleLowerCase().replaceAll(' ', '-')} value={option}>
@@ -57,6 +58,7 @@ const Dropdown: React.FC<Props> = ({ value, options, onChange, variant  }) => {
         options.map(option => (
           <MenuItem key={option.toLocaleLowerCase().replaceAll(' ', '-')} value={option}>
             <div className='flex justify-between items-center w-full md:min-w-[160px] gap-6'>
+              
               {option}
               {selectedValue === option && <i className='ri-check-line w-4 h-4 me-2'></i>}
             </div>

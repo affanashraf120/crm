@@ -30,7 +30,7 @@ interface Props {
   name: string
 }
 
-function FiltersDropDown({ buttonLabel, buttons, onItemClick, type, filterList, name }: Props) {
+function ActionsDropDown({ buttonLabel, buttons, onItemClick, type, filterList, name }: Props) {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const [searchTerm, setSearchTerm] = useState('')
   const [startRange, setStartRange] = useState('')
@@ -400,4 +400,4 @@ function FiltersDropDown({ buttonLabel, buttons, onItemClick, type, filterList, 
   }
 }
 
-export default FiltersDropDown
+export default ActionsDropDown

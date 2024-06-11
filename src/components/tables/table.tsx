@@ -58,7 +58,7 @@ import DropDownButton from '@/components/dropDowns/dropDownButton'
 import ConfirmationDialog from '../dialogs/confirmation-dialog'
 import Dropdown from '../dropDowns/dropDown'
 import DropdownWithChip from '../dropDowns/dropDownChip'
-import FiltersDropDown from '../dropDowns/manageFilters'
+import ActionsDropDown from '../dropDowns/manageFilters'
 
 // Column Definitions
 const columnHelper = createColumnHelper<any>()
@@ -283,7 +283,7 @@ const Table = ({ data: Data, columns: columnArray, title, onActions, onFilterAct
           return (
             <>
               {header}
-              <FiltersDropDown
+              <ActionsDropDown
                 name={header}
                 buttonLabel='ri-arrow-drop-up-fill rotate-180 w-6 h-6 cursor-pointer'
                 onItemClick={onFilterActions}
@@ -296,7 +296,7 @@ const Table = ({ data: Data, columns: columnArray, title, onActions, onFilterAct
           return (
             <>
               {header}
-              <FiltersDropDown
+              <ActionsDropDown
                 name={header}
                 buttonLabel='ri-arrow-drop-up-fill rotate-180 w-6 h-6 cursor-pointer'
                 onItemClick={onFilterActions}
@@ -309,7 +309,7 @@ const Table = ({ data: Data, columns: columnArray, title, onActions, onFilterAct
           return (
             <>
               {header}
-              <FiltersDropDown
+              <ActionsDropDown
                 name={header}
                 buttonLabel='ri-arrow-drop-up-fill rotate-180 w-6 h-6 cursor-pointer'
                 onItemClick={onFilterActions}
@@ -323,7 +323,7 @@ const Table = ({ data: Data, columns: columnArray, title, onActions, onFilterAct
           return (
             <>
               {header}
-              <FiltersDropDown
+              <ActionsDropDown
                 name={header}
                 buttonLabel='ri-arrow-drop-up-fill rotate-180 w-6 h-6 cursor-pointer'
                 onItemClick={onFilterActions}
@@ -335,7 +335,7 @@ const Table = ({ data: Data, columns: columnArray, title, onActions, onFilterAct
           return (
             <>
               {header}
-              <FiltersDropDown
+              <ActionsDropDown
                 name={header}
                 buttonLabel='ri-arrow-drop-up-fill rotate-180 w-6 h-6 cursor-pointer'
                 onItemClick={onFilterActions}

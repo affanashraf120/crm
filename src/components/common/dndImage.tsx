@@ -104,12 +104,35 @@ export default function DNDImage() {
             onChange={handleChange}
             accept='.xlsx,.xls,image/*,.doc, .docx,.ppt, .pptx,.txt,.pdf, .mp4'
           />
-          <Button onClick={openFileExplorer} variant='contained' className='py-3 px-5 gap-2 mb-4'>
+          <Button onClick={openFileExplorer} variant='contained' className='py-3 px-5 gap-2 mb-2'>
             <i className='ri-upload-cloud-2-line'></i>
             Upload a File
           </Button>
 
           <p>Drag & drop a files or browse computer</p>
+
+          <div className='flex justify-center items-center pt-2'>
+            <div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
+              <div className='border flex flex-col justify-center items-center rounded-lg p-4 text-center cursor-pointer gap-2 transition duration-300'>
+                <span className='bg-blue-600 w-10 h-10 flex justify-center items-center rounded-full '>
+                  <i className='ri-folder-open-line p-3 w-3 h-3'></i>
+                </span>
+                <span className='text-xs whitespace-nowrap'>My Device</span>
+              </div>
+              <div className='border flex flex-col justify-center items-center rounded-lg p-4 text-center cursor-pointer gap-2 transition duration-300'>
+                <span className='bg-blue-900 w-10 h-10 flex justify-center items-center rounded-full '>
+                  <i className='ri-dropbox-line p-3 w-3 h-3'></i>
+                </span>{' '}
+                <span className='text-xs whitespace-nowrap'>Dropbox</span>
+              </div>
+              <div className='border flex flex-col justify-center items-center rounded-lg p-4 text-center cursor-pointer gap-2 transition duration-300'>
+                <span className='bg-blue-400 w-10 h-10 flex justify-center items-center rounded-full '>
+                  <i className='ri-drive-line p-3 w-3 h-3'></i>
+                </span>{' '}
+                <span className='text-xs whitespace-nowrap'>Google Drive</span>
+              </div>
+            </div>
+          </div>
         </form>
       </div>
       <div className='flex flex-col items-center p-3'>
@@ -117,7 +140,7 @@ export default function DNDImage() {
           <div key={idx} className='flex flex-row space-x-5'>
             <span>{file.name}</span>
             <span className='text-red-500 cursor-pointer' onClick={() => removeFile(file.name, idx)}>
-              <i className='ri-close-line'></i>
+              <i className='ri-delete-bin-6-line w-4 h-4'></i>
             </span>
           </div>
         ))}
