@@ -1,7 +1,7 @@
 'use client'
 import { useRef, useState } from 'react'
 
-import { Button } from '@mui/material'
+import { Button, IconButton } from '@mui/material'
 
 import { useSettings } from '@core/hooks/useSettings'
 
@@ -135,13 +135,26 @@ export default function DNDImage() {
           </div>
         </form>
       </div>
-      <div className='flex flex-col items-center p-3'>
+      <div className='flex flex-col items-center p-3 max-h-52 overflow-y-auto'>
         {files.map((file: any, idx: any) => (
-          <div key={idx} className='flex flex-row space-x-5'>
-            <span>{file.name}</span>
-            <span className='text-red-500 cursor-pointer' onClick={() => removeFile(file.name, idx)}>
-              <i className='ri-delete-bin-6-line w-4 h-4'></i>
-            </span>
+          <div key={file.id || idx} className='flex min-w-96 flex-col space-y-2 border rounded p-2 my-1'>
+            <div className='flex justify-between items-center'>
+              <span>{file.name}</span>
+              <div className='flex space-x-2'>
+                <IconButton className='cursor-pointer' onClick={() => console.log('Edit')}>
+                  <i className='ri-edit-2-line w-4 h-4'></i>
+                </IconButton>
+                <IconButton className='text-red-500 cursor-pointer' onClick={() => removeFile(file.name, idx)}>
+                  <i className='ri-delete-bin-6-line w-4 h-4'></i>
+                </IconButton>
+              </div>
+            </div>
+            <div className='flex justify-between items-center'>
+              <div className='bg-gray-200 rounded-full h-2 flex w-[90%]'>
+                <div className='bg-primary h-2 rounded-full' style={{ width: '50%' }}></div>
+              </div>
+              <span className='px-1 w-[10%]'>50%</span>
+            </div>
           </div>
         ))}
       </div>

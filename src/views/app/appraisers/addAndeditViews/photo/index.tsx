@@ -10,7 +10,7 @@ import ImageGallery from '@/components/common/imageGallery'
 import Dropdown from '@/components/dropDowns/dropDown'
 import DNDImage from '@/components/common/dndImage'
 import FormDialog from '@/components/dialogBox/formDialog'
-import FilterAccordion from './filters'
+import FilterAccordion from '@/components/filters'
 
 const Photo: React.FC = () => {
   const [size, setSize] = useState<'Small' | 'Medium' | 'Large'>('Medium')
@@ -104,9 +104,11 @@ const Photo: React.FC = () => {
             {
               title: 'Date Uploaded',
               filters: [
-                { label: 'Last 24 hours', active: false },
+                { label: 'All', active: false },
+                { label: 'Today', active: false },
+                { label: 'Yesterday', active: false },
                 { label: 'Last 7 days', active: false },
-                { label: 'Last 30 days', active: false }
+                { label: 'Last 30 days', active: false }     
               ]
             },
             {

@@ -105,16 +105,19 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images, size }) => {
           <Checkbox checked={details} onChange={() => setDetails(!details)} />
           <label>{details ? 'Details' : 'Details'}</label>
         </div>
-        <DropDownButton
-          label='Action '
-          menuOptions={[
-            { label: 'Move to Another Album', icon:'ri-arrow-go-back-fill' },
-            { label: 'Copy to Another Album' , icon:'ri-file-copy-line'},
-            { label: 'Download', icon:'ri-download-cloud-2-line' },
-            { label: 'Delete', icon:'ri-delete-bin-6-line' }
-          ]}
-          onMenuItemClick={item => console.log(item)}
-        />{' '}
+        {selectedImages.length > 0 && (
+          <DropDownButton
+            label='Action '
+            menuOptions={[
+              { label: 'Move to Another Album', icon: 'ri-arrow-go-back-fill' },
+              { label: 'Copy to Another Album', icon: 'ri-file-copy-line' },
+              { label: 'Share', icon: 'ri-share-line' },
+              { label: 'Download', icon: 'ri-download-cloud-2-line' },
+              { label: 'Delete', icon: 'ri-delete-bin-6-line' }
+            ]}
+            onMenuItemClick={item => console.log(item)}
+          />
+        )}
       </div>
 
       <div className='h-[500px] overflow-y-auto'>
