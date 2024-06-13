@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import Accordion from '@mui/material/Accordion'
 import AccordionSummary from '@mui/material/AccordionSummary'
@@ -22,11 +22,21 @@ type FilterCategory = {
 
 type FilterAccordionProps = {
   filtersData: FilterCategory[]
+  onApplyFilter:any
 }
 
-const FilterAccordion: React.FC<FilterAccordionProps> = ({ filtersData }) => {
+const FilterAccordion: React.FC<FilterAccordionProps> = ({ filtersData, onApplyFilter }) => {
   const [selectedFilters, setSelectedFilters] = useState(filtersData)
   const [selectAll, setSelectAll] = useState(false)
+
+  // Update selectAll state based on individual filter states
+  useEffect(() => {
+    const allSelected = selectedFilters.every(category =>
+      category.filters.every(filter => filter.active)
+    )
+
+    setSelectAll(allSelected)
+  }, [selectedFilters])
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>, categoryIndex: number, filterIndex: number) => {
     const updatedFilters = selectedFilters.map((category, catIndex) => {
@@ -49,19 +59,21 @@ const FilterAccordion: React.FC<FilterAccordionProps> = ({ filtersData }) => {
     setSelectedFilters(updatedFilters)
   }
 
-  const toggleSelectAll = ()=>{
-    setSelectAll(!selectAll)
+  const toggleSelectAll = () => {
+    const newSelectAll = !selectAll
 
-    const selectFilters = filtersData.map(category => ({
+    setSelectAll(newSelectAll)
+
+    const selectFilters = selectedFilters.map(category => ({
       ...category,
-      filters: category.filters.map(filter => ({ ...filter, active: !selectAll }))
+      filters: category.filters.map(filter => ({ ...filter, active: newSelectAll }))
     }))
 
     setSelectedFilters(selectFilters)
   }
 
   const handleClear = () => {
-    const resetFilters = filtersData.map(category => ({
+    const resetFilters = selectedFilters.map(category => ({
       ...category,
       filters: category.filters.map(filter => ({ ...filter, active: false }))
     }))
@@ -70,13 +82,13 @@ const FilterAccordion: React.FC<FilterAccordionProps> = ({ filtersData }) => {
   }
 
   const handleApply = () => {
-    console.log('Applied filters:', selectedFilters)
+    onApplyFilter(selectedFilters)
   }
 
   return (
     <div className='px-6 '>
       <div className='h-[300px] overflow-y-auto'>
-      <div>
+        <div>
           <Checkbox checked={selectAll} onChange={toggleSelectAll} />
           <label>{selectAll ? 'Deselect All' : 'Select All'}</label>
         </div>
@@ -112,13 +124,19 @@ const FilterAccordion: React.FC<FilterAccordionProps> = ({ filtersData }) => {
       </div>
 
       <div className='py-4 flex justify-between items-center'>
-        <Button variant='outlined' color='inherit' onClick={handleClear}>
-          Clear
+        <Button variant='outlined' color='inherit' >
+          Cancel
         </Button>
-        <Button variant='contained' onClick={handleApply}>
-          Apply
-        </Button>
+        <div className=' flex justify-center items-center gap-4'>
+          <Button variant='outlined' color='inherit' onClick={handleClear}>
+            Clear
+          </Button>
+          <Button variant='contained' onClick={handleApply}>
+            Apply
+          </Button>
+        </div>
       </div>
+
     </div>
   )
 }

@@ -1,4 +1,4 @@
-// import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { Checkbox } from '@mui/material'
@@ -8,142 +8,497 @@ import AccordionSummary from '@mui/material/AccordionSummary'
 
 import DropDownButton from '@/components/dropDowns/dropDownButton'
 
-const Folder = () => {
-  const folder = [
-    {
-      label: 'Email Documentations',
-      files: [
-        { name: 'abd.pdf', uploaded_by: 'john deo', last_updated: '12/1/2024', active: false },
-        { name: 'xyz.pdf', uploaded_by: 'jane doe', last_updated: '12/2/2024', active: false }
-      ],
-      select: false
-    },
-    {
-      label: 'Meeting Notes',
-      files: [
-        { name: 'meeting1.pdf', uploaded_by: 'alice smith', last_updated: '12/3/2024', active: false },
-        { name: 'meeting2.pdf', uploaded_by: 'bob johnson', last_updated: '12/4/2024', active: false }
-      ],
-      select: false
-    }
-  ]
+interface File {
+  name: string
+  uploaded_by: string
+  last_updated: string
+  active: boolean
+  size: string
+}
+
+interface Folder {
+  label: string
+  files: File[]
+  select: boolean
+}
+
+const FolderComponent = ({ filters }: any) => {
+  const [fileView, setFileView] = useState(false)
+  const [cardView, setCardView] = useState(false)
+  const [details, setDetails] = useState(false)
+  const [folders, setFolders] = useState<Folder[]>(filters)
+
+  useEffect(() => {
+    setFolders(filters)
+  }, [filters])
+
+  const handleSelectAll = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const isChecked = event.target.checked
+
+    setFolders(
+      folders.map(folder => ({
+        ...folder,
+        select: isChecked,
+        files: folder.files.map(file => ({ ...file, active: isChecked }))
+      }))
+    )
+  }
+
+  const handleFolderSelect = (folderIndex: number, event: React.ChangeEvent<HTMLInputElement>) => {
+    const isChecked = event.target.checked
+
+    setFolders(
+      folders.map((folder, i) =>
+        i === folderIndex
+          ? {
+              ...folder,
+              select: isChecked,
+              files: folder.files.map(file => ({ ...file, active: isChecked }))
+            }
+          : folder
+      )
+    )
+  }
+
+  const handleFileSelect = (folderIndex: number, fileIndex: number, event: React.ChangeEvent<HTMLInputElement>) => {
+    const isChecked = event.target.checked
+
+    setFolders(
+      folders.map((folder, i) => {
+        if (i === folderIndex) {
+          const updatedFiles = folder.files.map((file, j) => (j === fileIndex ? { ...file, active: isChecked } : file))
+          const folderSelect = updatedFiles.every(file => file.active)
+
+          return {
+            ...folder,
+            select: folderSelect,
+            files: updatedFiles
+          }
+        }
+
+        return folder
+      })
+    )
+  }
+
+  const handleFlatViewToggle = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setFileView(event.target.checked)
+  }
+
+  const allFiles = folders.flatMap(folder => folder.files)
+
+  // Todo if any check box is active the display
+  const anyFileSelected = allFiles.some(file => file.active)
 
   return (
     <div className='w-full'>
       <div className='flex justify-start items-center gap-2 flex-wrap pb-2'>
         <div>
-          <Checkbox />
-          <label>Select All</label>
+          <Checkbox checked={folders.every(folder => folder.select)} onChange={handleSelectAll} />
+          <label>{folders.every(folder => folder.select) ? 'Deselect All' : 'Select All'}</label>
         </div>
         <div>
-          {/* <Checkbox checked={details} onChange={() => setDetails(!details)} /> */}
-          {/* <label>{details ? 'Details' : 'Details'}</label> */}
+          <Checkbox checked={fileView} onChange={handleFlatViewToggle} />
+          <label>Document List</label>
         </div>
-        {/* {selectedImages.length > 0 && (
+
+        <div>
+          <Checkbox checked={cardView} onChange={() => setCardView(!cardView)} />
+          <label>Card View</label>
+        </div>
+
+        <div>
+          <Checkbox checked={details} onChange={() => setDetails(!details)} />
+          <label>Details</label>
+        </div>
+
+        {anyFileSelected && (
           <DropDownButton
-            label='Action '
+            label='Action'
             menuOptions={[
-              { label: 'Move to Another Album', icon: 'ri-arrow-go-back-fill' },
-              { label: 'Copy to Another Album', icon: 'ri-file-copy-line' },
-              { label: 'Share', icon: 'ri-share-line' },
-              { label: 'Download', icon: 'ri-download-cloud-2-line' },
-              { label: 'Delete', icon: 'ri-delete-bin-6-line' }
+              { label: 'Settings', icon: 'ri-settings-3-fill w-4 h-4' },
+              { label: 'Change Folder', icon: 'ri-arrow-go-back-fill w-4 h-4' },
+              { label: 'Duplicate', icon: 'ri-file-copy-line w-4 h-4' },
+              { label: 'View Document', icon: 'ri-external-link-line w-4 h-4' },
+              { label: 'Download', icon: 'ri-download-cloud-2-line w-4 h-4' }
             ]}
             onMenuItemClick={item => console.log(item)}
           />
-        )} */}
+        )}
       </div>
 
-      <div className='h-[500px] overflow-y-auto'>
-        {folder.map((item, index) => (
-          <Accordion key={index}>
-            <div className='flex justify-start items-start md:items-center flex-col md:flex-row px-7'>
-              <i className='ri-folder-open-line'></i>
-              <div className='w-full pl-0'>
-                <AccordionSummary expandIcon={<ExpandMoreIcon />} sx={{ p: 1 }}>
-                  {item.label}
-                </AccordionSummary>
-              </div>
-            </div>
-            <AccordionDetails>
-              <div className='overflow-x-auto'>
-                <table className='w-full divide-y '>
-                  <thead className='border-b'>
-                    <tr>
-                      <div className='flex justify-between items-center w-full'>
-                        <div>
-                          <th scope='col' className=''>
-                            <Checkbox checked={item.select} />
-                          </th>
-                          <th
-                            scope='col'
-                            className='px-6 py-3 text-left text-xs font-medium text-secondary uppercase tracking-wider'
-                          >
-                            Name
-                          </th>
-                        </div>
-                        <div>
-                          <th
-                            scope='col'
-                            className='w-32 text-left text-xs font-medium text-secondary uppercase tracking-wider'
-                          >
-                            Uploaded By
-                          </th>
-                          <th
-                            scope='col'
-                            className='w-32 text-left text-xs font-medium text-secondary uppercase tracking-wider'
-                          >
-                            Last Updated
-                          </th>
-                          <th
-                            scope='col'
-                            className='w-32 text-left text-xs font-medium text-secondary uppercase tracking-wider'
-                          >
-                            Actions
-                          </th>
-                        </div>
+      {fileView ? (
+        <div className='h-[500px] overflow-y-auto'>
+          <div className={`${cardView ? 'hidden' : 'hidden md:flex'}  `}>
+            <table className={`${cardView ? '' : ' w-full divide-y'} `}>
+              <thead className='border-b'>
+                <tr>
+                  <div className='flex justify-between items-center w-full'>
+                    <div>
+                      <th scope='col' className=''>
+                        <Checkbox
+                          checked={allFiles.every(file => file.active)}
+                          onChange={event => {
+                            const isChecked = event.target.checked
+
+                            setFolders(
+                              folders.map(folder => ({
+                                ...folder,
+                                files: folder.files.map(file => ({ ...file, active: isChecked }))
+                              }))
+                            )
+                          }}
+                        />{' '}
+                      </th>
+                      <th
+                        scope='col'
+                        className='px-6 py-3 text-left text-xs font-medium text-secondary uppercase tracking-wider'
+                      >
+                        File Name
+                      </th>
+                    </div>
+                    <div>
+                      <th
+                        scope='col'
+                        className='w-32 text-left text-xs font-medium text-secondary uppercase tracking-wider'
+                      >
+                        Uploaded By
+                      </th>
+                      {details && (
+                        <th
+                          scope='col'
+                          className='w-32 text-left text-xs font-medium text-secondary uppercase tracking-wider'
+                        >
+                          File Size
+                        </th>
+                      )}
+
+                      <th
+                        scope='col'
+                        className='w-32 text-left text-xs font-medium text-secondary uppercase tracking-wider'
+                      >
+                        Last Updated
+                      </th>
+                      <th
+                        scope='col'
+                        className='w-32 text-left text-xs font-medium text-secondary uppercase tracking-wider'
+                      >
+                        Actions
+                      </th>
+                    </div>
+                  </div>
+                </tr>
+              </thead>
+              <tbody className=''>
+                {allFiles.map((file, fileIndex) => (
+                  <tr key={fileIndex}>
+                    <div className='flex justify-between items-center w-full border rounded hover:bg-white/10 duration-500 ease-in-out transition-all mb-2'>
+                      <div>
+                        <td>
+                          <Checkbox
+                            checked={file.active}
+                            onChange={event => {
+                              const isChecked = event.target.checked
+
+                              setFolders(
+                                folders.map(folder => ({
+                                  ...folder,
+                                  files: folder.files.map(f => (f.name === file.name ? { ...f, active: isChecked } : f))
+                                }))
+                              )
+                            }}
+                          />
+                        </td>
+                        <td className='px-6 py-4 whitespace-nowrap'>
+                          <div className='text-sm font-medium flex justify-center items-center'>
+                            {file?.name?.split('.')?.pop()?.toLowerCase() === 'pdf' ? (
+                              <span className='w-8 h-8 flex justify-center items-center mr-2 bg-red-700 rounded-full'>
+                                <i className='ri-file-pdf-2-line w-4 h-4'></i>
+                              </span>
+                            ) : (
+                              <span className='w-8 h-8 flex justify-center items-center mr-2 bg-blue-700 rounded-full'>
+                                <i className='ri-file-word-2-line w-4 h-4'></i>
+                              </span>
+                            )}
+                            {file.name}
+                          </div>
+                        </td>
                       </div>
-                    </tr>
-                  </thead>
-                  <tbody className=''>
-                    {item.files.map((file, index) => (
-                      <tr key={index}>
-                        <div className='flex justify-between items-center w-full border rounded hover:bg-white/10 duration-500 ease-in-out transition-all mb-2'>
+                      <div>
+                        {details && (
+                          <td className='w-32 whitespace-nowrap'>
+                            <div className='text-sm '>{file.size}</div>
+                          </td>
+                        )}
+                        <td className='w-32 whitespace-nowrap'>
+                          <div className='text-sm '>{file.uploaded_by}</div>
+                        </td>
+                        <td className='w-32 whitespace-nowrap'>
+                          <div className='text-sm '>{file.last_updated}</div>
+                        </td>
+                        <td className='w-32 ml-10 whitespace-nowrap  text-sm font-medium'>
+                          <DropDownButton
+                            onMenuItemClick={item => console.log(item)}
+                            buttonLabel='ri-more-2-fill rotate-180 w-4 h-4 cursor-pointer'
+                            menuOptions={[
+                              { label: 'Send as Message', icon: 'ri-message-3-line w-4 h-4' },
+                              { label: 'Move to Another Folder', icon: 'ri-arrow-go-back-fill w-4 h-4' },
+                              { label: 'Copy to Another Album', icon: 'ri-file-copy-line w-4 h-4' },
+                              { label: 'Download', icon: 'ri-download-cloud-2-line w-4 h-4' },
+                              { label: 'Delete', icon: 'ri-delete-bin-6-line w-4 h-4' }
+                            ]}
+                          />
+                        </td>
+                      </div>
+                    </div>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <div className={`${cardView ? '' : 'md:hidden'} flex flex-wrap w-full gap-2`}>
+            {allFiles &&
+              allFiles.map((file, fileIndex) => (
+                <span key={fileIndex}>
+                  <div className='border rounded hover:bg-white/10 duration-500 ease-in-out transition-all mb-2 p-2 min-w-[225px] '>
+                    <div className='flex justify-between items-start flex-col gap-2 '>
+                      <Checkbox
+                        checked={file.active}
+                        onChange={event => {
+                          const isChecked = event.target.checked
+
+                          setFolders(
+                            folders.map(folder => ({
+                              ...folder,
+                              files: folder.files.map(f => (f.name === file.name ? { ...f, active: isChecked } : f))
+                            }))
+                          )
+                        }}
+                      />
+                      <div className='ml-2 flex'>
+                        {file?.name?.split('.')?.pop()?.toLowerCase() === 'pdf' ? (
+                          <span className='w-8 h-8 flex justify-center items-center mr-2 bg-red-700 rounded-full'>
+                            <i className='ri-file-pdf-2-line w-4 h-4'></i>
+                          </span>
+                        ) : (
+                          <span className='w-8 h-8 flex justify-center items-center mr-2 bg-blue-700 rounded-full'>
+                            <i className='ri-file-word-2-line w-4 h-4'></i>
+                          </span>
+                        )}
+                        <div className='text-sm font-medium'>{file.name}</div>
+                      </div>
+                      <div className='flex justify-between items-center w-full px-2'>
+                        <div className='flex flex-col'>
+                          {details && <div className='text-xs'>{file.size}</div>}
+                          <div className='text-xs'>{file.uploaded_by}</div>
+                          <div className='text-xs'>{file.last_updated}</div>
+                        </div>
+                        <DropDownButton
+                            onMenuItemClick={item => console.log(item)}
+                            buttonLabel='ri-more-2-fill rotate-180 w-4 h-4 cursor-pointer'
+                            menuOptions={[
+                              { label: 'Send as Message', icon: 'ri-message-3-line w-4 h-4' },
+                              { label: 'Move to Another Folder', icon: 'ri-arrow-go-back-fill w-4 h-4' },
+                              { label: 'Copy to Another Album', icon: 'ri-file-copy-line w-4 h-4' },
+                              { label: 'Download', icon: 'ri-download-cloud-2-line w-4 h-4' },
+                              { label: 'Delete', icon: 'ri-delete-bin-6-line w-4 h-4' }
+                            ]}
+                          />
+                      </div>
+                    </div>
+                  </div>
+                </span>
+              ))}
+
+            {allFiles.length === 0 && <tr className='text-center text-sm font-medium'>No Files Found</tr>}
+          </div>
+        </div>
+      ) : (
+        <div className='h-[500px] overflow-y-auto'>
+          {folders.map((folder, folderIndex) => (
+            <Accordion
+              key={folderIndex}
+              className='hover:bg-[#f5f5f5]/10 mb-2 duration-500 transition-all ease-in-out border rounded'
+            >
+              <div className='flex justify-start items-center  px-7 whitespace-nowrap'>
+                <i className='ri-folder-open-line'></i>
+                <div className='w-full pl-0'>
+                  <AccordionSummary expandIcon={<ExpandMoreIcon />} sx={{ p: 1 }}>
+                    {folder.label} ({folder.files.length})
+                  </AccordionSummary>
+                </div>
+              </div>
+              <AccordionDetails>
+                {/* Laptop View */}
+                <div className={`${cardView ? 'hidden' : 'hidden md:flex'}  `}>
+                  <table className='w-full divide-y '>
+                    <thead className='border-b '>
+                      <tr>
+                        <div className='flex justify-between items-center w-full'>
                           <div>
-                            <td>
-                              <Checkbox checked={file.active || false} />
-                            </td>
-                            <td className='px-6 py-4 whitespace-nowrap'>
-                              <div className='text-sm font-medium '>{file.name}</div>
-                            </td>
+                            <th scope='col' className=''>
+                              <Checkbox
+                                checked={folder.select}
+                                onChange={event => handleFolderSelect(folderIndex, event)}
+                              />{' '}
+                            </th>
+                            <th
+                              scope='col'
+                              className='px-6 py-3 text-left text-xs font-medium text-secondary uppercase tracking-wider'
+                            >
+                              Name
+                            </th>
                           </div>
                           <div>
-                            <td className='w-32 whitespace-nowrap'>
-                              <div className='text-sm '>{file.uploaded_by}</div>
-                            </td>
-                            <td className='w-32 whitespace-nowrap'>
-                              <div className='text-sm '>{file.last_updated}</div>
-                            </td>
-                            <td className='w-32 ml-10 whitespace-nowrap  text-sm font-medium'>
-                              <DropDownButton
-                                onMenuItemClick={item => console.log(item)}
-                                buttonLabel='ri-more-2-fill rotate-180 w-4 h-4 cursor-pointer'
-                                menuOptions={[{ label: 'Delete' }, { label: 'Move' }]}
-                              />
-                            </td>
+                            {details && (
+                              <th
+                                scope='col'
+                                className='w-32 text-left text-xs font-medium text-secondary uppercase tracking-wider'
+                              >
+                                File Size
+                              </th>
+                            )}
+                            <th
+                              scope='col'
+                              className='w-32 text-left text-xs font-medium text-secondary uppercase tracking-wider'
+                            >
+                              Uploaded By
+                            </th>
+                            <th
+                              scope='col'
+                              className='w-32 text-left text-xs font-medium text-secondary uppercase tracking-wider'
+                            >
+                              Last Updated
+                            </th>
+                            <th
+                              scope='col'
+                              className='w-32 text-left text-xs font-medium text-secondary uppercase tracking-wider'
+                            >
+                              Actions
+                            </th>
                           </div>
                         </div>
                       </tr>
+                    </thead>
+                    <tbody className=''>
+                      {folder &&
+                        folder.files.map((file, fileIndex) => (
+                          <tr key={fileIndex}>
+                            <div className='flex justify-between items-center w-full border rounded hover:bg-white/10 duration-500 ease-in-out transition-all mb-2'>
+                              <div>
+                                <td>
+                                  <Checkbox
+                                    checked={file.active}
+                                    onChange={event => handleFileSelect(folderIndex, fileIndex, event)}
+                                  />{' '}
+                                </td>
+                                <td className='px-6 py-4 whitespace-nowrap '>
+                                  <div className='text-sm font-medium flex justify-center items-center'>
+                                    {file?.name?.split('.')?.pop()?.toLowerCase() === 'pdf' ? (
+                                      <span className='w-8 h-8 flex justify-center items-center mr-2 bg-red-700 rounded-full'>
+                                        <i className='ri-file-pdf-2-line w-4 h-4'></i>
+                                      </span>
+                                    ) : (
+                                      <span className='w-8 h-8 flex justify-center items-center mr-2 bg-blue-700 rounded-full'>
+                                        <i className='ri-file-word-2-line w-4 h-4'></i>
+                                      </span>
+                                    )}
+                                    dis
+                                    {file.name}
+                                  </div>
+                                </td>
+                              </div>
+                              <div>
+                                {details && (
+                                  <td className='w-32 whitespace-nowrap'>
+                                    <div className='text-sm '>{file.size}</div>
+                                  </td>
+                                )}
+                                <td className='w-32 whitespace-nowrap'>
+                                  <div className='text-sm '>{file.uploaded_by}</div>
+                                </td>
+                                <td className='w-32 whitespace-nowrap'>
+                                  <div className='text-sm '>{file.last_updated}</div>
+                                </td>
+                                <td className='w-32 ml-10 whitespace-nowrap  text-sm font-medium'>
+                                <DropDownButton
+                            onMenuItemClick={item => console.log(item)}
+                            buttonLabel='ri-more-2-fill rotate-180 w-4 h-4 cursor-pointer'
+                            menuOptions={[
+                              { label: 'Send as Message', icon: 'ri-message-3-line w-4 h-4' },
+                              { label: 'Move to Another Folder', icon: 'ri-arrow-go-back-fill w-4 h-4' },
+                              { label: 'Copy to Another Album', icon: 'ri-file-copy-line w-4 h-4' },
+                              { label: 'Download', icon: 'ri-download-cloud-2-line w-4 h-4' },
+                              { label: 'Delete', icon: 'ri-delete-bin-6-line w-4 h-4' }
+                            ]}
+                          />
+                                </td>
+                              </div>
+                            </div>
+                          </tr>
+                        ))}
+
+                      {folder.files.length === 0 && <tr className='text-center text-sm font-medium'>No Files Found</tr>}
+                    </tbody>
+                  </table>
+                </div>
+
+                {/* Mobile View */}
+                <div className={`${cardView ? '' : 'md:hidden'} flex flex-wrap w-full gap-2`}>
+                  {folder &&
+                    folder.files.map((file, fileIndex) => (
+                      <span key={fileIndex}>
+                        <div className='border rounded hover:bg-white/10 duration-500 ease-in-out transition-all mb-2 p-2 min-w-[225px] '>
+                          <div className='flex justify-between items-start flex-col gap-2 '>
+                            <Checkbox
+                              checked={file.active}
+                              onChange={event => handleFileSelect(folderIndex, fileIndex, event)}
+                            />
+                            <div className='ml-2 flex'>
+                              {file?.name?.split('.')?.pop()?.toLowerCase() === 'pdf' ? (
+                                <span className='w-8 h-8 flex justify-center items-center mr-2 bg-red-700 rounded-full'>
+                                  <i className='ri-file-pdf-2-line w-4 h-4'></i>
+                                </span>
+                              ) : (
+                                <span className='w-8 h-8 flex justify-center items-center mr-2 bg-blue-700 rounded-full'>
+                                  <i className='ri-file-word-2-line w-4 h-4'></i>
+                                </span>
+                              )}
+                              <div className='text-sm font-medium'>{file.name}</div>
+                            </div>
+                            <div className='flex justify-between items-center w-full px-2'>
+                              <div className='flex flex-col'>
+                                <div className='text-xs'>{file.uploaded_by}</div>
+                                <div className='text-xs'>{file.last_updated}</div>
+                                {details && <div className='text-xs'>{file.size}</div>}
+                              </div>
+                              <DropDownButton
+                            onMenuItemClick={item => console.log(item)}
+                            buttonLabel='ri-more-2-fill rotate-180 w-4 h-4 cursor-pointer'
+                            menuOptions={[
+                              { label: 'Send as Message', icon: 'ri-message-3-line w-4 h-4' },
+                              { label: 'Move to Another Folder', icon: 'ri-arrow-go-back-fill w-4 h-4' },
+                              { label: 'Copy to Another Album', icon: 'ri-file-copy-line w-4 h-4' },
+                              { label: 'Download', icon: 'ri-download-cloud-2-line w-4 h-4' },
+                              { label: 'Delete', icon: 'ri-delete-bin-6-line w-4 h-4' }
+                            ]}
+                          />
+                            </div>
+                          </div>
+                        </div>
+                      </span>
                     ))}
-                  </tbody>
-                </table>
-              </div>
-            </AccordionDetails>
-          </Accordion>
-        ))}
-      </div>
+
+                  {folder.files.length === 0 && <tr className='text-center text-sm font-medium'>No Files Found</tr>}
+                </div>
+              </AccordionDetails>
+            </Accordion>
+          ))}
+        </div>
+      )}
     </div>
   )
 }
 
-export default Folder
+export default FolderComponent

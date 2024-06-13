@@ -10,7 +10,7 @@ interface Options {
 
 interface MultiSelectDropdownProps {
   options: Options[]
-  onselect: React.Dispatch<React.SetStateAction<string[]>>
+  onselect: any
 }
 
 const MultiSelectDropdown: React.FC<MultiSelectDropdownProps> = ({ options, onselect }) => {
@@ -18,14 +18,14 @@ const MultiSelectDropdown: React.FC<MultiSelectDropdownProps> = ({ options, onse
 
   const handleChange = (event: SelectChangeEvent<string[]>) => {
     setSelectedItems(event.target.value as string[])
-    onselect(event.target.value as string[])  
+    onselect(event.target.value as any)
   }
 
   return (
     <FormControl>
       <Select
         multiple
-        value={selectedItems}
+        value={selectedItems || ['Asad']}
         onChange={handleChange}
         size='small'
         style={{ minWidth: '250px' }}
@@ -40,7 +40,7 @@ const MultiSelectDropdown: React.FC<MultiSelectDropdownProps> = ({ options, onse
         )}
       >
         {options.map(item => (
-          <MenuItem key={item.label} value={item.label}>
+          <MenuItem key={item.label} value={item.label} >
             <Checkbox checked={selectedItems.includes(item.label)} />
             {item.label}
           </MenuItem>

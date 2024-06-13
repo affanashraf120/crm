@@ -2,7 +2,6 @@ import * as React from 'react'
 import { useState } from 'react'
 
 import { Button, IconButton } from '@mui/material'
-import ListItemIcon from '@mui/material/ListItemIcon'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
 import Typography from '@mui/material/Typography'
@@ -79,9 +78,9 @@ function DropDownButton({ buttonLabel, menuOptions, onMenuItemClick, label }: Pr
           menuOptions.map((option, index) => (
             <MenuItem key={index} onClick={() => handleClose(option)}>
               {option.icon && (
-                <ListItemIcon>
-                  <i className={option.icon}></i>
-                </ListItemIcon>
+                <>
+                  <i className={`${option.icon} mr-2`}></i>
+                </>
               )}
               <Typography variant='inherit'>{option.label}</Typography>
             </MenuItem>
