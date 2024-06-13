@@ -6,11 +6,11 @@ import { Button, InputAdornment, TextField, Typography } from '@mui/material'
 
 import SearchIcon from '@mui/icons-material/Search'
 
-import ImageGallery from '@/components/common/imageGallery'
 import Dropdown from '@/components/dropDowns/dropDown'
 import DNDImage from '@/components/common/dndImage'
 import FormDialog from '@/components/dialogBox/formDialog'
 import FilterAccordion from '@/components/filters'
+import ImageGallery from '@/modules/app/appraiser/photos/imageGallery'
 
 const Photo: React.FC = () => {
   const [size, setSize] = useState<'Small' | 'Medium' | 'Large'>('Medium')

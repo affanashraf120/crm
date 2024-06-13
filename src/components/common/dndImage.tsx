@@ -150,8 +150,8 @@ export default function DNDImage() {
               </div>
             </div>
             <div className='flex justify-between items-center'>
-              <div className='bg-gray-200 rounded-full h-2 flex w-[90%]'>
-                <div className='bg-primary h-2 rounded-full' style={{ width: '50%' }}></div>
+              <div className='bg-gray-200 rounded-full h-1 flex w-[90%]'>
+                <div className='bg-primary h-1 rounded-full' style={{ width: '50%' }}></div>
               </div>
               <span className='px-1 w-[10%]'>50%</span>
             </div>

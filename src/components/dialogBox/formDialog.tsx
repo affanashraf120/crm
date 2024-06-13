@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Dialog, DialogTitle, IconButton } from '@mui/material'
+import { Dialog, DialogContent, DialogTitle, IconButton } from '@mui/material'
 
 interface ModalProps {
   open: boolean
@@ -8,9 +8,10 @@ interface ModalProps {
   children: React.ReactNode
   dialogTitle: string
   closeButton?: boolean
+  dialogSize?:string
 }
 
-const FormDialog: React.FC<ModalProps> = ({ open, onClose, children, dialogTitle, closeButton }) => {
+const FormDialog: React.FC<ModalProps> = ({ open, onClose, children, dialogTitle, closeButton, dialogSize }) => {
   return (
     <Dialog
       onClose={onClose}
@@ -19,7 +20,7 @@ const FormDialog: React.FC<ModalProps> = ({ open, onClose, children, dialogTitle
         '& .MuiDialog-container': {
           '& .MuiPaper-root': {
             width: '100%',
-            minWidth: '50%' 
+            minWidth: dialogSize ? dialogSize : '50%'
           }
         }
       }}
@@ -32,7 +33,7 @@ const FormDialog: React.FC<ModalProps> = ({ open, onClose, children, dialogTitle
           </IconButton>
         )}
       </div>
-      {children}
+      <DialogContent>{children}</DialogContent>
     </Dialog>
   )
 }
