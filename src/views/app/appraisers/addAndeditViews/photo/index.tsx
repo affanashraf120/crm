@@ -100,6 +100,7 @@ const Photo: React.FC = () => {
 
       <FormDialog open={openFilter} onClose={handleCloseFilters} dialogTitle='Filters' closeButton={true}>
         <FilterAccordion
+        onApplyFilter={(item:any)=>console.log(item)}
           filtersData={[
             {
               title: 'Date Uploaded',
@@ -108,7 +109,7 @@ const Photo: React.FC = () => {
                 { label: 'Today', active: false },
                 { label: 'Yesterday', active: false },
                 { label: 'Last 7 days', active: false },
-                { label: 'Last 30 days', active: false }     
+                { label: 'Last 30 days', active: false }
               ]
             },
             {
