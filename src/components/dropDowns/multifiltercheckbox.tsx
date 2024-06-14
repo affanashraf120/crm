@@ -49,7 +49,7 @@ const MultiSelectDropdown: React.FC<MultiSelectDropdownProps> = ({ options, onse
             key={item.label}
             value={item.label}
             className='text-current'
-            style={{ backgroundColor: 'transparent', height: '45px' }}
+            style={{ backgroundColor: 'transparent', height: '45px', minWidth:'200px' }}
           >
             <Checkbox checked={selectedItems.includes(item.label)} />
             {item.label}

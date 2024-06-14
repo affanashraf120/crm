@@ -124,6 +124,13 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images, size }) => {
       <div className='h-[500px] overflow-y-auto'>
         {Object.keys(groupedImages).map(date => (
           <Accordion key={date}
+
+          sx={{ 
+            '&:before': { 
+              display: 'none' 
+            },
+            
+          }}
           onChange={(e, expanded) => {
             if (expanded) {
               setIsHovered(true)

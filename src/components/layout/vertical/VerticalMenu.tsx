@@ -76,7 +76,7 @@ const VerticalMenu = ({ scrollMenu }: Props) => {
         renderExpandedMenuItemIcon={{ icon: <i className='ri-circle-line' /> }}
         menuSectionStyles={menuSectionStyles(verticalNavOptions, theme)}
       >
-        <MenuItem href='/dashBoard' icon={<i className='ri-home-smile-line' />}>
+        <MenuItem href='/dashboard' icon={<i className='ri-home-smile-line' />}>
           Dashboard
         </MenuItem>
 

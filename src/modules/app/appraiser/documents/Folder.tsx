@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { Checkbox, IconButton } from '@mui/material'
@@ -93,8 +93,6 @@ const FolderComponent = ({ filters }: any) => {
   const anyFileSelected = allFiles.some(file => file.active)
   const allFoldersSelected = folders.length > 0 && folders.every(folder => folder.select)
 
-
-
   return (
     <div className='w-full'>
       <div className='flex justify-start items-center gap-2 flex-wrap pb-2'>
@@ -121,11 +119,11 @@ const FolderComponent = ({ filters }: any) => {
           <DropDownButton
             label='Action'
             menuOptions={[
-              { label: 'Settings', icon: 'ri-settings-3-fill w-4 h-4' },
-              { label: 'Change Folder', icon: 'ri-arrow-go-back-fill w-4 h-4' },
-              { label: 'Duplicate', icon: 'ri-file-copy-line w-4 h-4' },
-              { label: 'View Document', icon: 'ri-external-link-line w-4 h-4' },
-              { label: 'Download', icon: 'ri-download-cloud-2-line w-4 h-4' }
+              { label: 'Send as Message', icon: 'ri-message-3-line w-4 h-4' },
+              { label: 'Move to Another Folder', icon: 'ri-arrow-go-back-fill w-4 h-4' },
+              { label: 'Copy to Another Album', icon: 'ri-file-copy-line w-4 h-4' },
+              { label: 'Download', icon: 'ri-download-cloud-2-line w-4 h-4' },
+              { label: 'Delete', icon: 'ri-delete-bin-6-line w-4 h-4' }
             ]}
             onMenuItemClick={item => console.log(item)}
           />
@@ -246,11 +244,11 @@ const FolderComponent = ({ filters }: any) => {
                             onMenuItemClick={item => console.log(item)}
                             buttonLabel='ri-more-2-fill rotate-180 w-4 h-4 cursor-pointer'
                             menuOptions={[
-                              { label: 'Send as Message', icon: 'ri-message-3-line w-4 h-4' },
-                              { label: 'Move to Another Folder', icon: 'ri-arrow-go-back-fill w-4 h-4' },
-                              { label: 'Copy to Another Album', icon: 'ri-file-copy-line w-4 h-4' },
-                              { label: 'Download', icon: 'ri-download-cloud-2-line w-4 h-4' },
-                              { label: 'Delete', icon: 'ri-delete-bin-6-line w-4 h-4' }
+                              { label: 'Settings', icon: 'ri-settings-3-fill w-4 h-4' },
+                              { label: 'Change Folder', icon: 'ri-arrow-go-back-fill w-4 h-4' },
+                              { label: 'Duplicate', icon: 'ri-file-copy-line w-4 h-4' },
+                              { label: 'View Document', icon: 'ri-external-link-line w-4 h-4' },
+                              { label: 'Download', icon: 'ri-download-cloud-2-line w-4 h-4' }
                             ]}
                           />
                         </td>
@@ -303,11 +301,11 @@ const FolderComponent = ({ filters }: any) => {
                           onMenuItemClick={item => console.log(item)}
                           buttonLabel='ri-more-2-fill rotate-180 w-4 h-4 cursor-pointer'
                           menuOptions={[
-                            { label: 'Send as Message', icon: 'ri-message-3-line w-4 h-4' },
-                            { label: 'Move to Another Folder', icon: 'ri-arrow-go-back-fill w-4 h-4' },
-                            { label: 'Copy to Another Album', icon: 'ri-file-copy-line w-4 h-4' },
-                            { label: 'Download', icon: 'ri-download-cloud-2-line w-4 h-4' },
-                            { label: 'Delete', icon: 'ri-delete-bin-6-line w-4 h-4' }
+                            { label: 'Settings', icon: 'ri-settings-3-fill w-4 h-4' },
+                            { label: 'Change Folder', icon: 'ri-arrow-go-back-fill w-4 h-4' },
+                            { label: 'Duplicate', icon: 'ri-file-copy-line w-4 h-4' },
+                            { label: 'View Document', icon: 'ri-external-link-line w-4 h-4' },
+                            { label: 'Download', icon: 'ri-download-cloud-2-line w-4 h-4' }
                           ]}
                         />
                       </div>
@@ -319,7 +317,9 @@ const FolderComponent = ({ filters }: any) => {
             {allFiles.length === 0 && <tr className='text-center text-sm font-medium'>No Files Found</tr>}
           </div>
           {allFiles.length === 0 && folders.length === 0 && (
-            <div className='flex justify-center items-center w-full text-center text-sm font-medium'>No Files or Folders Found :(</div>
+            <div className='flex justify-center items-center w-full text-center text-sm font-medium'>
+              No Files or Folders Found :(
+            </div>
           )}
         </div>
       ) : (
@@ -334,8 +334,14 @@ const FolderComponent = ({ filters }: any) => {
                   setIsHovered(false)
                 }
               }}
-
-              className={` mb-2 duration-500 transition-all ease-in-out border rounded ${!isHovered && 'hover:bg-[#f5f5f5]/10'}`}
+              sx={{
+                '&:before': {
+                  display: 'none'
+                }
+              }}
+              className={` mb-2 duration-500 transition-all ease-in-out border rounded ${
+                !isHovered && 'hover:bg-[#f5f5f5]/10'
+              }`}
             >
               <div className='flex justify-start items-center  px-7 whitespace-nowrap'>
                 <i className='ri-folder-open-line'></i>
@@ -348,7 +354,17 @@ const FolderComponent = ({ filters }: any) => {
                     }
                     sx={{ p: 1 }}
                   >
-                    {folder.label} ({folder.files.length})
+                    {folder.label} 
+                    {/* <TextField
+                      placeholder='Untitled'
+                      variant='standard'
+                      InputProps={{
+                        disableUnderline: true
+                      }}
+                      sx={{ marginTop: 0 }}
+                    /> */}
+                    
+                    ({folder.files.length})
                   </AccordionSummary>
                 </div>
               </div>
@@ -427,7 +443,7 @@ const FolderComponent = ({ filters }: any) => {
                                         <i className='ri-file-word-2-line w-4 h-4'></i>
                                       </span>
                                     )}
-                                    dis
+
                                     {file.name}
                                   </div>
                                 </td>
@@ -449,11 +465,11 @@ const FolderComponent = ({ filters }: any) => {
                                     onMenuItemClick={item => console.log(item)}
                                     buttonLabel='ri-more-2-fill rotate-180 w-4 h-4 cursor-pointer'
                                     menuOptions={[
-                                      { label: 'Send as Message', icon: 'ri-message-3-line w-4 h-4' },
-                                      { label: 'Move to Another Folder', icon: 'ri-arrow-go-back-fill w-4 h-4' },
-                                      { label: 'Copy to Another Album', icon: 'ri-file-copy-line w-4 h-4' },
-                                      { label: 'Download', icon: 'ri-download-cloud-2-line w-4 h-4' },
-                                      { label: 'Delete', icon: 'ri-delete-bin-6-line w-4 h-4' }
+                                      { label: 'Settings', icon: 'ri-settings-3-fill w-4 h-4' },
+                                      { label: 'Change Folder', icon: 'ri-arrow-go-back-fill w-4 h-4' },
+                                      { label: 'Duplicate', icon: 'ri-file-copy-line w-4 h-4' },
+                                      { label: 'View Document', icon: 'ri-external-link-line w-4 h-4' },
+                                      { label: 'Download', icon: 'ri-download-cloud-2-line w-4 h-4' }
                                     ]}
                                   />
                                 </td>
@@ -492,19 +508,8 @@ const FolderComponent = ({ filters }: any) => {
                             </div>
                             <div className='flex justify-between items-center w-full px-2'>
                               <div className='flex flex-col'>
-                                <div className='text-xs flex  gap-1'>
-                                  <span className='hidden md:inline-block text-left text-xs font-medium text-secondary uppercase tracking-wider'>
-                                    Uploaded By:{' '}
-                                  </span>
-                                  {file.uploaded_by}
-                                </div>
-                                <div className='text-xs flex  gap-1'>
-                                  <span className='hidden md:inline-block text-left text-xs font-medium text-secondary uppercase tracking-wider'>
-                                    Last Updated:{' '}
-                                  </span>
-
-                                  {file.last_updated}
-                                </div>
+                                <div className='text-xs flex  gap-1'>{file.uploaded_by}</div>
+                                <div className='text-xs flex  gap-1'>{file.last_updated}</div>
                                 {details && (
                                   <div className='text-xs flex  gap-1'>
                                     <span className='hidden md:inline-block text-left text-xs font-medium text-secondary uppercase tracking-wider'>
@@ -519,11 +524,11 @@ const FolderComponent = ({ filters }: any) => {
                                 onMenuItemClick={item => console.log(item)}
                                 buttonLabel='ri-more-2-fill rotate-180 w-4 h-4 cursor-pointer'
                                 menuOptions={[
-                                  { label: 'Send as Message', icon: 'ri-message-3-line w-4 h-4' },
-                                  { label: 'Move to Another Folder', icon: 'ri-arrow-go-back-fill w-4 h-4' },
-                                  { label: 'Copy to Another Album', icon: 'ri-file-copy-line w-4 h-4' },
-                                  { label: 'Download', icon: 'ri-download-cloud-2-line w-4 h-4' },
-                                  { label: 'Delete', icon: 'ri-delete-bin-6-line w-4 h-4' }
+                                  { label: 'Settings', icon: 'ri-settings-3-fill w-4 h-4' },
+                                  { label: 'Change Folder', icon: 'ri-arrow-go-back-fill w-4 h-4' },
+                                  { label: 'Duplicate', icon: 'ri-file-copy-line w-4 h-4' },
+                                  { label: 'View Document', icon: 'ri-external-link-line w-4 h-4' },
+                                  { label: 'Download', icon: 'ri-download-cloud-2-line w-4 h-4' }
                                 ]}
                               />
                             </div>
@@ -537,7 +542,11 @@ const FolderComponent = ({ filters }: any) => {
               </AccordionDetails>
             </Accordion>
           ))}
-          {folders.length < 1 && <div className='flex justify-center items-center w-full text-center text-sm font-medium'>No Files or Folders Found :(</div>}
+          {folders.length < 1 && (
+            <div className='flex justify-center items-center w-full text-center text-sm font-medium'>
+              No Files or Folders Found :(
+            </div>
+          )}
         </div>
       )}
     </div>
