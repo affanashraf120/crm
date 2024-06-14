@@ -512,7 +512,7 @@ const FolderComponent = ({ filters }: any) => {
                                 <div className='text-xs flex  gap-1'>{file.last_updated}</div>
                                 {details && (
                                   <div className='text-xs flex  gap-1'>
-                                    <span className='hidden md:inline-block text-left text-xs font-medium text-secondary uppercase tracking-wider'>
+                                    <span className='hidden md:inline-block text-left text-xs font-medium text-secondary  tracking-wider'>
                                       File Size:{' '}
                                     </span>
 

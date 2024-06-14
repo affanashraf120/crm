@@ -96,6 +96,11 @@ const FilterAccordion: React.FC<FilterAccordionProps> = ({ filtersData, onApplyF
           <Accordion
             key={categoryIndex}
             className='hover:bg-[#f5f5f5]/10 mb-2 duration-500 transition-all ease-in-out border rounded'
+            sx={{
+              '&:before': {
+                display: 'none'
+              }
+            }}
           >
             <AccordionSummary
               expandIcon={<ExpandMoreIcon />}
