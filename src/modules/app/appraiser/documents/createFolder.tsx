@@ -16,6 +16,7 @@ const CreateFolder = ({ onClose }: any) => {
         variant='standard'
         fullWidth
         onChange={(e: any) => setCreateFolder(e.target.value)}
+        value={createFolder}
       />
       <div className='py-4 flex justify-between items-center'>
         <Button variant='outlined' color='inherit' onClick={onClose}>
@@ -25,7 +26,7 @@ const CreateFolder = ({ onClose }: any) => {
           <Button variant='outlined' color='inherit' onClick={() => setCreateFolder('')}>
             Clear
           </Button>
-          <Button variant='contained' onClick={() => console.log(createFolder)}>
+          <Button variant='contained' onClick={onClose}>
             Save
           </Button>
         </div>

@@ -25,22 +25,28 @@ const MultiSelectDropdown: React.FC<MultiSelectDropdownProps> = ({ options, onse
     <FormControl>
       <Select
         multiple
-        value={selectedItems || ['Asad']}
+        value={selectedItems}
         onChange={handleChange}
         size='small'
         style={{ minWidth: '250px' }}
         renderValue={selected => (
           <div className='flex flex-wrap'>
             {selected.length === 0
-              ? 'Filter by Folders'
+              ? ['Filter by Folders']
               : selected.length === 1
                 ? selected[0]
                 : `${selected[0]} + ${selected.length - 1}`}
           </div>
         )}
       >
+        {/* <MenuItem selected={true} value='Filters by Folders' disabled></MenuItem> */}
         {options.map(item => (
-          <MenuItem key={item.label} value={item.label} >
+          <MenuItem
+            key={item.label}
+            value={item.label}
+            className='text-current'
+            style={{ backgroundColor: 'transparent',height:'45px' }}
+          >
             <Checkbox checked={selectedItems.includes(item.label)} />
             {item.label}
           </MenuItem>
