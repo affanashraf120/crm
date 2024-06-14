@@ -199,7 +199,7 @@ const FolderComponent = ({ filters }: any) => {
                   <tr key={fileIndex}>
                     <div className='flex justify-between items-center w-full border rounded hover:bg-white/10 duration-500 ease-in-out transition-all mb-2'>
                       <div>
-                        <td>
+                        <span>
                           <Checkbox
                             checked={file.active}
                             onChange={event => {
@@ -213,7 +213,7 @@ const FolderComponent = ({ filters }: any) => {
                               )
                             }}
                           />
-                        </td>
+                        </span>
                         <td className='px-6 py-4 whitespace-nowrap'>
                           <div className='text-sm font-medium flex justify-center items-center'>
                             {file?.name?.split('.')?.pop()?.toLowerCase() === 'pdf' ? (

@@ -1,25 +1,27 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 
-import { Checkbox, FormControl, MenuItem, Select } from '@mui/material'
-import type { SelectChangeEvent } from '@mui/material'
+import { Checkbox, FormControl, MenuItem, Select } from '@mui/material';
+import type { SelectChangeEvent } from '@mui/material';
 
 interface Options {
-  label: string
-  active: boolean
+  label: string;
+  active: boolean;
 }
 
 interface MultiSelectDropdownProps {
-  options: Options[]
-  onselect: any
+  options: Options[];
+  onselect: (selected: string[]) => void;
 }
 
 const MultiSelectDropdown: React.FC<MultiSelectDropdownProps> = ({ options, onselect }) => {
-  const [selectedItems, setSelectedItems] = useState<string[]>([])
+  const [selectedItems, setSelectedItems] = useState<string[]>([]);
 
   const handleChange = (event: SelectChangeEvent<string[]>) => {
-    setSelectedItems(event.target.value as string[])
-    onselect(event.target.value as any)
-  }
+    const value = event.target.value as string[];
+
+    setSelectedItems(value);
+    onselect(value);
+  };
 
   return (
     <FormControl>
@@ -27,25 +29,27 @@ const MultiSelectDropdown: React.FC<MultiSelectDropdownProps> = ({ options, onse
         multiple
         value={selectedItems}
         onChange={handleChange}
-        size='small'
+        size="small"
         style={{ minWidth: '250px' }}
-        renderValue={selected => (
-          <div className='flex flex-wrap'>
-            {selected.length === 0
-              ? ['Filter by Folders']
-              : selected.length === 1
-                ? selected[0]
-                : `${selected[0]} + ${selected.length - 1}`}
-          </div>
-        )}
+        displayEmpty
+        renderValue={(selected) => {
+          if (selected.length === 0) {
+            return <span>Filter by folder</span>;
+          }
+
+          return (
+            <div className='flex flex-wrap'>
+              {selected.length === 1 ? selected[0] : `${selected[0]} + ${selected.length - 1}`}
+            </div>
+          );
+        }}
       >
-        {/* <MenuItem selected={true} value='Filters by Folders' disabled></MenuItem> */}
-        {options.map(item => (
+        {options.map((item) => (
           <MenuItem
             key={item.label}
             value={item.label}
             className='text-current'
-            style={{ backgroundColor: 'transparent',height:'45px' }}
+            style={{ backgroundColor: 'transparent', height: '45px' }}
           >
             <Checkbox checked={selectedItems.includes(item.label)} />
             {item.label}
@@ -53,7 +57,7 @@ const MultiSelectDropdown: React.FC<MultiSelectDropdownProps> = ({ options, onse
         ))}
       </Select>
     </FormControl>
-  )
-}
+  );
+};
 
-export default MultiSelectDropdown
+export default MultiSelectDropdown;

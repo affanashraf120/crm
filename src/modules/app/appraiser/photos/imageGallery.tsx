@@ -27,6 +27,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images, size }) => {
   const [selectAll, setSelectAll] = useState(false)
   const [details, setDetails] = useState(false)
   const [accordionSelectStatus, setAccordionSelectStatus] = useState<{ [key: string]: boolean }>({})
+  const [isHovered, setIsHovered] = useState(false)
 
   const groupedImages = images.reduce(
     (acc, image) => {
@@ -122,7 +123,18 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images, size }) => {
 
       <div className='h-[500px] overflow-y-auto'>
         {Object.keys(groupedImages).map(date => (
-          <Accordion key={date}>
+          <Accordion key={date}
+          onChange={(e, expanded) => {
+            if (expanded) {
+              setIsHovered(true)
+            } else if (!expanded) {
+              setIsHovered(false)
+            }
+          }}
+          className={` mb-2 duration-500 transition-all ease-in-out border rounded ${
+            !isHovered && 'hover:bg-[#f5f5f5]/10'
+          }`}
+          >
             <div className='flex justify-start items-start md:items-center flex-col md:flex-row '>
               <div className='flex justify-start items-center group'>
                 <Checkbox
