@@ -34,7 +34,7 @@ const MultiSelectDropdown: React.FC<MultiSelectDropdownProps> = ({ options, onse
         displayEmpty
         renderValue={(selected) => {
           if (selected.length === 0) {
-            return <span>Filter by folder</span>;
+            return <span>Filter By Folder</span>;
           }
 
           return (
