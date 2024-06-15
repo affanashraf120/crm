@@ -227,11 +227,11 @@ const column = [
     type: 'DropdownWithChip',
     filterType: 'filter',
     filterOptions: [
-      { label: 'Closed' },
-      { label: 'None' },
-      { label: 'Open' },
-      { label: 'Scheduling Inspection' },
-      { label: 'Umpire' }
+      { label: 'Closed', active: false },
+      { label: 'None', active: false },
+      { label: 'Open', active: false },
+      { label: 'Scheduling Inspection', active: false },
+      { label: 'Umpire', active: false }
     ],
     options: [
       { id: 0, value: 'None', color: 'default' },
@@ -247,14 +247,14 @@ const column = [
     type: 'Dropdown',
     filterType: 'filter',
     filterOptions: [
-      { label: 'John Doe' },
-      { label: 'Jane Smith' },
-      { label: 'Mark Johnson' },
-      { label: 'Emily Brown' },
-      { label: 'Sarah Wilson' },
-      { label: 'Michael Davis' },
-      { label: 'Alex Johnson' },
-      { label: 'Emma Garcia' }
+      { active: false,label: 'John Doe' },
+      { active: false,label: 'Jane Smith' },
+      { active: false,label: 'Mark Johnson' },
+      { active: false,label: 'Emily Brown' },
+      { active: false,label: 'Sarah Wilson' },
+      { active: false,label: 'Michael Davis' },
+      { active: false,label: 'Alex Johnson' },
+      { active: false,label: 'Emma Garcia' }
     ],
     options: [
       'John Doe',
@@ -273,14 +273,14 @@ const column = [
     type: 'ClientDetails',
     filterType: 'filter',
     filterOptions: [
-      { label: 'John Doe' },
-      { label: 'Jane Smith' },
-      { label: 'Mark Johnson' },
-      { label: 'Emily Brown' },
-      { label: 'Sarah Wilson' },
-      { label: 'Michael Davis' },
-      { label: 'Alex Johnson' },
-      { label: 'Emma Garcia' }
+      { active: false,label: 'John Doe' },
+      { active: false,label: 'Jane Smith' },
+      { active: false,label: 'Mark Johnson' },
+      { active: false,label: 'Emily Brown' },
+      { active: false,label: 'Sarah Wilson' },
+      { active: false,label: 'Michael Davis' },
+      { active: false,label: 'Alex Johnson' },
+      { active: false,label: 'Emma Garcia' }
     ]
   },
   {
@@ -315,13 +315,13 @@ const column = [
     ],
     filterType: 'filter',
     filterOptions: [
-      { label: 'Amanda Corporation' },
-      { label: 'John Corporation' },
-      { label: 'Melissa Corporation' },
-      { label: 'William Corporation' },
-      { label: 'Ashley Corporation' },
-      { label: 'Emily Corporation' },
-      { label: 'Emma Abc Corporation' }
+      { active: false,label: 'Amanda Corporation' },
+      { active: false,label: 'John Corporation' },
+      { active: false,label: 'Melissa Corporation' },
+      { active: false,label: 'William Corporation' },
+      { active: false,label: 'Ashley Corporation' },
+      { active: false,label: 'Emily Corporation' },
+      { active: false,label: 'Emma Abc Corporation' }
     ]
   },
   {
@@ -331,14 +331,14 @@ const column = [
     type: 'cellLabels',
     filterType: 'filter',
     filterOptions: [
-      { label: 'John Doe' },
-      { label: 'Jane Smith' },
-      { label: 'Mark Johnson' },
-      { label: 'Emily Brown' },
-      { label: 'Sarah Wilson' },
-      { label: 'Michael Davis' },
-      { label: 'Alex Johnson' },
-      { label: 'Emma Garcia' }
+      { active: false,label: 'John Doe' },
+      { active: false,label: 'Jane Smith' },
+      { active: false,label: 'Mark Johnson' },
+      { active: false,label: 'Emily Brown' },
+      { active: false,label: 'Sarah Wilson' },
+      { active: false,label: 'Michael Davis' },
+      { active: false,label: 'Alex Johnson' },
+      { active: false,label: 'Emma Garcia' }
     ]
   },
 
@@ -360,14 +360,14 @@ const column = [
     ],
     filterType: 'filter',
     filterOptions: [
-      { label: 'John Doe' },
-      { label: 'Jane Smith' },
-      { label: 'Mark Johnson' },
-      { label: 'Emily Brown' },
-      { label: 'Sarah Wilson' },
-      { label: 'Michael Davis' },
-      { label: 'Alex Johnson' },
-      { label: 'Emma Garcia' }
+      { active: false,label: 'John Doe' },
+      { active: false,label: 'Jane Smith' },
+      { active: false,label: 'Mark Johnson' },
+      { active: false,label: 'Emily Brown' },
+      { active: false,label: 'Sarah Wilson' },
+      { active: false,label: 'Michael Davis' },
+      { active: false,label: 'Alex Johnson' },
+      { active: false,label: 'Emma Garcia' }
     ]
   },
 
@@ -387,14 +387,14 @@ const column = [
     ],
     filterType: 'filter',
     filterOptions: [
-      { label: 'Anytown' },
-      { label: 'Othertown' },
-      { label: 'Anycity' },
-      { label: 'Anothercity' },
-      { label: 'Newcity' },
-      { label: 'Yetanothercity' },
-      { label: 'Metropolitan City' },
-      { label: 'Capital City' }
+      { active: false,label: 'Anytown' },
+      { active: false,label: 'Othertown' },
+      { active: false,label: 'Anycity' },
+      { active: false,label: 'Anothercity' },
+      { active: false,label: 'Newcity' },
+      { active: false,label: 'Yetanothercity' },
+      { active: false,label: 'Metropolitan City' },
+      { active: false,label: 'Capital City' }
     ]
   },
   {

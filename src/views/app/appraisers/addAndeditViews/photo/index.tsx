@@ -130,12 +130,13 @@ const Photo: React.FC = () => {
 export default Photo
 
 interface Image {
-  src: string
-  alt: string
-  date: string
-  time: string
-  uploadedBy: string
-  selected: boolean
+  src: string;
+  alt: string;
+  date: string;
+  time: string;
+  uploadedBy: string;
+  selected: boolean;
+  name: string;
 }
 
 const images: Image[] = [
@@ -145,7 +146,8 @@ const images: Image[] = [
     date: '2023-01-01',
     time: '10:00',
     uploadedBy: 'John Doe',
-    selected: false
+    selected: false,
+    name: 'image.jpg'
   },
   {
     src: 'https://flowbite.s3.amazonaws.com/docs/gallery/square/image-1.jpg',
@@ -153,7 +155,8 @@ const images: Image[] = [
     date: '2023-01-01',
     time: '11:00',
     uploadedBy: 'Jane Smith',
-    selected: false
+    selected: false,
+    name: 'image-1.jpg'
   },
   {
     src: 'https://flowbite.s3.amazonaws.com/docs/gallery/square/image-2.jpg',
@@ -161,7 +164,8 @@ const images: Image[] = [
     date: '2023-01-01',
     time: '12:00',
     uploadedBy: 'Alice Johnson',
-    selected: false
+    selected: false,
+    name: 'image-2.jpg'
   },
   {
     src: 'https://flowbite.s3.amazonaws.com/docs/gallery/square/image-3.jpg',
@@ -169,7 +173,8 @@ const images: Image[] = [
     date: '2023-05-01',
     time: '13:00',
     uploadedBy: 'Bob Brown',
-    selected: false
+    selected: false,
+    name: 'image-3.jpg'
   },
   {
     src: 'https://flowbite.s3.amazonaws.com/docs/gallery/square/image-4.jpg',
@@ -177,7 +182,8 @@ const images: Image[] = [
     date: '2023-05-01',
     time: '14:00',
     uploadedBy: 'Carol White',
-    selected: false
+    selected: false,
+    name: 'image-4.jpg'
   },
   {
     src: 'https://flowbite.s3.amazonaws.com/docs/gallery/square/image-5.jpg',
@@ -185,7 +191,8 @@ const images: Image[] = [
     date: '2023-02-01',
     time: '15:00',
     uploadedBy: 'David Green',
-    selected: false
+    selected: false,
+    name: 'image-5.jpg'
   },
   {
     src: 'https://flowbite.s3.amazonaws.com/docs/gallery/square/image-6.jpg',
@@ -193,7 +200,8 @@ const images: Image[] = [
     date: '2023-02-01',
     time: '16:00',
     uploadedBy: 'Eve Black',
-    selected: false
+    selected: false,
+    name: 'image-6.jpg'
   },
   {
     src: 'https://flowbite.s3.amazonaws.com/docs/gallery/square/image-7.jpg',
@@ -201,7 +209,8 @@ const images: Image[] = [
     date: '2023-09-01',
     time: '17:00',
     uploadedBy: 'Frank Blue',
-    selected: false
+    selected: false,
+    name: 'image-7.jpg'
   },
   {
     src: 'https://flowbite.s3.amazonaws.com/docs/gallery/square/image-8.jpg',
@@ -209,7 +218,8 @@ const images: Image[] = [
     date: '2023-01-01',
     time: '18:00',
     uploadedBy: 'Grace Yellow',
-    selected: false
+    selected: false,
+    name: 'image-8.jpg'
   },
   {
     src: 'https://flowbite.s3.amazonaws.com/docs/gallery/square/image-9.jpg',
@@ -217,7 +227,8 @@ const images: Image[] = [
     date: '2023-01-01',
     time: '19:00',
     uploadedBy: 'Hank Purple',
-    selected: false
+    selected: false,
+    name: 'image-9.jpg'
   },
   {
     src: 'https://flowbite.s3.amazonaws.com/docs/gallery/square/image-10.jpg',
@@ -225,7 +236,8 @@ const images: Image[] = [
     date: '2023-01-01',
     time: '20:00',
     uploadedBy: 'Ivy Orange',
-    selected: false
+    selected: false,
+    name: 'image-10.jpg'
   },
   {
     src: 'https://flowbite.s3.amazonaws.com/docs/gallery/square/image-11.jpg',
@@ -233,6 +245,8 @@ const images: Image[] = [
     date: '2023-01-01',
     time: '21:00',
     uploadedBy: 'Jack Pink',
-    selected: false
+    selected: false,
+    name: 'image-11.jpg'
   }
-]
+];
+

@@ -6,6 +6,8 @@ import Accordion from '@mui/material/Accordion'
 import AccordionDetails from '@mui/material/AccordionDetails'
 import AccordionSummary from '@mui/material/AccordionSummary'
 
+import { FullScreen, useFullScreenHandle } from 'react-full-screen'
+
 import DropDownButton from '@/components/dropDowns/dropDownButton'
 
 interface Image {
@@ -15,6 +17,7 @@ interface Image {
   selected: boolean
   time: string
   uploadedBy: string
+  name: string
 }
 
 interface ImageGalleryProps {
@@ -28,6 +31,12 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images, size }) => {
   const [details, setDetails] = useState(false)
   const [accordionSelectStatus, setAccordionSelectStatus] = useState<{ [key: string]: boolean }>({})
   const [isHovered, setIsHovered] = useState(false)
+  const [editStates, setEditStates] = useState<{ [key: string]: boolean }>({})
+  const [editLabels, setEditLabels] = useState<{ [key: string]: string }>({})
+  const [fullScreenImage, setFullScreenImage] = useState<Image | null>(null)
+  const [listView, setListView] = useState(false)
+
+  const handle = useFullScreenHandle()
 
   const groupedImages = images.reduce(
     (acc, image) => {
@@ -95,12 +104,39 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images, size }) => {
     setAccordionSelectStatus({ ...accordionSelectStatus, [date]: !isAllSelected })
   }
 
+  const handleEditClick = (date: string) => {
+    setEditStates({ ...editStates, [date]: true })
+    setEditLabels({ ...editLabels, [date]: date })
+  }
+
+  const handleSaveClick = (date: string) => {
+    setEditStates({ ...editStates, [date]: false })
+  }
+
+  const handleInputChange = (date: string, event: any) => {
+    setEditLabels({ ...editLabels, [date]: event.target.value })
+  }
+
+  const openFullScreen = (image: Image) => {
+    setFullScreenImage(image)
+    handle.enter()
+  }
+
+  const closeFullScreen = () => {
+    handle.exit()
+    setFullScreenImage(null)
+  }
+
   return (
     <div className='w-full'>
       <div className='flex justify-start items-center gap-2 flex-wrap pb-2'>
         <div>
           <Checkbox checked={selectAll} onChange={toggleSelectAll} />
           <label>{selectAll ? 'Deselect All' : 'Select All'}</label>
+        </div>
+        <div>
+          <Checkbox checked={listView} onChange={() => setListView(!listView)} />
+          <label>List View</label>
         </div>
         <div>
           <Checkbox checked={details} onChange={() => setDetails(!details)} />
@@ -110,11 +146,12 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images, size }) => {
           <DropDownButton
             label='Action '
             menuOptions={[
-              { label: 'Move to Another Album', icon: 'ri-arrow-go-back-fill' },
-              { label: 'Copy to Another Album', icon: 'ri-file-copy-line' },
-              { label: 'Share', icon: 'ri-share-line' },
-              { label: 'Download', icon: 'ri-download-cloud-2-line' },
-              { label: 'Delete', icon: 'ri-delete-bin-6-line' }
+              { label: 'Move to Another Album', icon: 'ri-arrow-go-back-fill w-4 h-4' },
+              { label: 'Copy to Another Album', icon: 'ri-file-copy-line  w-4 h-4' },
+              { label: 'Share', icon: 'ri-share-line  w-4 h-4' },
+              { label: 'Download', icon: 'ri-download-cloud-2-line w-4 h-4' },
+              { label: 'Delete', icon: 'ri-delete-bin-6-line w-4 h-4' },
+              { label: 'Print / Create Pdf', icon: 'ri-printer-line w-4 h-4' }
             ]}
             onMenuItemClick={item => console.log(item)}
           />
@@ -123,80 +160,187 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images, size }) => {
 
       <div className='h-[500px] overflow-y-auto'>
         {Object.keys(groupedImages).map(date => (
-          <Accordion key={date}
-
-          sx={{ 
-            '&:before': { 
-              display: 'none' 
-            },
-            
-          }}
-          onChange={(e, expanded) => {
-            if (expanded) {
-              setIsHovered(true)
-            } else if (!expanded) {
-              setIsHovered(false)
-            }
-          }}
-          className={` mb-2 duration-500 transition-all ease-in-out border rounded ${
-            !isHovered && 'hover:bg-[#f5f5f5]/10'
-          }`}
+          <Accordion
+            key={date}
+            sx={{
+              '&:before': {
+                display: 'none'
+              }
+            }}
+            onChange={(e, expanded) => {
+              if (expanded) {
+                setIsHovered(true)
+              } else if (!expanded) {
+                setIsHovered(false)
+              }
+            }}
+            className={` mb-2 duration-500 transition-all ease-in-out border rounded ${
+              !isHovered && 'hover:bg-[#f5f5f5]/10'
+            }`}
           >
             <div className='flex justify-start items-start md:items-center flex-col md:flex-row '>
-              <div className='flex justify-start items-center group'>
+              <div className='flex justify-start items-center group w-full'>
                 <Checkbox
                   checked={accordionSelectStatus[date] || false}
                   onChange={() => toggleAccordionSelection(date)}
                 />
-                <TextField placeholder='Untitled' variant='standard' sx={{ marginTop: 0 }} />
-                <IconButton className=''>
-                  <i className='ri-edit-2-line w-4 h-4'></i>
-                </IconButton>
-              </div>
-
-              <div className='w-full '>
-                <AccordionSummary expandIcon={<ExpandMoreIcon />}>{date}</AccordionSummary>
+                <div className='w-full pl-0'>
+                  <AccordionSummary sx={{ p: 1 }} expandIcon={<ExpandMoreIcon />}>
+                    {editStates[date] ? (
+                      <TextField
+                        variant='standard'
+                        InputProps={{
+                          disableUnderline: true
+                        }}
+                        sx={{ marginTop: 2 }}
+                        value={editLabels[date]}
+                        onChange={event => handleInputChange(date, event)}
+                        onClick={event => event.stopPropagation()}
+                        onFocus={event => event.stopPropagation()}
+                      />
+                    ) : (
+                      <span className='mt-2'>{editLabels[date] || date}</span>
+                    )}
+                    <IconButton
+                      onClick={event => {
+                        event.stopPropagation()
+                        editStates[date] ? handleSaveClick(date) : handleEditClick(date)
+                      }}
+                    >
+                      {editStates[date] ? (
+                        <i className='ri-telegram-line '></i>
+                      ) : (
+                        <i className='ri-edit-2-line w-4 h-4'></i>
+                      )}
+                    </IconButton>{' '}
+                    <span className='mt-2'>({groupedImages[date].length})</span>
+                  </AccordionSummary>
+                </div>
               </div>
             </div>
             <AccordionDetails>
-              <div className='flex justify-start items-center flex-wrap gap-3'>
-                {groupedImages[date].map((image, index) => (
-                  <div key={index} className='relative flex flex-col'>
-                    <Checkbox
-                      className='absolute top-2 left-2'
-                      color='primary'
-                      checked={selectedImages.some(selectedImage => selectedImage.src === image.src)}
-                      onChange={() => toggleImageSelection(image)}
-                    />
-                    <img
-                      className={`h-auto max-w-full rounded-lg cursor-pointer ${sizeClass[size || 'Medium']}`}
-                      src={image.src}
-                      alt={image.alt}
-                      onClick={() => toggleImageSelection(image)}
-                    />
-                    <div className={`flex justify-between items-center`}>
-                      {details && (
+              {listView ? (
+                <>
+                  <div className='hidden md:flex justify-between items-center flex-wrap gap-2 text-secondary'>
+                    <div className='flex justify-between items-center w-full border-b mb-3'>
+                      <div className='relative flex  justify-center items-center gap-2 pl-10 py-1'>Name</div>
+                      <div className={`flex justify-between items-center`}>
                         <>
-                          <div className='flex justify-start items-start flex-col'>
-                            <span>{image.uploadedBy}</span>
-                            <span className='text-[10px]'>{image.time}</span>
-                          </div>
-
-                          <DropDownButton
-                            onMenuItemClick={item => console.log(item)}
-                            buttonLabel='ri-more-2-fill rotate-180 w-4 h-4 cursor-pointer'
-                            menuOptions={[{ label: 'Delete' }, { label: 'unlink' }]}
-                          />
+                          <span className='w-32'>Uploade dBy</span>
+                          <span className='w-32'>Time</span>
+                          <span className='w-32'>Action</span>
                         </>
-                      )}
+                      </div>
                     </div>
                   </div>
-                ))}
-              </div>
+
+                  <div className='flex justify-between items-center flex-wrap gap-2'>
+                    {groupedImages[date].map((image, index) => (
+                      <div
+                        key={index}
+                        className='flex flex-col justify-start items-start md:flex-row md:justify-between md:items-center w-full border rounded hover:bg-white/10 duration-500 ease-in-out transition-all mb-2'
+                      >
+                        <div className='relative flex  justify-center items-center gap-2 p-1'>
+                          <Checkbox
+                            color='primary'
+                            checked={selectedImages.some(selectedImage => selectedImage.src === image.src)}
+                            onChange={() => toggleImageSelection(image)}
+                          />
+                          <img
+                            className={` h-10 w-10 rounded-full cursor-pointer`}
+                            src={image.src}
+                            alt={image.alt}
+                            onClick={() => openFullScreen(image)}
+                          />
+                          {image.name}
+                        </div>
+                        <div
+                          className={`flex justify-start items-start gap-1 p-3 flex-col md:flex-row md:justify-center md:items-center w-full`}
+                        >
+                          {details && (
+                            <div className='flex justify-start md:justify-end items-start w-full'>
+                              <div className='flex justify-between items-center flex-col md:flex-row'>
+                                <span className='w-32'>{image.uploadedBy}</span>
+                                <span className='w-32'>{image.time}</span>
+                              </div>
+                              <span className='w-32 '>
+                                <DropDownButton
+                                  onMenuItemClick={item => console.log(item)}
+                                  buttonLabel='ri-more-2-fill rotate-180 w-4 h-4 cursor-pointer'
+                                  menuOptions={[
+                                    { label: 'Move to Another Album', icon: 'ri-arrow-go-back-fill w-4 h-4' },
+                                    { label: 'Copy to Another Album', icon: 'ri-file-copy-line w-4 h-4' },
+                                    { label: 'Share', icon: 'ri-share-line w-4 h-4' },
+                                    { label: 'Download', icon: 'ri-download-cloud-2-line w-4 h-4' },
+                                    { label: 'Delete', icon: 'ri-delete-bin-6-line w-4 h-4' },
+                                    { label: 'Print / Create Pdf', icon: 'ri-printer-line w-4 h-4' }
+                                  ]}
+                                />
+                              </span>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </>
+              ) : (
+                <div className='flex justify-start items-center flex-wrap gap-3'>
+                  {groupedImages[date].map((image, index) => (
+                    <div key={index} className='relative flex flex-col'>
+                      <Checkbox
+                        className='absolute top-2 left-2'
+                        color='primary'
+                        checked={selectedImages.some(selectedImage => selectedImage.src === image.src)}
+                        onChange={() => toggleImageSelection(image)}
+                      />
+                      <img
+                        className={`h-auto max-w-full rounded-lg cursor-pointer ${sizeClass[size || 'Medium']}`}
+                        src={image.src}
+                        alt={image.alt}
+                        onClick={() => openFullScreen(image)}
+                      />
+                      <div className={`flex justify-between items-center`}>
+                        {details && (
+                          <>
+                            <div className='flex justify-start items-start flex-col'>
+                              <span>{image.uploadedBy}</span>
+                              <span className='text-[10px]'>{image.time}</span>
+                            </div>
+                            <DropDownButton
+                              onMenuItemClick={item => console.log(item)}
+                              buttonLabel='ri-more-2-fill rotate-180 w-4 h-4 cursor-pointer'
+                              menuOptions={[
+                                { label: 'Move to Another Album', icon: 'ri-arrow-go-back-fill w-4 h-4' },
+                                { label: 'Copy to Another Album', icon: 'ri-file-copy-line w-4 h-4' },
+                                { label: 'Share', icon: 'ri-share-line w-4 h-4' },
+                                { label: 'Download', icon: 'ri-download-cloud-2-line w-4 h-4' },
+                                { label: 'Delete', icon: 'ri-delete-bin-6-line w-4 h-4' },
+                                { label: 'Print / Create Pdf', icon: 'ri-printer-line w-4 h-4' }
+                              ]}
+                            />
+                          </>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </AccordionDetails>
           </Accordion>
         ))}
       </div>
+
+      <FullScreen handle={handle}>
+        {fullScreenImage && (
+          <div className='flex justify-center items-center h-full w-full bg-black'>
+            <img src={fullScreenImage.src} alt={fullScreenImage.alt} className='max-h-full max-w-full' />
+            <IconButton onClick={closeFullScreen} className='absolute top-2 right-2 text-white'>
+              <i className='ri-close-line text-2xl'></i>
+            </IconButton>
+          </div>
+        )}
+      </FullScreen>
     </div>
   )
 }
