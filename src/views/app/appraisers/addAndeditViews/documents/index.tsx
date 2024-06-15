@@ -86,7 +86,7 @@ const Documents: React.FC = () => {
   return (
     <div className='flex flex-col items-center w-full'>
       {/* top bar in this component */}
-      <div className='flex justify-between items-center w-full gap-2 flex-col md:flex-row'>
+      <div className='flex justify-between items-center w-full gap-2 flex-wrap'>
         <Typography variant='h4' className='whitespace-nowrap'>
           Documents
         </Typography>
