@@ -22,18 +22,22 @@ type FilterCategory = {
 
 type FilterAccordionProps = {
   filtersData: FilterCategory[]
-  onApplyFilter:any
+  onApplyFilter: any
 }
 
 const FilterAccordion: React.FC<FilterAccordionProps> = ({ filtersData, onApplyFilter }) => {
   const [selectedFilters, setSelectedFilters] = useState(filtersData)
   const [selectAll, setSelectAll] = useState(false)
+  const [expanded, setExpanded] = useState<string | false>(false)
+
+
+  const handleExpand = (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
+    setExpanded(isExpanded ? panel : false)
+  }
 
   // Update selectAll state based on individual filter states
   useEffect(() => {
-    const allSelected = selectedFilters.every(category =>
-      category.filters.every(filter => filter.active)
-    )
+    const allSelected = selectedFilters.every(category => category.filters.every(filter => filter.active))
 
     setSelectAll(allSelected)
   }, [selectedFilters])
@@ -94,7 +98,10 @@ const FilterAccordion: React.FC<FilterAccordionProps> = ({ filtersData, onApplyF
         </div>
         {selectedFilters.map((filterCategory, categoryIndex) => (
           <Accordion
+            expanded={expanded === `panel${categoryIndex}`}
+            onChange={handleExpand(`panel${categoryIndex}`)}
             key={categoryIndex}
+            
             className='hover:bg-[#f5f5f5]/10 mb-2 duration-500 transition-all ease-in-out border rounded'
             sx={{
               '&:before': {
@@ -129,7 +136,7 @@ const FilterAccordion: React.FC<FilterAccordionProps> = ({ filtersData, onApplyF
       </div>
 
       <div className='py-4 flex justify-between items-center'>
-        <Button variant='outlined' color='inherit' >
+        <Button variant='outlined' color='inherit'>
           Cancel
         </Button>
         <div className=' flex justify-center items-center gap-4'>
@@ -141,7 +148,6 @@ const FilterAccordion: React.FC<FilterAccordionProps> = ({ filtersData, onApplyF
           </Button>
         </div>
       </div>
-
     </div>
   )
 }

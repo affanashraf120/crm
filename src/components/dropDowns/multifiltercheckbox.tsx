@@ -1,76 +1,92 @@
-import React, { useState } from 'react';
+'use client'
 
-import { Checkbox, FormControl, IconButton, InputAdornment, Menu, MenuItem, Select, TextField } from '@mui/material';
-import type { SelectChangeEvent } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
+import React, { useState } from 'react'
+
+import { Checkbox, FormControl, IconButton, InputAdornment, Menu, MenuItem, Select, TextField } from '@mui/material'
+import type { SelectChangeEvent } from '@mui/material'
+import SearchIcon from '@mui/icons-material/Search'
 
 interface Options {
-  label: string;
-  active: boolean;
+  label: string
+  active: boolean
 }
 
 interface MultiSelectDropdownProps {
-  options: Options[];
-  type?: string;
-  onselect: (selected: string[]) => void;
-  icon?: string;
+  options: Options[]
+  type?: string
+  onselect: (selected: string[]) => void
+  icon?: string
 }
 
 const MultiSelectDropdown: React.FC<MultiSelectDropdownProps> = ({ options, onselect, type, icon }) => {
-  const [selectedItems, setSelectedItems] = useState<string[]>([]);
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedItems, setSelectedItems] = useState<string[]>([])
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
+  const [searchTerm, setSearchTerm] = useState('')
+
+  const open = Boolean(anchorEl)
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
+    setAnchorEl(event.currentTarget)
+  }
 
   const handleMenuClose = () => {
-    setAnchorEl(null);
-  };
+    setAnchorEl(null)
+  }
 
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log("🚀 ~ handleSearchChange ~ event:", event.target.value)
+  const handleSearch = (event: any) => {
+    setSearchTerm(event.target.value)
 
-    setSearchTerm(event.target.value);
-  };
+    const filteredOptions = options?.filter(
+      option => option?.label && option.label.toLowerCase().includes(event.target.value.toLowerCase())
+    )
+
+    console.log('🚀 ~ handleSearch ~ filteredOptions:', filteredOptions)
+  }
 
   const handleChange = (event: SelectChangeEvent<string[]>) => {
-    const value = event.target.value as string[];
+    const value = event.target.value as string[]
 
-    setSelectedItems(value);
-    onselect(value);
-  };
+    setSelectedItems(value)
+    onselect(value)
+  }
 
   const handleItemClick = (label: string) => {
     const newSelectedItems = selectedItems.includes(label)
       ? selectedItems.filter(item => item !== label)
-      : [...selectedItems, label];
+      : [...selectedItems, label]
 
-    setSelectedItems(newSelectedItems);
-    onselect(newSelectedItems);
-  };
-
-  const filteredOptions = options?.filter(
-    option => option?.label && option.label.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+    setSelectedItems(newSelectedItems)
+    onselect(newSelectedItems)
+  }
 
   if (type === 'button-filter-dropdown') {
     return (
-      <FormControl>
-        <IconButton onClick={handleMenuOpen}>
+      <>
+        <IconButton
+          aria-controls={open ? 'generic-menu' : undefined}
+          aria-haspopup='true'
+          aria-expanded={open ? 'true' : undefined}
+          onClick={handleMenuOpen}
+        >
           <i className={icon}></i>
         </IconButton>
-        <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose} className='p-2'>
-          <MenuItem   sx={{
+
+
+        <Menu id='generic-menu' anchorEl={anchorEl} open={open} onClose={handleMenuClose}>
+          <MenuItem
+            sx={{
               '&:hover': {
                 backgroundColor: 'transparent'
               }
-            }}>
+            }}
+          >
             <TextField
               size='small'
               value={searchTerm}
-              onChange={handleSearchChange}
+              onInput={handleSearch}
+              onKeyDown={e => {
+                e.stopPropagation()
+              }}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position='start'>
@@ -100,20 +116,24 @@ const MultiSelectDropdown: React.FC<MultiSelectDropdownProps> = ({ options, onse
               }}
             />
           </MenuItem>
-          {filteredOptions.map(item => (
-            <MenuItem
-              key={item.label}
-              value={item.label}
-              onClick={() => handleItemClick(item.label)}
-              style={{ backgroundColor: 'transparent', height: '45px', minWidth: '200px' }}
-            >
-              <Checkbox checked={selectedItems.includes(item.label)} />
-              {item.label}
-            </MenuItem>
-          ))}
+
+          {options
+            .filter(item => item.label && item.label.toLowerCase().includes(searchTerm.toLowerCase()))
+
+            .map(item => (
+              <MenuItem
+                key={item.label}
+                value={item.label}
+                onClick={() => handleItemClick(item.label)}
+                style={{ backgroundColor: 'transparent', height: '45px', minWidth: '200px' }}
+              >
+                <Checkbox checked={selectedItems.includes(item.label)} />
+                {item.label}
+              </MenuItem>
+            ))}
         </Menu>
-      </FormControl>
-    );
+      </>
+    )
   } else {
     return (
       <FormControl>
@@ -126,14 +146,14 @@ const MultiSelectDropdown: React.FC<MultiSelectDropdownProps> = ({ options, onse
           displayEmpty
           renderValue={selected => {
             if (selected.length === 0) {
-              return <span>Filter By Folder</span>;
+              return <span>Filter By Folder</span>
             }
 
             return (
               <div className='flex flex-wrap'>
                 {selected.length === 1 ? selected[0] : `${selected[0]} + ${selected.length - 1}`}
               </div>
-            );
+            )
           }}
         >
           {options.map(item => (
@@ -149,8 +169,8 @@ const MultiSelectDropdown: React.FC<MultiSelectDropdownProps> = ({ options, onse
           ))}
         </Select>
       </FormControl>
-    );
+    )
   }
-};
+}
 
-export default MultiSelectDropdown;
+export default MultiSelectDropdown

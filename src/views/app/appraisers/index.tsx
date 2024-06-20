@@ -14,15 +14,18 @@ import SummaryDetailCard from '@/components/cards/summaryDetailsCard'
 // Import Data
 import FormDialog from '@/components/dialogBox/formDialog'
 import Table from '@/components/tables/table'
-import dummyData from '@/data/data'
+import  { tableFilters , dummyData} from '@/data/data'
 import ManageColumnsDialog from '@/modules/app/appraiser/manageColumnsDialog'
 import { sortAndFilterArray2 } from '@/utils'
+import FilterAccordion from '@/components/filters'
 
 const AppraisalClient = () => {
   const pathname = usePathname()
   const route = useRouter()
   const [open, setOpen] = useState(false)
   const [selectedItems, setSelectedItems] = useState(column)
+  const [openFilter, setOpenFilter] = useState(false)
+  const [count, setCount] = useState(0)
 
   const handleCheckboxSubmit = (selectedItems: any) => {
     setSelectedItems(selectedItems)
@@ -65,6 +68,23 @@ const AppraisalClient = () => {
 
   const handleSortActions = (item: any) => {
     console.log('🚀 ~ handleSortActions ~ item:', item)
+  }
+
+  const handleFilters = (item: any) => {
+    setOpenFilter(!openFilter)
+
+    let activeCount = 0
+
+    item.forEach((item: any) => {
+      item.filters.forEach((filter: any) => {
+        if (filter.active) {
+          activeCount++
+        }
+      })
+    })
+
+    setCount(activeCount)
+    console.log('🚀 ~ handleFilters ~ item:', item)
   }
 
   const handleMangeColumn = () => {
@@ -122,12 +142,12 @@ const AppraisalClient = () => {
               },
               {
                 label: 'Filter',
-                onClick: () => console.log('Open Filter Dialog Box'),
+                onClick: () => setOpenFilter(!openFilter),
                 variant: 'contained',
                 color: 'primary',
                 type: 'button',
                 icon: 'ri-filter-3-fill',
-                filterCount: 13
+                filterCount: count
               }
             ]}
           />
@@ -136,6 +156,15 @@ const AppraisalClient = () => {
 
       <FormDialog open={open} onClose={handleClose} dialogTitle='Manage Columns' closeButton={true}>
         <ManageColumnsDialog columns={column} onSubmit={handleCheckboxSubmit} onClose={handleClose} />
+      </FormDialog>
+
+      {/* Multiple Filters */}
+
+      <FormDialog open={openFilter} onClose={() => setOpenFilter(!openFilter)} dialogTitle='Filters' closeButton={true}>
+        <FilterAccordion
+          onApplyFilter={handleFilters}
+          filtersData={tableFilters}
+        />
       </FormDialog>
     </Grid>
   )
@@ -248,14 +277,14 @@ const column = [
     type: 'Dropdown',
     filterType: 'filter',
     filterOptions: [
-      { active: false,label: 'John Doe' },
-      { active: false,label: 'Jane Smith' },
-      { active: false,label: 'Mark Johnson' },
-      { active: false,label: 'Emily Brown' },
-      { active: false,label: 'Sarah Wilson' },
-      { active: false,label: 'Michael Davis' },
-      { active: false,label: 'Alex Johnson' },
-      { active: false,label: 'Emma Garcia' }
+      { active: false, label: 'John Doe' },
+      { active: false, label: 'Jane Smith' },
+      { active: false, label: 'Mark Johnson' },
+      { active: false, label: 'Emily Brown' },
+      { active: false, label: 'Sarah Wilson' },
+      { active: false, label: 'Michael Davis' },
+      { active: false, label: 'Alex Johnson' },
+      { active: false, label: 'Emma Garcia' }
     ],
     options: [
       'John Doe',
@@ -274,10 +303,10 @@ const column = [
     type: 'ClientDetails',
     filterType: 'filter',
     filterOptions: [
-      { active: false,label: 'Emily Brown' },
-      { active: false,label: 'Sarah Wilson' },
-      { active: false,label: 'Michael Davis' },
-      { active: false,label: 'Alex Johnson' },
+      { active: false, label: 'Emily Brown' },
+      { active: false, label: 'Sarah Wilson' },
+      { active: false, label: 'Michael Davis' },
+      { active: false, label: 'Alex Johnson' }
     ]
   },
   {
@@ -294,7 +323,6 @@ const column = [
     filterType: 'rangeDate'
   },
 
-
   {
     name: 'carrier',
     header: 'Carrier',
@@ -306,18 +334,17 @@ const column = [
       'William Corporation',
       'Ashley Corporation',
       'Emily Corporation',
-      'Emma Abc Corporation',
-      
+      'Emma Abc Corporation'
     ],
     filterType: 'filter',
     filterOptions: [
-      { active: false,label: 'Amanda Corporation' },
-      { active: false,label: 'John Corporation' },
-      { active: false,label: 'Melissa Corporation' },
-      { active: false,label: 'William Corporation' },
-      { active: false,label: 'Ashley Corporation' },
-      { active: false,label: 'Emily Corporation' },
-      { active: false,label: 'Emma Abc Corporation' }
+      { active: false, label: 'Amanda Corporation' },
+      { active: false, label: 'John Corporation' },
+      { active: false, label: 'Melissa Corporation' },
+      { active: false, label: 'William Corporation' },
+      { active: false, label: 'Ashley Corporation' },
+      { active: false, label: 'Emily Corporation' },
+      { active: false, label: 'Emma Abc Corporation' }
     ]
   },
   {
@@ -327,13 +354,13 @@ const column = [
     type: 'cellLabels',
     filterType: 'filter',
     filterOptions: [
-      { active: false,label: 'Sarah Wilson' },
-      { active: false,label: 'Jane Smith' },
-      { active: false,label: 'Mark Johnson' },
-      { active: false,label: 'Michael Davis' },
-      { active: false,label: 'Emily Brown' },
-      { active: false,label: 'Emma Garcia' },
-      { active: false,label: 'Alex Johnson' },
+      { active: false, label: 'Sarah Wilson' },
+      { active: false, label: 'Jane Smith' },
+      { active: false, label: 'Mark Johnson' },
+      { active: false, label: 'Michael Davis' },
+      { active: false, label: 'Emily Brown' },
+      { active: false, label: 'Emma Garcia' },
+      { active: false, label: 'Alex Johnson' }
     ]
   },
 
@@ -355,14 +382,14 @@ const column = [
     ],
     filterType: 'filter',
     filterOptions: [
-      { active: false,label: 'Emily Brown' },
-      { active: false,label: 'Michael Davis' },
-      { active: false,label: 'Mark Johnson' },
-      { active: false,label: 'Jane Smith' },
-      { active: false,label: 'John Doe' },
-      { active: false,label: 'Sarah Wilson' },
-      { active: false,label: 'Alex Johnson' },
-      { active: false,label: 'Emma Garcia' }
+      { active: false, label: 'Emily Brown' },
+      { active: false, label: 'Michael Davis' },
+      { active: false, label: 'Mark Johnson' },
+      { active: false, label: 'Jane Smith' },
+      { active: false, label: 'John Doe' },
+      { active: false, label: 'Sarah Wilson' },
+      { active: false, label: 'Alex Johnson' },
+      { active: false, label: 'Emma Garcia' }
     ]
   },
 
@@ -382,14 +409,14 @@ const column = [
     ],
     filterType: 'filter',
     filterOptions: [
-      { active: false,label: 'Anytown' },
-      { active: false,label: 'Othertown' },
-      { active: false,label: 'Anycity' },
-      { active: false,label: 'Anothercity' },
-      { active: false,label: 'Newcity' },
-      { active: false,label: 'Yetanothercity' },
-      { active: false,label: 'Metropolitan City' },
-      { active: false,label: 'Capital City' }
+      { active: false, label: 'Anytown' },
+      { active: false, label: 'Othertown' },
+      { active: false, label: 'Anycity' },
+      { active: false, label: 'Anothercity' },
+      { active: false, label: 'Newcity' },
+      { active: false, label: 'Yetanothercity' },
+      { active: false, label: 'Metropolitan City' },
+      { active: false, label: 'Capital City' }
     ]
   },
   {
@@ -408,9 +435,12 @@ const column = [
     name: 'percentage',
     header: 'Percentage',
     type: 'simple',
-    filterType: 'filterSort',
-    buttonOptions: [{ label: 'Sort By Latest Invoice ' }, { label: 'Sort By Most Earliest Invoice' }],
-    filterOptions: [{ label: '2.5%' }, { label: '5%' }, { label: '10%' }]
+    filterType: 'filter',
+    filterOptions: [
+      { label: '2.5%', active: false },
+      { label: '5%', active: false },
+      { label: '10%', active: false }
+    ]
   },
   {
     name: 'date_approved',

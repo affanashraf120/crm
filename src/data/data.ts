@@ -1,4 +1,4 @@
- const dummyData: any[] = [
+export const dummyData: any[] = [
   {
     id: 1,
     inv: 'INV001',
@@ -465,4 +465,97 @@
   }
 ]
 
-export default dummyData
+export const tableFilters = [
+  {
+    title: 'Status',
+    filters: [
+      { label: 'None', active: false },
+      { label: 'Closed', active: false },
+      { label: 'Open', active: false },
+      { label: 'Pending', active: false },
+      { label: 'Scheduled Inspection', active: false },
+      { label: 'Umpire', active: false }
+    ]
+  },
+  {
+    title: 'Assigned To',
+    filters: [
+      { active: false, label: 'John Doe' },
+      { active: false, label: 'Jane Smith' },
+      { active: false, label: 'Mark Johnson' },
+      { active: false, label: 'Emily Brown' },
+      { active: false, label: 'Sarah Wilson' },
+      { active: false, label: 'Michael Davis' },
+      { active: false, label: 'Alex Johnson' },
+      { active: false, label: 'Emma Garcia' }
+    ]
+  },
+  {
+    title: 'Client Name',
+    filters: [
+      { active: false, label: 'Emily Brown' },
+      { active: false, label: 'Sarah Wilson' },
+      { active: false, label: 'Michael Davis' },
+      { active: false, label: 'Alex Johnson' }
+    ]
+  },
+  {
+    title: 'Client Name',
+    filters: [
+      { active: false, label: 'Amanda Corporation' },
+      { active: false, label: 'John Corporation' },
+      { active: false, label: 'Melissa Corporation' },
+      { active: false, label: 'William Corporation' },
+      { active: false, label: 'Ashley Corporation' },
+      { active: false, label: 'Emily Corporation' },
+      { active: false, label: 'Emma Abc Corporation' }
+    ]
+  },
+  {
+    title: 'Opposing Appraiser Name',
+    filters: [
+      { active: false, label: 'Sarah Wilson' },
+      { active: false, label: 'Jane Smith' },
+      { active: false, label: 'Mark Johnson' },
+      { active: false, label: 'Michael Davis' },
+      { active: false, label: 'Emily Brown' },
+      { active: false, label: 'Emma Garcia' },
+      { active: false, label: 'Alex Johnson' }
+    ]
+  },
+  {
+    title: 'Umpire Name',
+    filters: [
+      { active: false, label: 'Emily Brown' },
+      { active: false, label: 'Michael Davis' },
+      { active: false, label: 'Mark Johnson' },
+      { active: false, label: 'Jane Smith' },
+      { active: false, label: 'John Doe' },
+      { active: false, label: 'Sarah Wilson' },
+      { active: false, label: 'Alex Johnson' },
+      { active: false, label: 'Emma Garcia' }
+    ]
+  },
+  {
+    title: 'City',
+    filters: [
+      { active: false, label: 'Anytown' },
+      { active: false, label: 'Othertown' },
+      { active: false, label: 'Anycity' },
+      { active: false, label: 'Anothercity' },
+      { active: false, label: 'Newcity' },
+      { active: false, label: 'Yetanothercity' },
+      { active: false, label: 'Metropolitan City' },
+      { active: false, label: 'Capital City' }
+    ]
+  },
+  {
+    title: 'Percentage',
+    filters: [
+      { active: false, label: '2.5%' },
+      { active: false, label: '10%' },
+      { active: false, label: '15%' }
+    ]
+  }
+]
+

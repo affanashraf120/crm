@@ -300,6 +300,7 @@ const Table = ({ data: Data, columns: columnArray, title, onActions, onFilterAct
               <MultiSelectDropdown
               
                 // todo pass the name to indentify the dropdown
+
                 // name={header}
 
                 icon='ri-arrow-drop-up-fill rotate-180 w-6 h-6 cursor-pointer'
@@ -398,11 +399,11 @@ const Table = ({ data: Data, columns: columnArray, title, onActions, onFilterAct
               {actionButtons &&
                 actionButtons?.map((action: any) => (
                   <div key={action.label} className='relative'>
-                    {action.filterCount && (
+                    {action.filterCount ? (
                       <span className='absolute -top-3 right-1 z-10 border border-textPrimary bg-primary w-5 h-5 text-[10px] rounded-full flex justify-center items-center'>
                         {action.filterCount}
                       </span>
-                    )}
+                    ) : null}
 
                     <Button
                       variant={action.variant}

@@ -168,7 +168,6 @@ const Documents: React.FC = () => {
             </Button>
           </div>
         </div>
-        {/* <Dropdown value={size} options={['Small', 'Medium', 'Large']} onChange={handleSizeChange} variant='outline' />{' '} */}
       </div>
 
       {/* Table component */}
