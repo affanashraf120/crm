@@ -59,6 +59,7 @@ import ConfirmationDialog from '../dialogs/confirmation-dialog'
 import Dropdown from '../dropDowns/dropDown'
 import DropdownWithChip from '../dropDowns/dropDownChip'
 import ActionsDropDown from '../dropDowns/manageFilters'
+import MultiSelectDropdown from '../dropDowns/multifiltercheckbox'
 
 // Column Definitions
 const columnHelper = createColumnHelper<any>()
@@ -296,12 +297,15 @@ const Table = ({ data: Data, columns: columnArray, title, onActions, onFilterAct
           return (
             <>
               {header}
-              <ActionsDropDown
-                name={header}
-                buttonLabel='ri-arrow-drop-up-fill rotate-180 w-6 h-6 cursor-pointer'
-                onItemClick={onFilterActions}
-                type={filterType}
-                filterList={filterOptions}
+              <MultiSelectDropdown
+              
+                // todo pass the name to indentify the dropdown
+                // name={header}
+
+                icon='ri-arrow-drop-up-fill rotate-180 w-6 h-6 cursor-pointer'
+                onselect={e => console.log(e)}
+                type='button-filter-dropdown'
+                options={filterOptions}
               />
             </>
           )

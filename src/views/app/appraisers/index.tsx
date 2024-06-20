@@ -241,6 +241,7 @@ const column = [
       { id: 4, value: 'Umpire', color: 'primary' }
     ]
   },
+
   {
     name: 'assigned_to',
     header: 'Assigned to',
@@ -273,14 +274,10 @@ const column = [
     type: 'ClientDetails',
     filterType: 'filter',
     filterOptions: [
-      { active: false,label: 'John Doe' },
-      { active: false,label: 'Jane Smith' },
-      { active: false,label: 'Mark Johnson' },
       { active: false,label: 'Emily Brown' },
       { active: false,label: 'Sarah Wilson' },
       { active: false,label: 'Michael Davis' },
       { active: false,label: 'Alex Johnson' },
-      { active: false,label: 'Emma Garcia' }
     ]
   },
   {
@@ -296,22 +293,21 @@ const column = [
     type: 'simple',
     filterType: 'rangeDate'
   },
+
+
   {
     name: 'carrier',
     header: 'Carrier',
     type: 'Dropdown',
     options: [
-      'Michael',
-      'Jennifer',
-      'David',
-      'Sarah',
-      'John',
-      'Emily',
-      'Ashley',
-      'Robert',
-      'Amanda',
-      'William',
-      'Melissa'
+      'Amanda Corporation',
+      'John Corporation',
+      'Melissa Corporation',
+      'William Corporation',
+      'Ashley Corporation',
+      'Emily Corporation',
+      'Emma Abc Corporation',
+      
     ],
     filterType: 'filter',
     filterOptions: [
@@ -331,14 +327,13 @@ const column = [
     type: 'cellLabels',
     filterType: 'filter',
     filterOptions: [
-      { active: false,label: 'John Doe' },
+      { active: false,label: 'Sarah Wilson' },
       { active: false,label: 'Jane Smith' },
       { active: false,label: 'Mark Johnson' },
-      { active: false,label: 'Emily Brown' },
-      { active: false,label: 'Sarah Wilson' },
       { active: false,label: 'Michael Davis' },
+      { active: false,label: 'Emily Brown' },
+      { active: false,label: 'Emma Garcia' },
       { active: false,label: 'Alex Johnson' },
-      { active: false,label: 'Emma Garcia' }
     ]
   },
 
@@ -360,12 +355,12 @@ const column = [
     ],
     filterType: 'filter',
     filterOptions: [
-      { active: false,label: 'John Doe' },
-      { active: false,label: 'Jane Smith' },
-      { active: false,label: 'Mark Johnson' },
       { active: false,label: 'Emily Brown' },
-      { active: false,label: 'Sarah Wilson' },
       { active: false,label: 'Michael Davis' },
+      { active: false,label: 'Mark Johnson' },
+      { active: false,label: 'Jane Smith' },
+      { active: false,label: 'John Doe' },
+      { active: false,label: 'Sarah Wilson' },
       { active: false,label: 'Alex Johnson' },
       { active: false,label: 'Emma Garcia' }
     ]

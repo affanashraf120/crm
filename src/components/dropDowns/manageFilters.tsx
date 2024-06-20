@@ -392,7 +392,7 @@ function ActionsDropDown({ buttonLabel, buttons, onItemClick, type, filterList, 
             <Typography variant='inherit'>Set Date Range</Typography>
           </MenuItem>
           <div className='flex flex-col gap-2 px-4'>
-            <DateRangePicker onSave={handleClicked} name={name} />
+            <DateRangePicker onSave={handleClicked} name={name} classes='flex flex-col gap-2'/>
           </div>
         </Menu>
       </>
