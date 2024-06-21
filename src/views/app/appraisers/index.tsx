@@ -94,7 +94,7 @@ const AppraisalClient = () => {
   }
 
   return (
-    <Grid container spacing={6} className='w-screen'>
+    <Grid container spacing={6}>
       <Grid item xs={12}>
         <SummaryDetailCard data={data} />
       </Grid>
