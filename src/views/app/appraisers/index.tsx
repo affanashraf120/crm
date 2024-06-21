@@ -14,7 +14,7 @@ import SummaryDetailCard from '@/components/cards/summaryDetailsCard'
 // Import Data
 import FormDialog from '@/components/dialogBox/formDialog'
 import Table from '@/components/tables/table'
-import  { tableFilters , dummyData} from '@/data/data'
+import { tableFilters, dummyData } from '@/data/data'
 import ManageColumnsDialog from '@/modules/app/appraiser/manageColumnsDialog'
 import { sortAndFilterArray2 } from '@/utils'
 import FilterAccordion from '@/components/filters'
@@ -35,8 +35,7 @@ const AppraisalClient = () => {
     // Filter the headers array to get only active headers and position
     const activeHeaders = sortAndFilterArray2(selectedItems, column)
 
-    activeHeaders.unshift({ name: 'id', header: '', type: 'DND' })
-    activeHeaders.push({
+    activeHeaders.unshift({
       name: 'action',
       header: 'Action',
       type: 'Action',
@@ -45,6 +44,9 @@ const AppraisalClient = () => {
         { label: 'Edit', icon: 'ri-pencil-line' }
       ]
     })
+
+    activeHeaders.unshift({ name: 'id', header: '', type: 'DND' })
+
     setSelectedItems(activeHeaders)
   }
 
@@ -92,7 +94,7 @@ const AppraisalClient = () => {
   }
 
   return (
-    <Grid container spacing={6}>
+    <Grid container spacing={6} className='w-screen'>
       <Grid item xs={12}>
         <SummaryDetailCard data={data} />
       </Grid>
@@ -161,10 +163,7 @@ const AppraisalClient = () => {
       {/* Multiple Filters */}
 
       <FormDialog open={openFilter} onClose={() => setOpenFilter(!openFilter)} dialogTitle='Filters' closeButton={true}>
-        <FilterAccordion
-          onApplyFilter={handleFilters}
-          filtersData={tableFilters}
-        />
+        <FilterAccordion onApplyFilter={handleFilters} filtersData={tableFilters} />
       </FormDialog>
     </Grid>
   )
@@ -243,6 +242,16 @@ const data: any[] = [
 
 const column = [
   { name: 'id', header: '', type: 'DND' },
+
+  {
+    name: 'action',
+    header: 'Action',
+    type: 'Action',
+    options: [
+      { label: 'Delete', icon: 'ri-delete-bin-7-line' },
+      { label: 'Edit', icon: 'ri-pencil-line' }
+    ]
+  },
   {
     name: 'inv',
     header: 'INV #',
@@ -483,14 +492,5 @@ const column = [
     header: 'Date User Paid',
     type: 'simple',
     filterType: 'rangeDate'
-  },
-  {
-    name: 'action',
-    header: 'Action',
-    type: 'Action',
-    options: [
-      { label: 'Delete', icon: 'ri-delete-bin-7-line' },
-      { label: 'Edit', icon: 'ri-pencil-line' }
-    ]
   }
 ]

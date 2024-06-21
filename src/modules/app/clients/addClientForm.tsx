@@ -31,7 +31,18 @@ const schema = z.object({
   gm_sale_email: z.string(),
   client_username: z.string(),
   client_password: z.string(),
-  client_email: z.string()
+  client_email: z.string(),
+  link_crm_login: z.string(),
+  crm_username: z.string(),
+  crm_password: z.string(),
+  crm_2_name: z.string(),
+  link_crm_2_login: z.string(),
+  crm_2_username: z.string(),
+  crm_2_password: z.string(),
+  appraisal_email_username: z.string(),
+  appraisal_email_password: z.string(),
+  appraisal_crm_username: z.string(),
+  appraisal_crm_password: z.string()
 })
 
 type FormData = z.infer<typeof schema>
@@ -68,7 +79,18 @@ const AddClient = ({ handleAction }: any) => {
       gm_sale_email: '',
       client_username: '',
       client_password: '',
-      client_email: ''
+      client_email: '',
+      link_crm_login: '',
+      crm_username: '',
+      crm_password: '',
+      crm_2_name: '',
+      link_crm_2_login: '',
+      crm_2_username: '',
+      crm_2_password: '',
+      appraisal_email_username: '',
+      appraisal_email_password: '',
+      appraisal_crm_username: '',
+      appraisal_crm_password: ''
     }
   })
 
@@ -109,7 +131,7 @@ const AddClient = ({ handleAction }: any) => {
           <div className='flex flex-grow flex-col gap-4'>
             <div className='flex flex-col items-center justify-center md:items-start md:justify-start sm:flex-row gap-4'>
               <Button component='label' size='small' variant='contained' htmlFor='account-settings-upload-image'>
-                Upload New Photo
+                Upload Company Logo
                 <input
                   hidden
                   type='file'
@@ -164,11 +186,37 @@ const formFields = [
   { type: 'formInput', name: 'owner_name', label: 'Enter Owner Name...', fieldSize: 'medium' },
   { type: 'formInput', name: 'owner_phone_no', label: 'Enter Owner Phone No...', fieldSize: 'medium' },
   { type: 'formInput', name: 'owner_email', label: 'Enter Owner Email...', fieldSize: 'medium' },
-  { type: 'formInput', name: 'gm_sale_name', label: 'Enter GM Sales Name...', fieldSize: 'medium' },
-  { type: 'formInput', name: 'gm_sale_phone_no', label: 'Enter GM Sales Phone No...', fieldSize: 'medium' },
-  { type: 'formInput', name: 'gm_sale_email', label: 'Enter GM Sales Email...', fieldSize: 'medium' },
+  { type: 'formInput', name: 'gm_sale_name', label: 'Enter GM/Sales Name...', fieldSize: 'medium' },
+  { type: 'formInput', name: 'gm_sale_phone_no', label: 'Enter GM/Sales Phone No...', fieldSize: 'medium' },
+  { type: 'formInput', name: 'gm_sale_email', label: 'Enter GM/Sales Email...', fieldSize: 'medium' },
   { type: 'formInput', name: 'client_username', label: 'Enter Client Username...', fieldSize: 'medium' },
   { type: 'formInput', name: 'client_email', label: 'Enter Client Email...', fieldSize: 'medium' },
   { type: 'formInput', name: 'client_password', label: 'Enter Client Password...', fieldSize: 'medium' },
+  { type: 'formInput', name: 'link_crm_login', label: 'Enter Link to CRM Login Page...', fieldSize: 'medium' },
+  { type: 'formInput', name: 'crm_username', label: 'Enter CRM Username...', fieldSize: 'medium' },
+  { type: 'formInput', name: 'crm_password', label: 'Enter CRM Password...', fieldSize: 'medium' },
+  { type: 'formInput', name: 'crm_2_name', label: 'Enter CRM 2 Name...', fieldSize: 'medium' },
+  { type: 'formInput', name: 'link_crm_2_login', label: 'Enter Link to CRM 2 Login Page...', fieldSize: 'medium' },
+  { type: 'formInput', name: 'crm_2_username', label: 'Enter CRM 2 Username...', fieldSize: 'medium' },
+  { type: 'formInput', name: 'crm_2_password', label: 'Enter CRM 2 Password...', fieldSize: 'medium' },
+  {
+    type: 'formInput',
+    name: 'appraisal_email_username',
+    label: 'Enter Client Email User Name...',
+    fieldSize: 'medium'
+  },
+  {
+    type: 'formInput',
+    name: 'appraisal_email_password',
+    label: 'Enter Client Email User Password...',
+    fieldSize: 'medium'
+  },
+  { type: 'formInput', name: 'appraisal_crm_username', label: 'Enter Client CRM User Name...', fieldSize: 'medium' },
+  {
+    type: 'formInput',
+    name: 'appraisal_crm_password',
+    label: 'Enter Client CRM User Password...',
+    fieldSize: 'medium'
+  },
   { type: 'formTextArea', name: 'com_address', label: 'Enter Company Address...' }
 ]

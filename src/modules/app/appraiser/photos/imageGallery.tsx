@@ -179,13 +179,20 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images, size }) => {
             }`}
           >
             <div className='flex justify-start items-start md:items-center flex-col md:flex-row '>
-              <div className='flex justify-start items-center group w-full'>
+              <div className='flex justify-start items-center group w-full px-7'>
                 <Checkbox
                   checked={accordionSelectStatus[date] || false}
                   onChange={() => toggleAccordionSelection(date)}
                 />
                 <div className='w-full pl-0'>
-                  <AccordionSummary sx={{ p: 1 }} expandIcon={<ExpandMoreIcon />}>
+                  <AccordionSummary
+                    sx={{ p: 1 }}
+                    expandIcon={
+                      <IconButton>
+                        <ExpandMoreIcon />
+                      </IconButton>
+                    }
+                  >
                     {editStates[date] ? (
                       <TextField
                         variant='standard'

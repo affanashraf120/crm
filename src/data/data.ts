@@ -559,3 +559,34 @@ export const tableFilters = [
   }
 ]
 
+export const tags = [
+  { label: 'Adrian Hernandez', active: false },
+  { label: 'Aylormade Appr', active: false },
+  { label: 'Estimator', active: false },
+  { label: 'Gilad Rubinsky', active: false },
+  { label: 'Robin Southern', active: false },
+  { label: 'Rosa Hernandez', active: false },
+  { label: 'Cody Stacey', active: false },
+  { label: 'Kevin Garcia', active: false },
+  { label: 'Luis Guerrero', active: false },
+  { label: 'Oscar Navarro', active: false }
+]
+
+export const visibility = [
+  { label: 'Everyone', active: false },
+  { label: 'Administrators Only', active: false },
+  { label: 'Manager Only', active: false },
+  { label: 'Office and up', active: false }
+]
+
+export const topic = [
+  { label: 'Calendar Appointment', active: false },
+  { label: 'Contract Worksheet', active: false },
+  { label: 'Estimate', active: false },
+  { label: 'General Comment', active: false },
+  { label: 'Measurement', active: false },
+  { label: 'Order', active: false },
+  { label: 'Payments', active: false },
+  { label: 'Permits', active: false },
+  { label: 'Supplements', active: false }
+]

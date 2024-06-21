@@ -39,16 +39,19 @@ const Documents: React.FC = () => {
     setOpen(!open)
   }
 
-  const handleFoldersFilter = (item: string[]) => {
+  const handleFoldersFilter = (item: any) => {
     setSelectedFilters(item)
+    
+    console.log("🚀 ~ handleFoldersFilter ~ item:", item)
 
-    const query = filters.filter(filter => item.some(i => filter.label.toLowerCase().includes(i.toLowerCase())))
+    // const query = filters.filter(filter => item.some(i => filter.label.toLowerCase().includes(i.toLowerCase())))
 
-    if (query.length === 0) {
-      setFilter(filters)
-    } else {
-      setFilter(query)
-    }
+    // if (query.length === 0) {
+    //   setFilter(filters)
+    // } else {
+    //   setFilter(query)
+    // }
+    
   }
 
   const handleCloseCreateFolder = () => {
@@ -73,15 +76,13 @@ const Documents: React.FC = () => {
     console.log('🚀 ~ handleFilters ~ item:', item)
   }
 
+  const handleSort = (item: any) => {
+    console.log('🚀 ~ handleSort ~ item:', item)
 
-  const handleSort = (item:any) => {
-    console.log("🚀 ~ handleSort ~ item:", item)
-
-    if(item === 'Custom'){
+    if (item === 'Custom') {
       setIsOpenRangeDialog(!isOpenRangeDialog)
     }
   }
-
 
   return (
     <div className='flex flex-col items-center w-full'>
@@ -142,6 +143,8 @@ const Documents: React.FC = () => {
           />
           <MultiSelectDropdown
             onselect={handleFoldersFilter}
+            name='FolderFilter'
+            placeHolder='Filter By Folder'
             options={[
               { label: 'Email Documents', active: false },
               { label: 'Invoice', active: false },
@@ -192,12 +195,20 @@ const Documents: React.FC = () => {
         <FilterAccordion onApplyFilter={handleFilters} filtersData={typeFilter} />
       </FormDialog>
 
-
-      <FormDialog open={isOpenRangeDialog} onClose={() => setIsOpenRangeDialog(!isOpenRangeDialog)} dialogTitle='Set a Custom Range' closeButton={true} >
-        <DateRangePicker name='custom_date_range' onSave={() => setIsOpenRangeDialog(!isOpenRangeDialog)} classes='!flex justify-center items-center w-full gap-2' label='To' buttonType='button'/>
+      <FormDialog
+        open={isOpenRangeDialog}
+        onClose={() => setIsOpenRangeDialog(!isOpenRangeDialog)}
+        dialogTitle='Set a Custom Range'
+        closeButton={true}
+      >
+        <DateRangePicker
+          name='custom_date_range'
+          onSave={() => setIsOpenRangeDialog(!isOpenRangeDialog)}
+          classes='!flex justify-center items-center w-full gap-2'
+          label='To'
+          buttonType='button'
+        />
       </FormDialog>
-
-
     </div>
   )
 }
@@ -216,12 +227,48 @@ const filters = [
   {
     label: 'Invoice',
     files: [
-      { name: 'meeting1.docs', uploaded_by: 'alice smith', last_updated: '12/3/2024 01:00 AM', active: false, size: '1.8 MB' },
-      { name: 'meeting2.pdf', uploaded_by: 'bob johnson', last_updated: '12/4/2024 03:00 AM', active: false, size: '3.2 MB' },
-      { name: 'meeting1.docs', uploaded_by: 'alice smith', last_updated: '12/3/2024 07:00 AM', active: false, size: '1.8 MB' },
-      { name: 'meeting2.pdf', uploaded_by: 'bob johnson', last_updated: '12/4/2024 09:00 AM', active: false, size: '3.2 MB' },
-      { name: 'meeting1.docs', uploaded_by: 'alice smith', last_updated: '12/3/2024 10:00 AM', active: false, size: '1.8 MB' },
-      { name: 'meeting2.pdf', uploaded_by: 'bob johnson', last_updated: '12/4/2024 12:00 AM', active: false, size: '3.2 MB' }
+      {
+        name: 'meeting1.docs',
+        uploaded_by: 'alice smith',
+        last_updated: '12/3/2024 01:00 AM',
+        active: false,
+        size: '1.8 MB'
+      },
+      {
+        name: 'meeting2.pdf',
+        uploaded_by: 'bob johnson',
+        last_updated: '12/4/2024 03:00 AM',
+        active: false,
+        size: '3.2 MB'
+      },
+      {
+        name: 'meeting1.docs',
+        uploaded_by: 'alice smith',
+        last_updated: '12/3/2024 07:00 AM',
+        active: false,
+        size: '1.8 MB'
+      },
+      {
+        name: 'meeting2.pdf',
+        uploaded_by: 'bob johnson',
+        last_updated: '12/4/2024 09:00 AM',
+        active: false,
+        size: '3.2 MB'
+      },
+      {
+        name: 'meeting1.docs',
+        uploaded_by: 'alice smith',
+        last_updated: '12/3/2024 10:00 AM',
+        active: false,
+        size: '1.8 MB'
+      },
+      {
+        name: 'meeting2.pdf',
+        uploaded_by: 'bob johnson',
+        last_updated: '12/4/2024 12:00 AM',
+        active: false,
+        size: '3.2 MB'
+      }
     ],
     select: false
   },
@@ -236,16 +283,40 @@ const filters = [
   {
     label: 'Roof Report',
     files: [
-      { name: 'meeting1.pdf', uploaded_by: 'alice smith', last_updated: '12/3/2024 11:00 AM', active: false, size: '2.7 MB' },
-      { name: 'meeting2.pdf', uploaded_by: 'bob johnson', last_updated: '12/4/2024 11:00 AM', active: false, size: '3.1 MB' }
+      {
+        name: 'meeting1.pdf',
+        uploaded_by: 'alice smith',
+        last_updated: '12/3/2024 11:00 AM',
+        active: false,
+        size: '2.7 MB'
+      },
+      {
+        name: 'meeting2.pdf',
+        uploaded_by: 'bob johnson',
+        last_updated: '12/4/2024 11:00 AM',
+        active: false,
+        size: '3.1 MB'
+      }
     ],
     select: false
   },
   {
     label: 'other',
     files: [
-      { name: 'meeting1.pdf', uploaded_by: 'alice smith', last_updated: '12/3/2024 14:00 AM', active: false, size: '2.7 MB' },
-      { name: 'meeting2.pdf', uploaded_by: 'bob johnson', last_updated: '12/4/2024 11:00 AM', active: false, size: '3.1 MB' }
+      {
+        name: 'meeting1.pdf',
+        uploaded_by: 'alice smith',
+        last_updated: '12/3/2024 14:00 AM',
+        active: false,
+        size: '2.7 MB'
+      },
+      {
+        name: 'meeting2.pdf',
+        uploaded_by: 'bob johnson',
+        last_updated: '12/4/2024 11:00 AM',
+        active: false,
+        size: '3.1 MB'
+      }
     ],
     select: false
   }

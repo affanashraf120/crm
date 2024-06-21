@@ -301,7 +301,7 @@ const Table = ({ data: Data, columns: columnArray, title, onActions, onFilterAct
               
                 // todo pass the name to indentify the dropdown
 
-                // name={header}
+                name={header}
 
                 icon='ri-arrow-drop-up-fill rotate-180 w-6 h-6 cursor-pointer'
                 onselect={e => console.log(e)}
