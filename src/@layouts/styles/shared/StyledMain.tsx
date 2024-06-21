@@ -14,8 +14,10 @@ const StyledMain = styled.main<StyledMainProps>`
     isContentCompact &&
     `
     margin-inline: auto;
-    max-inline-size: ${themeConfig.compactContentWidth}px;
-  `}
-`
+    `}
+    `
 
-export default StyledMain
+    export default StyledMain
+
+    // Todo
+    // max-inline-size: ${themeConfig.compactContentWidth}px;
