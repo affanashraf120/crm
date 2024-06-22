@@ -11,6 +11,7 @@ import DNDImage from '@/components/common/dndImage'
 import FormDialog from '@/components/dialogBox/formDialog'
 import FilterAccordion from '@/components/filters'
 import ImageGallery from '@/modules/app/appraiser/photos/imageGallery'
+import { images } from '@/data/data'
 
 const Photo: React.FC = () => {
   const [size, setSize] = useState<'Small' | 'Medium' | 'Large'>('Medium')
@@ -100,8 +101,8 @@ const Photo: React.FC = () => {
 
       <FormDialog open={openFilter} onClose={handleCloseFilters} dialogTitle='Filters' closeButton={true}>
         <FilterAccordion
-        onClose={handleCloseFilters}
-        onApplyFilter={(item:any)=>console.log(item)}
+          onClose={handleCloseFilters}
+          onApplyFilter={(item: any) => console.log(item)}
           filtersData={[
             {
               title: 'Date Uploaded',
@@ -129,125 +130,3 @@ const Photo: React.FC = () => {
 }
 
 export default Photo
-
-interface Image {
-  src: string;
-  alt: string;
-  date: string;
-  time: string;
-  uploadedBy: string;
-  selected: boolean;
-  name: string;
-}
-
-const images: Image[] = [
-  {
-    src: 'https://flowbite.s3.amazonaws.com/docs/gallery/square/image.jpg',
-    alt: 'Image 1',
-    date: '2023-01-01',
-    time: '10:00',
-    uploadedBy: 'John Doe',
-    selected: false,
-    name: 'image.jpg'
-  },
-  {
-    src: 'https://flowbite.s3.amazonaws.com/docs/gallery/square/image-1.jpg',
-    alt: 'Image 2',
-    date: '2023-01-01',
-    time: '11:00',
-    uploadedBy: 'Jane Smith',
-    selected: false,
-    name: 'image-1.jpg'
-  },
-  {
-    src: 'https://flowbite.s3.amazonaws.com/docs/gallery/square/image-2.jpg',
-    alt: 'Image 3',
-    date: '2023-01-01',
-    time: '12:00',
-    uploadedBy: 'Alice Johnson',
-    selected: false,
-    name: 'image-2.jpg'
-  },
-  {
-    src: 'https://flowbite.s3.amazonaws.com/docs/gallery/square/image-3.jpg',
-    alt: 'Image 4',
-    date: '2023-05-01',
-    time: '13:00',
-    uploadedBy: 'Bob Brown',
-    selected: false,
-    name: 'image-3.jpg'
-  },
-  {
-    src: 'https://flowbite.s3.amazonaws.com/docs/gallery/square/image-4.jpg',
-    alt: 'Image 5',
-    date: '2023-05-01',
-    time: '14:00',
-    uploadedBy: 'Carol White',
-    selected: false,
-    name: 'image-4.jpg'
-  },
-  {
-    src: 'https://flowbite.s3.amazonaws.com/docs/gallery/square/image-5.jpg',
-    alt: 'Image 6',
-    date: '2023-02-01',
-    time: '15:00',
-    uploadedBy: 'David Green',
-    selected: false,
-    name: 'image-5.jpg'
-  },
-  {
-    src: 'https://flowbite.s3.amazonaws.com/docs/gallery/square/image-6.jpg',
-    alt: 'Image 7',
-    date: '2023-02-01',
-    time: '16:00',
-    uploadedBy: 'Eve Black',
-    selected: false,
-    name: 'image-6.jpg'
-  },
-  {
-    src: 'https://flowbite.s3.amazonaws.com/docs/gallery/square/image-7.jpg',
-    alt: 'Image 8',
-    date: '2023-09-01',
-    time: '17:00',
-    uploadedBy: 'Frank Blue',
-    selected: false,
-    name: 'image-7.jpg'
-  },
-  {
-    src: 'https://flowbite.s3.amazonaws.com/docs/gallery/square/image-8.jpg',
-    alt: 'Image 9',
-    date: '2023-01-01',
-    time: '18:00',
-    uploadedBy: 'Grace Yellow',
-    selected: false,
-    name: 'image-8.jpg'
-  },
-  {
-    src: 'https://flowbite.s3.amazonaws.com/docs/gallery/square/image-9.jpg',
-    alt: 'Image 10',
-    date: '2023-01-01',
-    time: '19:00',
-    uploadedBy: 'Hank Purple',
-    selected: false,
-    name: 'image-9.jpg'
-  },
-  {
-    src: 'https://flowbite.s3.amazonaws.com/docs/gallery/square/image-10.jpg',
-    alt: 'Image 11',
-    date: '2023-01-01',
-    time: '20:00',
-    uploadedBy: 'Ivy Orange',
-    selected: false,
-    name: 'image-10.jpg'
-  },
-  {
-    src: 'https://flowbite.s3.amazonaws.com/docs/gallery/square/image-11.jpg',
-    alt: 'Image 12',
-    date: '2023-01-01',
-    time: '21:00',
-    uploadedBy: 'Jack Pink',
-    selected: false,
-    name: 'image-11.jpg'
-  }
-];
-

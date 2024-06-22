@@ -5,9 +5,14 @@ import { useState } from 'react'
 import SearchIcon from '@mui/icons-material/Search'
 import { Avatar, Button, IconButton, InputAdornment, TextField, Tooltip } from '@mui/material'
 
+import FormDialog from '@/components/dialogBox/formDialog'
 import MultiSelectDropdown from '@/components/dropDowns/multifiltercheckbox'
-import { tags, topic, visibility } from '@/data/data'
 import Drawer from '@/components/formDrawer'
+import TabsList from '@/components/tabsList'
+import { tags, topic, visibility } from '@/data/data'
+import Document from './documents'
+import Pictures from './photos'
+import Upload from './upoadContent'
 
 const Chat = () => {
   const [selectedFilters, setSelectedFilters] = useState<string[]>([])
@@ -16,6 +21,7 @@ const Chat = () => {
   const [isReply, setIsReply] = useState(false)
   const [open, setOpen] = useState(false)
   const [viewMore, setViewMore] = useState(false)
+  const [openAttach, setOpenAttach] = useState(false)
 
   console.log('🚀 ~ selectedFilters:', selectedFilters)
 
@@ -49,14 +55,14 @@ const Chat = () => {
           />
 
           <div className='flex justify-between items-center gap-2 flex-wrap w-full'>
-            <div className='flex justify-between items-center gap-2 flex-wrap'>
+            <div className='flex justify-between items-center gap-1 flex-wrap'>
               <Tooltip title='Attach'>
-                <IconButton>
-                  <i className='ri-attachment-2'></i>
+                <IconButton onClick={() => setOpenAttach(!openAttach)}>
+                  <i className='ri-attachment-2 w-5 h-5'></i>
                 </IconButton>
               </Tooltip>
               <MultiSelectDropdown
-                icon='ri-price-tag-3-line  w-6 h-6 cursor-pointer'
+                icon='ri-price-tag-3-line  w-5 h-5 cursor-pointer'
                 onselect={e => console.log(e)}
                 type='button-filter-dropdown'
                 toolTip='Notify'
@@ -64,7 +70,7 @@ const Chat = () => {
                 name='Tags'
               />
               <MultiSelectDropdown
-                icon='ri-lightbulb-line w-6 h-6 cursor-pointer'
+                icon='ri-lightbulb-line w-5 h-5 cursor-pointer'
                 onselect={e => console.log(e)}
                 type='button-filter-dropdown'
                 toolTip='Topic'
@@ -73,7 +79,7 @@ const Chat = () => {
               />
 
               <MultiSelectDropdown
-                icon='ri-organization-chart w-6 h-6 cursor-pointer'
+                icon='ri-organization-chart w-5 h-5 cursor-pointer'
                 onselect={e => console.log(e)}
                 type='button-filter-dropdown'
                 toolTip='Viewable'
@@ -105,7 +111,7 @@ const Chat = () => {
                     sx={{
                       marginTop: '10px'
                     }}
-                    endIcon={<i className='ri-arrow-down-s-line w-4 h-4'></i>}
+                    endIcon={<i className='ri-arrow-down-s-line w-5 h-5'></i>}
                     onClick={() => setViewMore(!viewMore)}
                   >
                     View 3 more replies
@@ -159,12 +165,12 @@ const Chat = () => {
               <div className='flex justify-between items-center gap-2 flex-wrap w-full'>
                 <div className='flex justify-between items-center gap-2 flex-wrap md:ml-10'>
                   <Tooltip title='Attach'>
-                    <IconButton>
-                      <i className='ri-attachment-2'></i>
+                  <IconButton onClick={() => setOpenAttach(!openAttach)}>
+                  <i className='ri-attachment-2'></i>
                     </IconButton>
                   </Tooltip>
                   <MultiSelectDropdown
-                    icon='ri-price-tag-3-line  w-6 h-6 cursor-pointer'
+                    icon='ri-price-tag-3-line  w-5 h-5 cursor-pointer'
                     onselect={e => console.log(e)}
                     type='button-filter-dropdown'
                     toolTip='Notify'
@@ -308,6 +314,16 @@ const Chat = () => {
           />
         </div>
       </Drawer>
+
+      <FormDialog
+        open={openAttach}
+        onClose={() => setOpenAttach(!openAttach)}
+        dialogTitle='Attachments'
+        closeButton={true}
+        dialogSize='80%'
+      >
+        <TabsList tabs={tabs} type='tabs' />
+      </FormDialog>
     </div>
   )
 }
@@ -320,7 +336,7 @@ const Message = () => {
       <div className='ml-0 md:ml-2'>
         <div className='flex justify-start items-center gap-0.5 flex-wrap w-full'>
           <h6 className='text-base'>Robin Southern</h6>
-          <i className='ri-chat-1-line w-4 h-4'></i>
+          <i className='ri-chat-1-line w-5 h-5'></i>
           <p className='text-xs'>4/1/24 8:44 PM</p>
         </div>
         <span className='text-primary text-sm'>
@@ -334,3 +350,24 @@ const Message = () => {
     </>
   )
 }
+
+const tabs = [
+  {
+    label: 'Photo ',
+    icon: 'ri-camera-line',
+    value: 'photo ',
+    component: Pictures
+  },
+  {
+    label: 'Documents',
+    icon: 'ri-file-paper-line',
+    value: 'documents',
+    component: Document
+  },
+  {
+    label: 'Upload',
+    icon: 'ri-file-paper-line',
+    value: 'Upload',
+    component: Upload
+  }
+]
