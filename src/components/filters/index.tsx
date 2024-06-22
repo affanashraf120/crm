@@ -24,9 +24,10 @@ type FilterCategory = {
 type FilterAccordionProps = {
   filtersData: FilterCategory[]
   onApplyFilter: any
+  onClose: () => void
 }
 
-const FilterAccordion: React.FC<FilterAccordionProps> = ({ filtersData, onApplyFilter }) => {
+const FilterAccordion: React.FC<FilterAccordionProps> = ({ filtersData, onApplyFilter, onClose }) => {
   const [selectedFilters, setSelectedFilters] = useState(filtersData)
   const [selectAll, setSelectAll] = useState(false)
 
@@ -113,7 +114,7 @@ const FilterAccordion: React.FC<FilterAccordionProps> = ({ filtersData, onApplyF
               <Typography>{filterCategory.title}</Typography>
             </AccordionSummary>
             <AccordionDetails>
-              <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 '>
+              <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 flex-wrap '>
                 {filterCategory.filters.map((filter, filterIndex) => (
                   <FormControlLabel
                     key={filterIndex}
@@ -134,7 +135,7 @@ const FilterAccordion: React.FC<FilterAccordionProps> = ({ filtersData, onApplyF
       </div>
 
       <div className='py-4 flex justify-between items-center flex-wrap gap-3'>
-        <Button variant='outlined' color='inherit'>
+        <Button variant='outlined' color='inherit' onClick={onClose}>
           Cancel
         </Button>
         <div className=' flex justify-between sm:justify-center items-center gap-4 w-full sm:w-auto'>

@@ -100,6 +100,7 @@ const Photo: React.FC = () => {
 
       <FormDialog open={openFilter} onClose={handleCloseFilters} dialogTitle='Filters' closeButton={true}>
         <FilterAccordion
+        onClose={handleCloseFilters}
         onApplyFilter={(item:any)=>console.log(item)}
           filtersData={[
             {

@@ -192,7 +192,7 @@ const Documents: React.FC = () => {
       </FormDialog>
 
       <FormDialog open={openFilter} onClose={() => setOpenFilter(!openFilter)} dialogTitle='Filters' closeButton={true}>
-        <FilterAccordion onApplyFilter={handleFilters} filtersData={typeFilter} />
+        <FilterAccordion onApplyFilter={handleFilters} filtersData={typeFilter} onClose={() => setOpenFilter(!openFilter)} />
       </FormDialog>
 
       <FormDialog

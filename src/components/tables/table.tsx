@@ -14,6 +14,8 @@ import type {
   ReactPortal
 } from 'react'
 
+import SearchIcon from '@mui/icons-material/Search'
+
 // needed for table body level scope DnD setup
 import {
   closestCenter,
@@ -33,7 +35,16 @@ import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 
 // MUI Imports
-import { Avatar, Button, IconButton, Stack, TablePagination, TextField, Tooltip, Typography } from '@mui/material'
+import {
+  Avatar,
+  Button,
+  IconButton,
+  InputAdornment,
+  TablePagination,
+  TextField,
+  Tooltip,
+  Typography
+} from '@mui/material'
 import Card from '@mui/material/Card'
 import CardHeader from '@mui/material/CardHeader'
 
@@ -142,7 +153,16 @@ const DraggableRow = ({ row }: { row: any }) => {
   )
 }
 
-const Table = ({ data: Data, columns: columnArray, title, onActions, onFilterActions, actionButtons }: any) => {
+const Table = ({
+  data: Data,
+  columns: columnArray,
+  title,
+  onActions,
+  onFilterActions,
+  actionButtons,
+  onClickRow,
+
+}: any) => {
   // States
   const [isOpenDelete, setIsOpenDelete] = useState(false)
   const [data, setData] = useState<any>(Data)
@@ -175,7 +195,7 @@ const Table = ({ data: Data, columns: columnArray, title, onActions, onFilterAct
 
   function generateColumns(columnConfigurations: any) {
     return columnConfigurations.map((config: any) => {
-      const { name, header, type, options, size, filterType, filterOptions, buttonOptions, cellLabels } = config
+      const { name, header, type, options, size, filterType, filterOptions, buttonOptions, cellLabels, redirectLink } = config
       const accessor = name
 
       const cell = ({ row }: any) => {
@@ -243,20 +263,27 @@ const Table = ({ data: Data, columns: columnArray, title, onActions, onFilterAct
           )
         } else if (type === 'TextWithTooltip') {
           return row.original[name].length > size ? (
-            <Tooltip title={row.original[name]}>
-              <Typography
-                variant='body1'
-                style={{
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                  whiteSpace: 'nowrap',
-                  width: '200px',
-                  cursor: 'pointer'
-                }}
-              >
-                {row.original[name]}
-              </Typography>
-            </Tooltip>
+            <div className='flex justify-start items-center gap-1'>
+              <Tooltip title={row.original[name]}>
+                <Typography
+                  variant='body1'
+                  style={{
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    whiteSpace: 'nowrap',
+                    width: '200px',
+                    cursor: 'pointer'
+                  }}
+                >
+                  {row.original[name]}
+                </Typography>
+              </Tooltip>
+              {redirectLink && (
+                <IconButton onClick={() => onClickRow({ label: header, id: row.original.id })}>
+                  <i className='ri-external-link-line w-4 h-4'></i>
+                </IconButton>
+              )}
+            </div>
           ) : (
             <Typography>{`${row.original[name]}`}</Typography>
           )
@@ -298,11 +325,10 @@ const Table = ({ data: Data, columns: columnArray, title, onActions, onFilterAct
             <>
               {header}
               <MultiSelectDropdown
-              
+
                 // todo pass the name to indentify the dropdown
 
                 name={header}
-
                 icon='ri-arrow-drop-up-fill rotate-180 w-6 h-6 cursor-pointer'
                 onselect={e => console.log(e)}
                 type='button-filter-dropdown'
@@ -394,11 +420,32 @@ const Table = ({ data: Data, columns: columnArray, title, onActions, onFilterAct
         <div className='flex justify-between items-start md:items-center flex-col px-2 md:flex-row mb-2 text-left w-full'>
           <CardHeader title={title} />
           <div className='flex justify-center items-center gap-2 flex-col w-full sm:flex-row md:w-auto'>
-            <TextField id='outlined-basic' label='Search' variant='outlined' fullWidth size='small' />
-            <Stack spacing={2} direction='row'>
+            <TextField
+              id='outlined-basic'
+              label='Search'
+              variant='outlined'
+              fullWidth
+              size='small'
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position='start'>
+                    <SearchIcon />
+                  </InputAdornment>
+                ),
+                sx: {
+                  height: '38px',
+                  fontSize: '12px',
+                  padding: '5px 10px',
+                  '.MuiInputBase-input': {
+                    padding: '0 5px'
+                  }
+                }
+              }}
+            />
+            <div className='flex justify-start items-start w-full gap-2 flex-wrap sm:flex-row sm:flex-nowrap'>
               {actionButtons &&
                 actionButtons?.map((action: any) => (
-                  <div key={action.label} className='relative'>
+                  <div key={action.label} className='relative '>
                     {action.filterCount ? (
                       <span className='absolute -top-3 right-1 z-10 border border-textPrimary bg-primary w-5 h-5 text-[10px] rounded-full flex justify-center items-center'>
                         {action.filterCount}
@@ -417,7 +464,7 @@ const Table = ({ data: Data, columns: columnArray, title, onActions, onFilterAct
                     </Button>
                   </div>
                 ))}
-            </Stack>
+            </div>
           </div>
         </div>
         {table.getFilteredRowModel().rows.length === 0 ? (

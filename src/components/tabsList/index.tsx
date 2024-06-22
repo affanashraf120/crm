@@ -3,7 +3,9 @@
 // React Imports
 import type { SyntheticEvent, FC } from 'react'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+
+import { useSearchParams } from 'next/navigation'
 
 import { Button, Card, CardContent } from '@mui/material'
 
@@ -29,6 +31,16 @@ interface Tabs {
 const TabsList: FC<Tabs> = ({ tabs }) => {
   // States
   const [activeTab, setActiveTab] = useState(tabs[0].value)
+
+  const searchParams = useSearchParams()
+
+  const search = searchParams.get('q')
+
+  useEffect(() => {
+    if (search === 'Notes') {
+      setActiveTab('messages');
+    }
+  }, [search]);
 
   const handleChange = (event: SyntheticEvent, value: string) => {
     setActiveTab(value)

@@ -236,11 +236,7 @@ const Chat = () => {
               variant='contained'
               size='small'
               onClick={() => setOpen(!open)}
-              startIcon={
-                <svg xmlns='http://www.w3.org/2000/svg' width='1em' height='1em' viewBox='0 0 24 24' className='w-4 h-4'>
-                  <path fill='currentColor' d='M4 11h12v2H4zm0-5h16v2H4zm0 12h7.235v-2H4z' />
-                </svg>
-              }
+              startIcon={<i className='ri-filter-3-fill'></i>}
             >
               Filters
             </Button>
@@ -251,6 +247,7 @@ const Chat = () => {
       <Drawer open={open} setOpen={() => setOpen(false)}>
         <div className='flex justify-start items-start gap-2 pl-2 flex-col'>
           <MultiSelectDropdown
+            isScrollable={false}
             onselect={handleFoldersFilter}
             name='topic'
             title='Message Topic'
@@ -263,6 +260,7 @@ const Chat = () => {
 
           <MultiSelectDropdown
             onselect={handleFoldersFilter}
+            isScrollable={false}
             name='createdBy'
             title='Created By'
             type='accordion-checkbox'
@@ -277,6 +275,7 @@ const Chat = () => {
           />
           <MultiSelectDropdown
             onselect={handleFoldersFilter}
+            isScrollable={false}
             name='sort'
             type='accordion-sort'
             title='Sort By'

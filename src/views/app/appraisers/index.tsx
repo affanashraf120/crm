@@ -68,6 +68,12 @@ const AppraisalClient = () => {
     }
   }
 
+  const handleClickRow = (menuItem: any) => {
+
+    route.push(`${pathname}/${menuItem.id}?q=${menuItem.label}`)
+
+  }
+
   const handleSortActions = (item: any) => {
     console.log('🚀 ~ handleSortActions ~ item:', item)
   }
@@ -124,6 +130,7 @@ const AppraisalClient = () => {
             buttonName='Add New'
             title='Alpha Appraisals (10% or $250 min)'
             onActions={handleActionsRow}
+            onClickRow={handleClickRow}
             onFilterActions={handleSortActions}
             actionButtons={[
               {
@@ -163,7 +170,11 @@ const AppraisalClient = () => {
       {/* Multiple Filters */}
 
       <FormDialog open={openFilter} onClose={() => setOpenFilter(!openFilter)} dialogTitle='Filters' closeButton={true}>
-        <FilterAccordion onApplyFilter={handleFilters} filtersData={tableFilters} />
+        <FilterAccordion
+          onApplyFilter={handleFilters}
+          filtersData={tableFilters}
+          onClose={() => setOpenFilter(!openFilter)}
+        />
       </FormDialog>
     </Grid>
   )
@@ -479,6 +490,7 @@ const column = [
     name: 'notes',
     header: 'Notes',
     type: 'TextWithTooltip',
+    redirectLink: true,
     size: 12
   },
   {

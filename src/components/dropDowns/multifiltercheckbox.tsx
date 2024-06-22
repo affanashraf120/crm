@@ -38,6 +38,7 @@ interface MultiSelectDropdownProps {
   title?: string
   toolTip?: string
   name: string
+  isScrollable?: boolean
 }
 
 const MultiSelectDropdown: React.FC<MultiSelectDropdownProps> = ({
@@ -48,7 +49,8 @@ const MultiSelectDropdown: React.FC<MultiSelectDropdownProps> = ({
   placeHolder,
   title,
   toolTip,
-  name
+  name,
+  isScrollable
 }) => {
   const [selectedItems, setSelectedItems] = useState<string[]>([])
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
@@ -157,7 +159,7 @@ const MultiSelectDropdown: React.FC<MultiSelectDropdownProps> = ({
             />
           </MenuItem>
 
-          <div className='max-h-[200px] overflow-y-auto w-full '>
+          <div className={`flex flex-col gap-1  ${isScrollable ? 'overflow-y-auto max-h-[200px]' : ''}`}>
             {options
               .filter(item => item.label && item.label.toLowerCase().includes(searchTerm.toLowerCase()))
 
@@ -190,7 +192,7 @@ const MultiSelectDropdown: React.FC<MultiSelectDropdownProps> = ({
           <Typography variant='body1'>{title}</Typography>
         </div>
         <div className={`overflow-hidden transition-all duration-700 ease-in-out w-full ${isOpen ? 'h-auto' : 'h-0'}`}>
-          <div className='max-h-[200px] overflow-y-auto w-full'>
+          <div className={` ${isScrollable ? 'overflow-y-auto max-h-[200px]' : ''} w-full`}>
             {options.map((item, index) => (
               <div
                 key={index}
@@ -226,7 +228,7 @@ const MultiSelectDropdown: React.FC<MultiSelectDropdownProps> = ({
               value={value}
               onChange={event => handleClickedSort(event.target.value)}
             >
-              <div className='max-h-[200px] overflow-y-auto w-full'>
+              <div className={` ${isScrollable ? 'overflow-y-auto max-h-[200px]' : ''} w-full`}>
                 {options.map((item, index) => (
                   <FormControlLabel
                     key={index}
@@ -264,7 +266,7 @@ const MultiSelectDropdown: React.FC<MultiSelectDropdownProps> = ({
             )
           }}
         >
-          <div className='max-h-[200px] overflow-y-auto w-full'>
+          <div className={` ${isScrollable ? 'overflow-y-auto max-h-[200px] ' : ''} w-full`}>
             {options.map(item => (
               <MenuItem
                 key={item.label}
