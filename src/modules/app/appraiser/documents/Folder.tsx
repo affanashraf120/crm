@@ -32,7 +32,7 @@ const FolderComponent = ({ filters }: any) => {
   const [folders, setFolders] = useState<Folder[]>(filters)
   const inputRefs = useRef<(HTMLInputElement | null)[]>([])
 
-  
+
   useEffect(() => {
     setFolders(filters)
   }, [filters])
@@ -210,7 +210,7 @@ const FolderComponent = ({ filters }: any) => {
                         scope='col'
                         className='px-6 py-3 text-left text-xs font-medium text-secondary uppercase tracking-wider'
                       >
-                        File Name
+                        Documents
                       </th>
                     </div>
                     <div>
@@ -414,7 +414,7 @@ const FolderComponent = ({ filters }: any) => {
                         inputRef={ref => (inputRefs.current[folderIndex] = ref)}
                       />
 
-                     
+
                     ) : (
                       <span className='mt-2'>{folder.label}</span>
                     )}
@@ -448,7 +448,7 @@ const FolderComponent = ({ filters }: any) => {
                               scope='col'
                               className='px-6 py-3 text-left text-xs font-medium text-secondary uppercase tracking-wider'
                             >
-                              Name
+                              Documents
                             </th>
                           </div>
                           <div>

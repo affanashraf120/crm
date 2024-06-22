@@ -50,7 +50,7 @@ const MultiSelectDropdown: React.FC<MultiSelectDropdownProps> = ({
   title,
   toolTip,
   name,
-  isScrollable
+  isScrollable = true
 }) => {
   const [selectedItems, setSelectedItems] = useState<string[]>([])
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)

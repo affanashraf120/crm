@@ -15,6 +15,7 @@ const Chat = () => {
   const [input, setInput] = useState('')
   const [isReply, setIsReply] = useState(false)
   const [open, setOpen] = useState(false)
+  const [viewMore, setViewMore] = useState(false)
 
   console.log('🚀 ~ selectedFilters:', selectedFilters)
 
@@ -95,18 +96,39 @@ const Chat = () => {
             <div className='flex md:flex-col gap-6 flex-wrap'>
               <Message />
               {/* Button to Show more message */}
-              <div className='flex items-start justify-start pl-4 md:ml-5 flex-wrap md:flex-nowrap '>
-                <Button
-                  variant='contained'
-                  size='small'
-                  sx={{
-                    marginTop: '10px'
-                  }}
-                  endIcon={<i className='ri-arrow-down-s-line w-4 h-4'></i>}
-                >
-                  View 3 more replies
-                </Button>
-              </div>
+
+              {!viewMore && (
+                <div className='flex items-start justify-start pl-4 md:ml-5 flex-wrap md:flex-nowrap '>
+                  <Button
+                    variant='contained'
+                    size='small'
+                    sx={{
+                      marginTop: '10px'
+                    }}
+                    endIcon={<i className='ri-arrow-down-s-line w-4 h-4'></i>}
+                    onClick={() => setViewMore(!viewMore)}
+                  >
+                    View 3 more replies
+                  </Button>
+                </div>
+              )}
+
+              {viewMore && (
+                <>
+                  <div className='flex items-start justify-start pl-4 md:ml-5 flex-wrap md:flex-nowrap border-l-2'>
+                    <Avatar src='/images/avatars/1.png' />
+                    <Message />
+                  </div>
+                  <div className='flex items-start justify-start pl-4 md:ml-5 flex-wrap md:flex-nowrap border-l-2'>
+                    <Avatar src='/images/avatars/1.png' />
+                    <Message />
+                  </div>
+                  <div className='flex items-start justify-start pl-4 md:ml-5 flex-wrap md:flex-nowrap border-l-2'>
+                    <Avatar src='/images/avatars/1.png' />
+                    <Message />
+                  </div>
+                </>
+              )}
               <div className='flex items-start justify-start pl-4 md:ml-5 flex-wrap md:flex-nowrap border-l-2'>
                 <Avatar src='/images/avatars/1.png' />
                 <Message />

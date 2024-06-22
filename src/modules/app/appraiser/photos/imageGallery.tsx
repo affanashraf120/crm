@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { Checkbox, IconButton, TextField } from '@mui/material'
@@ -6,8 +6,7 @@ import Accordion from '@mui/material/Accordion'
 import AccordionDetails from '@mui/material/AccordionDetails'
 import AccordionSummary from '@mui/material/AccordionSummary'
 
-import { FullScreen, useFullScreenHandle } from 'react-full-screen'
-
+import FormDialog from '@/components/dialogBox/formDialog'
 import DropDownButton from '@/components/dropDowns/dropDownButton'
 
 interface Image {
@@ -35,13 +34,9 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images, size }) => {
   const [editLabels, setEditLabels] = useState<{ [key: string]: string }>({})
   const [fullScreenImage, setFullScreenImage] = useState<Image | null>(null)
   const [listView, setListView] = useState(false)
+  const [open, setOpen] = useState(false)
 
   const inputRefs = useRef<(HTMLInputElement | null)[]>([])
-
-
-
-
-  const handle = useFullScreenHandle()
 
   const groupedImages = images.reduce(
     (acc, image) => {
@@ -66,7 +61,6 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images, size }) => {
       }
     })
   }, [editStates])
-
 
   const toggleImageSelection = (image: Image) => {
     const isSelected = selectedImages.some(selectedImage => selectedImage.src === image.src)
@@ -133,12 +127,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images, size }) => {
 
   const openFullScreen = (image: Image) => {
     setFullScreenImage(image)
-    handle.enter()
-  }
-
-  const closeFullScreen = () => {
-    handle.exit()
-    setFullScreenImage(null)
+    setOpen(true)
   }
 
   return (
@@ -171,9 +160,8 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images, size }) => {
           />
         )}
       </div>
-
       <div className='h-[500px] overflow-y-auto'>
-        {Object.keys(groupedImages).map((date:any) => (
+        {Object.keys(groupedImages).map((date: any) => (
           <Accordion
             key={date}
             sx={{
@@ -346,17 +334,19 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images, size }) => {
           </Accordion>
         ))}
       </div>
-
-      <FullScreen handle={handle}>
-        {fullScreenImage && (
-          <div className='flex justify-center items-center h-full w-full bg-black'>
+      {fullScreenImage && (
+        <FormDialog
+          open={open}
+          onClose={() => setOpen(!open)}
+          dialogTitle={fullScreenImage.alt}
+          closeButton={true}
+          dialogSize='70%'
+        >
+          <div className='flex justify-center items-center h-[90%] w-full '>
             <img src={fullScreenImage.src} alt={fullScreenImage.alt} className='max-h-full max-w-full' />
-            <IconButton onClick={closeFullScreen} className='absolute top-2 right-2 text-white'>
-              <i className='ri-close-line text-2xl'></i>
-            </IconButton>
           </div>
-        )}
-      </FullScreen>
+        </FormDialog>
+      )}{' '}
     </div>
   )
 }

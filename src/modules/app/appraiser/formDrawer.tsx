@@ -3,7 +3,7 @@
 import { useState } from 'react'
 
 // MUI Imports
-import { Button, Grid } from '@mui/material'
+import { Button, Card, CardContent, Grid } from '@mui/material'
 
 // Third-party Imports
 import type { z } from 'zod'
@@ -38,39 +38,43 @@ const AppraiserForm = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className='px-6 w-full flex flex-col gap-3 '>
-      <Grid container spacing={3}>
-        {formFields &&
-          formFields.map((field, index) => (
-            <Grid item xs={12} md={field.type === 'formTextArea' ? 12 : 6} key={index}>
-              <Title icon={field.icon} label={field.title} />
-              <FormGenerator
-                field={field}
-                control={control}
-                register={register}
-                setValue={setValue}
-                errors={errors}
-                fieldSize={field.fieldSize}
-              />
-            </Grid>
-          ))}
-      </Grid>
+    <Card>
+      <CardContent>
+        <form onSubmit={handleSubmit(onSubmit)} className=' w-full flex flex-col gap-3 '>
+          <Grid container spacing={3}>
+            {formFields &&
+              formFields.map((field, index) => (
+                <Grid item xs={12} md={field.type === 'formTextArea' ? 12 : 6} key={index}>
+                  <Title icon={field.icon} label={field.title} />
+                  <FormGenerator
+                    field={field}
+                    control={control}
+                    register={register}
+                    setValue={setValue}
+                    errors={errors}
+                    fieldSize={field.fieldSize}
+                  />
+                </Grid>
+              ))}
+          </Grid>
 
-      <div className='flex justify-start gap-4 items-center py-4'>
-        <Button variant='outlined' color='inherit' onClick={() => setopenClearModal(true)}>
-          Clear
-        </Button>
-        <Button type='submit' variant='contained' color='primary'>
-          Submit
-        </Button>
-      </div>
-      <ConfirmationDialog
-        open={openClearModal}
-        setOpen={() => setopenClearModal(false)}
-        type='clear'
-        title='Are you sure you want to clear the form data?'
-      />
-    </form>
+          <div className='flex justify-start gap-4 items-center py-4'>
+            <Button variant='outlined' color='inherit' onClick={() => setopenClearModal(true)}>
+              Clear
+            </Button>
+            <Button type='submit' variant='contained' color='primary'>
+              Submit
+            </Button>
+          </div>
+          <ConfirmationDialog
+            open={openClearModal}
+            setOpen={() => setopenClearModal(false)}
+            type='clear'
+            title='Are you sure you want to clear the form data?'
+          />
+        </form>
+      </CardContent>
+    </Card>
   )
 }
 
