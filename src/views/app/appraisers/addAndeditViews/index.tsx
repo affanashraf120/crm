@@ -1,5 +1,3 @@
-// MUI Imports
-import Grid from '@mui/material/Grid'
 
 // Component Imports
 import TabsList from '@/components/tabsList'
@@ -12,13 +10,7 @@ import Photo from './photo'
 // Component Imports for each tab
 
 const AddAndEditArraiser = () => {
-  return (
-    <Grid container spacing={6}>
-      <Grid item xs={12} className='flex flex-col gap-6'>
-        <TabsList tabs={tabs} />
-      </Grid>
-    </Grid>
-  )
+  return <TabsList tabs={tabs} />
 }
 
 export default AddAndEditArraiser

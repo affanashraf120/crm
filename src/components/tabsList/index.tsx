@@ -38,9 +38,9 @@ const TabsList: FC<Tabs> = ({ tabs }) => {
 
   useEffect(() => {
     if (search === 'Notes') {
-      setActiveTab('messages');
+      setActiveTab('messages')
     }
-  }, [search]);
+  }, [search])
 
   const handleChange = (event: SyntheticEvent, value: string) => {
     setActiveTab(value)
@@ -48,9 +48,9 @@ const TabsList: FC<Tabs> = ({ tabs }) => {
 
   return (
     <TabContext value={activeTab}>
-      <Card>
+      <Card sx={{ marginBottom: 4 }}>
         <CardContent>
-          <div className='flex flex-wrap-reverse justify-between items-center gap-3'>
+          <div className='flex flex-wrap-reverse justify-between items-center gap-3 '>
             <CustomTabList onChange={handleChange} variant='scrollable' pill='true'>
               {tabs.map(tab => (
                 <Tab
@@ -94,7 +94,7 @@ const TabsList: FC<Tabs> = ({ tabs }) => {
         </CardContent>
       </Card>
 
-      {tabs.map(tab => tab.value === activeTab && <tab.component key={tab.value} />)}
+      <div className='py-2'>{tabs.map(tab => tab.value === activeTab && <tab.component key={tab.value} />)}</div>
     </TabContext>
   )
 }
