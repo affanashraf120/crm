@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { Checkbox, IconButton, TextField } from '@mui/material'
@@ -30,10 +30,21 @@ const FolderComponent = ({ filters }: any) => {
   const [isHovered, setIsHovered] = useState(false)
 
   const [folders, setFolders] = useState<Folder[]>(filters)
+  const inputRefs = useRef<(HTMLInputElement | null)[]>([])
+
 
   useEffect(() => {
     setFolders(filters)
   }, [filters])
+
+
+  useEffect(() => {
+    folders.forEach((folder, index) => {
+      if (folder.isEditing && inputRefs.current[index]) {
+        inputRefs.current[index]?.focus()
+      }
+    })
+  }, [folders])
 
   const handleSelectAll = (event: React.ChangeEvent<HTMLInputElement>) => {
     const isChecked = event.target.checked
@@ -199,20 +210,20 @@ const FolderComponent = ({ filters }: any) => {
                         scope='col'
                         className='px-6 py-3 text-left text-xs font-medium text-secondary uppercase tracking-wider'
                       >
-                        File Name
+                        Documents
                       </th>
                     </div>
                     <div>
                       <th
                         scope='col'
-                        className='w-32 text-left text-xs font-medium text-secondary uppercase tracking-wider'
+                        className='w-40 text-left text-xs font-medium text-secondary uppercase tracking-wider'
                       >
                         Uploaded By
                       </th>
                       {details && (
                         <th
                           scope='col'
-                          className='w-32 text-left text-xs font-medium text-secondary uppercase tracking-wider'
+                          className='w-40 text-left text-xs font-medium text-secondary uppercase tracking-wider'
                         >
                           File Size
                         </th>
@@ -220,13 +231,13 @@ const FolderComponent = ({ filters }: any) => {
 
                       <th
                         scope='col'
-                        className='w-32 text-left text-xs font-medium text-secondary uppercase tracking-wider'
+                        className='w-40 text-left text-xs font-medium text-secondary uppercase tracking-wider'
                       >
                         Last Updated
                       </th>
                       <th
                         scope='col'
-                        className='w-32 text-left text-xs font-medium text-secondary uppercase tracking-wider'
+                        className='w-40 text-left text-xs font-medium text-secondary uppercase tracking-wider'
                       >
                         Actions
                       </th>
@@ -271,17 +282,17 @@ const FolderComponent = ({ filters }: any) => {
                       </div>
                       <div>
                         {details && (
-                          <td className='w-32 whitespace-nowrap'>
+                          <td className='w-40 whitespace-nowrap'>
                             <div className='text-sm '>{file.size}</div>
                           </td>
                         )}
-                        <td className='w-32 whitespace-nowrap'>
+                        <td className='w-40 whitespace-nowrap'>
                           <div className='text-sm '>{file.uploaded_by}</div>
                         </td>
-                        <td className='w-32 whitespace-nowrap'>
+                        <td className='w-40 whitespace-nowrap'>
                           <div className='text-sm '>{file.last_updated}</div>
                         </td>
-                        <td className='w-32 ml-10 whitespace-nowrap  text-sm font-medium'>
+                        <td className='w-40 ml-10 whitespace-nowrap  text-sm font-medium'>
                           <DropDownButton
                             onMenuItemClick={item => console.log(item)}
                             buttonLabel='ri-more-2-fill rotate-180 w-4 h-4 cursor-pointer'
@@ -400,9 +411,10 @@ const FolderComponent = ({ filters }: any) => {
                         sx={{ marginTop: 2 }}
                         value={folder.label}
                         onChange={event => handleInputChange(folderIndex, event)}
-                        onClick={event => event.stopPropagation()}
-                        onFocus={event => event.stopPropagation()}
+                        inputRef={ref => (inputRefs.current[folderIndex] = ref)}
                       />
+
+
                     ) : (
                       <span className='mt-2'>{folder.label}</span>
                     )}
@@ -412,11 +424,7 @@ const FolderComponent = ({ filters }: any) => {
                         folder.isEditing ? handleSaveClick(folderIndex) : handleEditClick(folderIndex)
                       }}
                     >
-                      {folder.isEditing ? (
-                        <i className='ri-telegram-line '></i>
-                      ) : (
-                        <i className='ri-edit-2-line w-4 h-4'></i>
-                      )}
+                      <i className='ri-edit-2-line w-4 h-4'></i>
                     </IconButton>{' '}
                     <span className='mt-2'>({folder.files.length})</span>
                   </AccordionSummary>
@@ -440,33 +448,33 @@ const FolderComponent = ({ filters }: any) => {
                               scope='col'
                               className='px-6 py-3 text-left text-xs font-medium text-secondary uppercase tracking-wider'
                             >
-                              Name
+                              Documents
                             </th>
                           </div>
                           <div>
                             {details && (
                               <th
                                 scope='col'
-                                className='w-32 text-left text-xs font-medium text-secondary uppercase tracking-wider'
+                                className='w-40 text-left text-xs font-medium text-secondary uppercase tracking-wider'
                               >
                                 File Size
                               </th>
                             )}
                             <th
                               scope='col'
-                              className='w-32 text-left text-xs font-medium text-secondary uppercase tracking-wider'
+                              className='w-40 text-left text-xs font-medium text-secondary uppercase tracking-wider'
                             >
                               Uploaded By
                             </th>
                             <th
                               scope='col'
-                              className='w-32 text-left text-xs font-medium text-secondary uppercase tracking-wider'
+                              className='w-40 text-left text-xs font-medium text-secondary uppercase tracking-wider'
                             >
                               Last Updated
                             </th>
                             <th
                               scope='col'
-                              className='w-32 text-left text-xs font-medium text-secondary uppercase tracking-wider'
+                              className='w-40 text-left text-xs font-medium text-secondary uppercase tracking-wider'
                             >
                               Actions
                             </th>
@@ -504,17 +512,17 @@ const FolderComponent = ({ filters }: any) => {
                               </div>
                               <div>
                                 {details && (
-                                  <td className='w-32 whitespace-nowrap'>
+                                  <td className='w-40 whitespace-nowrap'>
                                     <div className='text-sm '>{file.size}</div>
                                   </td>
                                 )}
-                                <td className='w-32 whitespace-nowrap'>
+                                <td className='w-40 whitespace-nowrap'>
                                   <div className='text-sm '>{file.uploaded_by}</div>
                                 </td>
-                                <td className='w-32 whitespace-nowrap'>
+                                <td className='w-40 whitespace-nowrap'>
                                   <div className='text-sm '>{file.last_updated}</div>
                                 </td>
-                                <td className='w-32 ml-10 whitespace-nowrap  text-sm font-medium'>
+                                <td className='w-40 ml-10 whitespace-nowrap  text-sm font-medium'>
                                   <DropDownButton
                                     onMenuItemClick={item => console.log(item)}
                                     buttonLabel='ri-more-2-fill rotate-180 w-4 h-4 cursor-pointer'

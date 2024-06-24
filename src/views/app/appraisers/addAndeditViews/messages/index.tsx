@@ -1,12 +1,11 @@
 'use client'
 
-import Inprogress from '@/components/inprogressPage/Inprogress'
+import React from 'react'
 
-const Messages = () => {
-  return  <>
-  <h1>Messages</h1>
-    <Inprogress />
-  </>
+import Chat from '@/modules/app/appraiser/messages'
+
+const Messages: React.FC = () => {
+  return <Chat />
 }
 
 export default Messages

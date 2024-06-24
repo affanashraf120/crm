@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import { Checkbox, IconButton, TextField } from '@mui/material'
@@ -6,8 +6,7 @@ import Accordion from '@mui/material/Accordion'
 import AccordionDetails from '@mui/material/AccordionDetails'
 import AccordionSummary from '@mui/material/AccordionSummary'
 
-import { FullScreen, useFullScreenHandle } from 'react-full-screen'
-
+import FormDialog from '@/components/dialogBox/formDialog'
 import DropDownButton from '@/components/dropDowns/dropDownButton'
 
 interface Image {
@@ -35,8 +34,9 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images, size }) => {
   const [editLabels, setEditLabels] = useState<{ [key: string]: string }>({})
   const [fullScreenImage, setFullScreenImage] = useState<Image | null>(null)
   const [listView, setListView] = useState(false)
+  const [open, setOpen] = useState(false)
 
-  const handle = useFullScreenHandle()
+  const inputRefs = useRef<(HTMLInputElement | null)[]>([])
 
   const groupedImages = images.reduce(
     (acc, image) => {
@@ -53,6 +53,14 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images, size }) => {
     Medium: 'w-48 h-48',
     Large: 'w-72 h-72'
   }
+
+  useEffect(() => {
+    Object.keys(groupedImages).forEach((date, index) => {
+      if (editStates[date] && inputRefs.current[index]) {
+        inputRefs.current[index]?.focus()
+      }
+    })
+  }, [editStates])
 
   const toggleImageSelection = (image: Image) => {
     const isSelected = selectedImages.some(selectedImage => selectedImage.src === image.src)
@@ -119,12 +127,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images, size }) => {
 
   const openFullScreen = (image: Image) => {
     setFullScreenImage(image)
-    handle.enter()
-  }
-
-  const closeFullScreen = () => {
-    handle.exit()
-    setFullScreenImage(null)
+    setOpen(true)
   }
 
   return (
@@ -157,9 +160,8 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images, size }) => {
           />
         )}
       </div>
-
       <div className='h-[500px] overflow-y-auto'>
-        {Object.keys(groupedImages).map(date => (
+        {Object.keys(groupedImages).map((date: any) => (
           <Accordion
             key={date}
             sx={{
@@ -179,13 +181,20 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images, size }) => {
             }`}
           >
             <div className='flex justify-start items-start md:items-center flex-col md:flex-row '>
-              <div className='flex justify-start items-center group w-full'>
+              <div className='flex justify-start items-center group w-full px-7'>
                 <Checkbox
                   checked={accordionSelectStatus[date] || false}
                   onChange={() => toggleAccordionSelection(date)}
                 />
                 <div className='w-full pl-0'>
-                  <AccordionSummary sx={{ p: 1 }} expandIcon={<ExpandMoreIcon />}>
+                  <AccordionSummary
+                    sx={{ p: 1 }}
+                    expandIcon={
+                      <IconButton>
+                        <ExpandMoreIcon />
+                      </IconButton>
+                    }
+                  >
                     {editStates[date] ? (
                       <TextField
                         variant='standard'
@@ -195,8 +204,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images, size }) => {
                         sx={{ marginTop: 2 }}
                         value={editLabels[date]}
                         onChange={event => handleInputChange(date, event)}
-                        onClick={event => event.stopPropagation()}
-                        onFocus={event => event.stopPropagation()}
+                        inputRef={ref => (inputRefs.current[date] = ref)}
                       />
                     ) : (
                       <span className='mt-2'>{editLabels[date] || date}</span>
@@ -207,11 +215,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images, size }) => {
                         editStates[date] ? handleSaveClick(date) : handleEditClick(date)
                       }}
                     >
-                      {editStates[date] ? (
-                        <i className='ri-telegram-line '></i>
-                      ) : (
-                        <i className='ri-edit-2-line w-4 h-4'></i>
-                      )}
+                      <i className='ri-edit-2-line w-4 h-4'></i>
                     </IconButton>{' '}
                     <span className='mt-2'>({groupedImages[date].length})</span>
                   </AccordionSummary>
@@ -330,17 +334,19 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images, size }) => {
           </Accordion>
         ))}
       </div>
-
-      <FullScreen handle={handle}>
-        {fullScreenImage && (
-          <div className='flex justify-center items-center h-full w-full bg-black'>
+      {fullScreenImage && (
+        <FormDialog
+          open={open}
+          onClose={() => setOpen(!open)}
+          dialogTitle={fullScreenImage.alt}
+          closeButton={true}
+          dialogSize='70%'
+        >
+          <div className='flex justify-center items-center h-[90%] w-full '>
             <img src={fullScreenImage.src} alt={fullScreenImage.alt} className='max-h-full max-w-full' />
-            <IconButton onClick={closeFullScreen} className='absolute top-2 right-2 text-white'>
-              <i className='ri-close-line text-2xl'></i>
-            </IconButton>
           </div>
-        )}
-      </FullScreen>
+        </FormDialog>
+      )}{' '}
     </div>
   )
 }

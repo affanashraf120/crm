@@ -1,28 +1,16 @@
-// MUI Imports
-import Grid from '@mui/material/Grid'
 
 // Component Imports
+import TabsList from '@/components/tabsList'
 import Documents from './documents'
 import Form from './form'
 import Messages from './messages'
 import Overview from './overview'
 import Photo from './photo'
-import UserProfileHeader from './user-profile/UserProfileHeader'
-import TabsList from '@/components/tabsList'
 
 // Component Imports for each tab
 
 const AddAndEditArraiser = () => {
-  return (
-    <Grid container spacing={6}>
-      <Grid item xs={12}>
-        <UserProfileHeader />
-      </Grid>
-      <Grid item xs={12} className='flex flex-col gap-6'>
-        <TabsList tabs={tabs} />
-      </Grid>
-    </Grid>
-  )
+  return <TabsList tabs={tabs} />
 }
 
 export default AddAndEditArraiser
@@ -57,6 +45,5 @@ const tabs = [
     icon: 'ri-chat-4-line',
     value: 'messages',
     component: Messages
-  },
-
+  }
 ]

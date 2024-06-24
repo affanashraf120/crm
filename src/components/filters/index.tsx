@@ -8,6 +8,7 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 import Checkbox from '@mui/material/Checkbox'
 import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
+import { IconButton } from '@mui/material'
 
 // Define types for props
 type Filter = {
@@ -23,17 +24,12 @@ type FilterCategory = {
 type FilterAccordionProps = {
   filtersData: FilterCategory[]
   onApplyFilter: any
+  onClose: () => void
 }
 
-const FilterAccordion: React.FC<FilterAccordionProps> = ({ filtersData, onApplyFilter }) => {
+const FilterAccordion: React.FC<FilterAccordionProps> = ({ filtersData, onApplyFilter, onClose }) => {
   const [selectedFilters, setSelectedFilters] = useState(filtersData)
   const [selectAll, setSelectAll] = useState(false)
-  const [expanded, setExpanded] = useState<string | false>(false)
-
-
-  const handleExpand = (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
-    setExpanded(isExpanded ? panel : false)
-  }
 
   // Update selectAll state based on individual filter states
   useEffect(() => {
@@ -90,7 +86,7 @@ const FilterAccordion: React.FC<FilterAccordionProps> = ({ filtersData, onApplyF
   }
 
   return (
-    <div className='px-6 '>
+    <div className='px-0 md:px-6 '>
       <div className='h-[300px] overflow-y-auto'>
         <div>
           <Checkbox checked={selectAll} onChange={toggleSelectAll} />
@@ -98,11 +94,8 @@ const FilterAccordion: React.FC<FilterAccordionProps> = ({ filtersData, onApplyF
         </div>
         {selectedFilters.map((filterCategory, categoryIndex) => (
           <Accordion
-            expanded={expanded === `panel${categoryIndex}`}
-            onChange={handleExpand(`panel${categoryIndex}`)}
             key={categoryIndex}
-            
-            className='hover:bg-[#f5f5f5]/10 mb-2 duration-500 transition-all ease-in-out border rounded'
+            className='hover:bg-[#f5f5f5]/10 mb-2 duration-500 transition-all ease-in-out border rounded '
             sx={{
               '&:before': {
                 display: 'none'
@@ -110,36 +103,42 @@ const FilterAccordion: React.FC<FilterAccordionProps> = ({ filtersData, onApplyF
             }}
           >
             <AccordionSummary
-              expandIcon={<ExpandMoreIcon />}
+              expandIcon={
+                <IconButton>
+                  <ExpandMoreIcon />
+                </IconButton>
+              }
               aria-controls={`panel${categoryIndex}-content`}
               id={`panel${categoryIndex}-header`}
             >
               <Typography>{filterCategory.title}</Typography>
             </AccordionSummary>
             <AccordionDetails>
-              {filterCategory.filters.map((filter, filterIndex) => (
-                <FormControlLabel
-                  key={filterIndex}
-                  control={
-                    <Checkbox
-                      checked={filter.active}
-                      onChange={event => handleChange(event, categoryIndex, filterIndex)}
-                      name={filter.label}
-                    />
-                  }
-                  label={filter.label}
-                />
-              ))}
+              <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 flex-wrap '>
+                {filterCategory.filters.map((filter, filterIndex) => (
+                  <FormControlLabel
+                    key={filterIndex}
+                    control={
+                      <Checkbox
+                        checked={filter.active}
+                        onChange={event => handleChange(event, categoryIndex, filterIndex)}
+                        name={filter.label}
+                      />
+                    }
+                    label={filter.label}
+                  />
+                ))}
+              </div>
             </AccordionDetails>
           </Accordion>
         ))}
       </div>
 
-      <div className='py-4 flex justify-between items-center'>
-        <Button variant='outlined' color='inherit'>
+      <div className='py-4 flex justify-between items-center flex-wrap gap-3'>
+        <Button variant='outlined' color='inherit' onClick={onClose}>
           Cancel
         </Button>
-        <div className=' flex justify-center items-center gap-4'>
+        <div className=' flex justify-between sm:justify-center items-center gap-4 w-full sm:w-auto'>
           <Button variant='outlined' color='inherit' onClick={handleClear}>
             Clear
           </Button>

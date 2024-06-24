@@ -22,15 +22,15 @@ export const schema = z.object({
   umpire_phone_no: z.string(),
   address: z.string(),
   city: z.string(),
-  appraisal_amt: z.number(),
+  appraisal_amt: z.string(),
   percentage: z.string(),
   date_approved: z
     .custom<Dayjs>(value => isDayjs(value) && value.isValid(), {
       message: 'Invalid date'
     })
     .nullable(),
-  turnaround: z.number(),
-  comm_amt: z.number(),
+  turnaround: z.string(),
+  comm_amt: z.string(),
   notes: z.string(),
   date_qb_invoiced: z
     .custom<Dayjs>(value => isDayjs(value) && value.isValid(), {

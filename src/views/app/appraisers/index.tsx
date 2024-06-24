@@ -14,7 +14,7 @@ import SummaryDetailCard from '@/components/cards/summaryDetailsCard'
 // Import Data
 import FormDialog from '@/components/dialogBox/formDialog'
 import Table from '@/components/tables/table'
-import  { tableFilters , dummyData} from '@/data/data'
+import { tableFilters, dummyData } from '@/data/data'
 import ManageColumnsDialog from '@/modules/app/appraiser/manageColumnsDialog'
 import { sortAndFilterArray2 } from '@/utils'
 import FilterAccordion from '@/components/filters'
@@ -35,8 +35,7 @@ const AppraisalClient = () => {
     // Filter the headers array to get only active headers and position
     const activeHeaders = sortAndFilterArray2(selectedItems, column)
 
-    activeHeaders.unshift({ name: 'id', header: '', type: 'DND' })
-    activeHeaders.push({
+    activeHeaders.unshift({
       name: 'action',
       header: 'Action',
       type: 'Action',
@@ -45,6 +44,9 @@ const AppraisalClient = () => {
         { label: 'Edit', icon: 'ri-pencil-line' }
       ]
     })
+
+    activeHeaders.unshift({ name: 'id', header: '', type: 'DND' })
+
     setSelectedItems(activeHeaders)
   }
 
@@ -64,6 +66,12 @@ const AppraisalClient = () => {
     } else if (menuItem?.label === 'Delete') {
       console.log('🚀 ~ handleActionsRow ~ menuItem?.label:', menuItem?.label)
     }
+  }
+
+  const handleClickRow = (menuItem: any) => {
+
+    route.push(`${pathname}/${menuItem.id}?q=${menuItem.label}`)
+
   }
 
   const handleSortActions = (item: any) => {
@@ -122,6 +130,7 @@ const AppraisalClient = () => {
             buttonName='Add New'
             title='Alpha Appraisals (10% or $250 min)'
             onActions={handleActionsRow}
+            onClickRow={handleClickRow}
             onFilterActions={handleSortActions}
             actionButtons={[
               {
@@ -164,6 +173,7 @@ const AppraisalClient = () => {
         <FilterAccordion
           onApplyFilter={handleFilters}
           filtersData={tableFilters}
+          onClose={() => setOpenFilter(!openFilter)}
         />
       </FormDialog>
     </Grid>
@@ -243,6 +253,16 @@ const data: any[] = [
 
 const column = [
   { name: 'id', header: '', type: 'DND' },
+
+  {
+    name: 'action',
+    header: 'Action',
+    type: 'Action',
+    options: [
+      { label: 'Delete', icon: 'ri-delete-bin-7-line' },
+      { label: 'Edit', icon: 'ri-pencil-line' }
+    ]
+  },
   {
     name: 'inv',
     header: 'INV #',
@@ -470,6 +490,7 @@ const column = [
     name: 'notes',
     header: 'Notes',
     type: 'TextWithTooltip',
+    redirectLink: true,
     size: 12
   },
   {
@@ -483,14 +504,5 @@ const column = [
     header: 'Date User Paid',
     type: 'simple',
     filterType: 'rangeDate'
-  },
-  {
-    name: 'action',
-    header: 'Action',
-    type: 'Action',
-    options: [
-      { label: 'Delete', icon: 'ri-delete-bin-7-line' },
-      { label: 'Edit', icon: 'ri-pencil-line' }
-    ]
   }
 ]
