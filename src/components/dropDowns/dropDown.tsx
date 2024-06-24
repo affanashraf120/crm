@@ -23,7 +23,7 @@ const Dropdown: React.FC<Props> = ({ value, options, onChange, variant }) => {
     <Select value={selectedValue || ''} onChange={handleChange} displayEmpty size='small' >
       {options &&
         options.map(option => (
-          <MenuItem key={option.toLocaleLowerCase().replaceAll(' ', '-')} value={option}>
+          <MenuItem key={option.toLocaleLowerCase().replaceAll(' ', '-')} value={option} sx={{ minWidth: '200px'}}>
             <div className='flex justify-between items-center min-w-[160px] gap-6'>
               {option}
               {/* {selectedValue === option && <i className='ri-check-line w-4 h-4 me-2'></i>} */}
@@ -58,7 +58,7 @@ const Dropdown: React.FC<Props> = ({ value, options, onChange, variant }) => {
     >
       {options &&
         options.map(option => (
-          <MenuItem key={option.toLocaleLowerCase().replaceAll(' ', '-')} value={option}>
+          <MenuItem key={option.toLocaleLowerCase().replaceAll(' ', '-')} value={option} sx={{ minWidth: '200px'}}>
             <div className='flex justify-between items-center w-full md:min-w-[160px] gap-6'>
               {option}
               {selectedValue === option && <i className='ri-check-line w-4 h-4 me-2'></i>}

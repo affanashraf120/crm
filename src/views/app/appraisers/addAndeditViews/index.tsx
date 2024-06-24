@@ -1,4 +1,3 @@
-
 // Component Imports
 import TabsList from '@/components/tabsList'
 import Documents from './documents'
@@ -10,7 +9,7 @@ import Photo from './photo'
 // Component Imports for each tab
 
 const AddAndEditArraiser = () => {
-  return <TabsList tabs={tabs} />
+  return <TabsList tabs={tabs} consumer={consumers} />
 }
 
 export default AddAndEditArraiser
@@ -45,5 +44,32 @@ const tabs = [
     icon: 'ri-chat-4-line',
     value: 'messages',
     component: Messages
+  }
+]
+
+const consumers = [
+  {
+    label: 'Consumer 1',
+    address: '123 Main St, Newcity, USA',
+    image: '/images/avatars/1.png',
+    active: true
+  },
+  {
+    label: 'Consumer 2',
+    address: '422 Main St, Newcity, USA',
+    image: '/images/avatars/2.png',
+    active: false
+  },
+  {
+    label: 'Consumer 3',
+    address: '1qq Main St, Newcity, USA',
+    image: '/images/avatars/3.png',
+    active: false
+  },
+  {
+    label: 'Consumer 4',
+    address: '112 Main St, Newcity, USA',
+    image: '/images/avatars/4.png',
+    active: false
   }
 ]

@@ -76,7 +76,7 @@ function DropDownButton({ buttonLabel, menuOptions, onMenuItemClick, label }: Pr
       >
         {menuOptions &&
           menuOptions.map((option, index) => (
-            <MenuItem key={index} onClick={() => handleClose(option)}>
+            <MenuItem key={index} onClick={() => handleClose(option)} sx={{ minWidth: '200px' }}>
               {option.icon && (
                 <>
                   <i className={`${option.icon} mr-2`}></i>

@@ -280,7 +280,7 @@ const Table = ({
               </Tooltip>
               {redirectLink && (
                 <IconButton onClick={() => onClickRow({ label: header, id: row.original.id })}>
-                  <i className='ri-external-link-line w-4 h-4'></i>
+                  <i className='ri-external-link-line w-4 h-4 text-primary'></i>
                 </IconButton>
               )}
             </div>

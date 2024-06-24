@@ -8,6 +8,7 @@ import AccordionSummary from '@mui/material/AccordionSummary'
 
 import FormDialog from '@/components/dialogBox/formDialog'
 import DropDownButton from '@/components/dropDowns/dropDownButton'
+import PhotoFeature from './photoFeature'
 
 interface Image {
   src: string
@@ -294,7 +295,16 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images, size }) => {
                     <div key={index} className='relative flex flex-col'>
                       <Checkbox
                         className='absolute top-2 left-2'
-                        color='primary'
+                        sx={{
+                          
+                          '&:not(.Mui-checked) .MuiSvgIcon-root': {
+                            borderColor: 'blue',
+                            borderWidth: 1,
+                            borderStyle: 'solid',
+                            borderRadius: 4, 
+                          },
+                        }}
+                  
                         checked={selectedImages.some(selectedImage => selectedImage.src === image.src)}
                         onChange={() => toggleImageSelection(image)}
                       />
@@ -342,9 +352,8 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images, size }) => {
           closeButton={true}
           dialogSize='70%'
         >
-          <div className='flex justify-center items-center h-[90%] w-full '>
-            <img src={fullScreenImage.src} alt={fullScreenImage.alt} className='max-h-full max-w-full' />
-          </div>
+
+          <PhotoFeature photo={fullScreenImage} allImages={images} />
         </FormDialog>
       )}{' '}
     </div>
@@ -352,3 +361,5 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images, size }) => {
 }
 
 export default ImageGallery
+
+

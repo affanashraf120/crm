@@ -5,6 +5,7 @@ import React, { useState } from 'react'
 import Radio from '@mui/material/Radio'
 import {
   Checkbox,
+  FormControl,
   FormControlLabel,
   IconButton,
   InputAdornment,
@@ -246,7 +247,7 @@ const MultiSelectDropdown: React.FC<MultiSelectDropdownProps> = ({
     )
   } else {
     return (
-      <>
+      <FormControl>
         <Select
           multiple
           value={selectedItems}
@@ -280,7 +281,7 @@ const MultiSelectDropdown: React.FC<MultiSelectDropdownProps> = ({
             ))}
           </div>
         </Select>
-      </>
+      </FormControl>
     )
   }
 }

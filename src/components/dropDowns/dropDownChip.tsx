@@ -81,7 +81,7 @@ const DropdownWithChip: React.FC<Props> = ({ value, options }) => {
       >
         {options &&
           options.map(option => (
-            <MenuItem key={option.id} value={option.value}>
+            <MenuItem key={option.id} value={option.value} sx={{ minWidth: '200px'}}>
               <div className='flex justify-between items-center w-full md:min-w-[160px] gap-6'>
                 <Chip key={option.id} label={option.value} variant='tonal' color={option.color} size='small' />
                 {selectedValue.value === option.value && <i className='ri-check-line w-4 h-4 me-2'></i>}
@@ -95,10 +95,3 @@ const DropdownWithChip: React.FC<Props> = ({ value, options }) => {
 
 export default DropdownWithChip
 
-// Example usage
-// const options: Option[] = [
-//   { id: 1, value: 'Closed', color: 'info' },
-//   { id: 2, value: 'Open', color: 'success' },
-//   { id: 3, value: 'Scheduling Inspection', color: 'default' },
-//   { id: 4, value: 'Umpire', color: 'primary' }
-// ]

@@ -88,7 +88,7 @@ function ActionsDropDown({ buttonLabel, buttons, onItemClick, type, filterList, 
         >
           {buttons &&
             buttons.map((option, index) => (
-              <MenuItem key={index} onClick={() => handleClicked({ searchItem: option?.label, name: name })}>
+              <MenuItem key={index} onClick={() => handleClicked({ searchItem: option?.label, name: name })} sx={{ minWidth: '200px'}}>
                 {option.icon && (
                   <ListItemIcon>
                     <i className={option.icon}></i>
@@ -130,6 +130,7 @@ function ActionsDropDown({ buttonLabel, buttons, onItemClick, type, filterList, 
               '&:hover': {
                 backgroundColor: 'transparent'
               }
+              , minWidth:'200px'
             }}
           >
             <TextField
@@ -172,7 +173,7 @@ function ActionsDropDown({ buttonLabel, buttons, onItemClick, type, filterList, 
             )}
 
             {filteredOptions?.map((option, index) => (
-              <MenuItem key={index} onClick={() => handleClicked({ searchItem: option?.label, name: name })}>
+              <MenuItem key={index} onClick={() => handleClicked({ searchItem: option?.label, name: name })} sx={{ minWidth: '200px'}}>
                 <Typography variant='inherit'>{option.label}</Typography>
               </MenuItem>
             ))}
@@ -252,7 +253,7 @@ function ActionsDropDown({ buttonLabel, buttons, onItemClick, type, filterList, 
             )}
 
             {filteredOptions?.map((option, index) => (
-              <MenuItem key={index} onClick={() => handleClicked({ searchItem: option?.label, name: name })}>
+              <MenuItem key={index} onClick={() => handleClicked({ searchItem: option?.label, name: name })} sx={{ minWidth: '200px'}}>
                 <Typography variant='inherit'>{option.label}</Typography>
               </MenuItem>
             ))}
@@ -260,7 +261,7 @@ function ActionsDropDown({ buttonLabel, buttons, onItemClick, type, filterList, 
 
           {buttons &&
             buttons.map((option, index) => (
-              <MenuItem key={index} onClick={() => handleClicked({ searchItem: option?.label, name: name })}>
+              <MenuItem key={index} onClick={() => handleClicked({ searchItem: option?.label, name: name })} sx={{ minWidth: '200px'}}>
                 {option.icon && (
                   <ListItemIcon>
                     <i className={option.icon}></i>

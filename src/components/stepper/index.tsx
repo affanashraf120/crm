@@ -1,14 +1,14 @@
 import * as React from 'react'
 
-import { styled } from '@mui/material/styles'
-import Stepper from '@mui/material/Stepper'
 import Step from '@mui/material/Step'
 import StepLabel from '@mui/material/StepLabel'
+import Stepper from '@mui/material/Stepper'
+import { styled } from '@mui/material/styles'
 
 import StepConnector, { stepConnectorClasses } from '@mui/material/StepConnector'
 
+import { Box, Card, CardContent, CardHeader, Typography } from '@mui/material'
 import type { StepIconProps } from '@mui/material/StepIcon'
-import { Box, Button, Card, CardActions, CardContent, CardHeader, Typography } from '@mui/material'
 
 const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
@@ -73,11 +73,11 @@ function ColorlibStepIcon(props: StepIconProps) {
 }
 
 const steps = [
-  { label: 'Lead', date: '2/11/2023', days: '7 Days' },
-  { label: 'Prospect', date: '2/11/2023', days: '7 Days' },
-  { label: 'Approved', date: '2/11/2023', days: '7 Days' },
-  { label: 'Complete', date: '', days: '7 Days' },
-  { label: 'Invoice', date: '', days: '7 Days' },
+  { label: 'Lead', date: '2/11/2023', days: '3 Days' },
+  { label: 'Prospect', date: '2/11/2023', days: '' },
+  { label: 'Approved', date: '2/11/2023', days: '' },
+  { label: 'Complete', date: '', days: '' },
+  { label: 'Invoice', date: '', days: '' },
   { label: 'Closed', date: '' }
 ]
 
@@ -103,7 +103,7 @@ export default function CustomizedSteppers() {
           gap: 2
         }}
       >
-        <CardActions
+        {/* <CardActions
           sx={{
             flexShrink: 0,
             maxWidth: '100%',
@@ -123,7 +123,7 @@ export default function CustomizedSteppers() {
             <span className='text-primary text-bold'>NEXT STEP :</span> Closed
           </Typography>
           <Button variant='contained' sx={{marginLeft: '0px !important'}}>Submit</Button>
-        </CardActions>
+        </CardActions> */}
         <CardContent
           sx={{
             width: '100%'

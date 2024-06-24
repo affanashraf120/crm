@@ -94,7 +94,7 @@ const Chat = () => {
         </div>
 
         {/* Message Component */}
-        <div className='flex justify-start items-center gap-2 flex-wrap  border p-3 w-full rounded'>
+        <div className='flex justify-start items-start gap-2 flex-col  border p-3 w-full rounded '>
           <p className='text-xs py-1'>You replied 7 days ago</p>
           {/* First message */}
           <div className='flex items-start justify-start gap-2 flex-wrap md:flex-nowrap'>
@@ -322,7 +322,7 @@ const Chat = () => {
         closeButton={true}
         dialogSize='80%'
       >
-        <TabsList tabs={tabs} type='tabs' />
+        <TabsList tabs={tabs} type='tabs'   />
       </FormDialog>
     </div>
   )
@@ -343,8 +343,11 @@ const Message = () => {
           <strong className='text-secondary'>To:</strong> Luke Sublette, Rosa Hernandez
         </span>
         <p className='mt-4 md:ml-4 text-sm flex flex-wrap'>
-          Reinspection request, photo report, eagle view and LOA was submitted to the carrier at
-          statefarmfireclaims@statefarm.com
+        Reinspection request, photo report, eagle view and LOA was submitted to the carrier at
+        statefarmfireclaims@statefarm.comReinspection request, photo report, eagle view and LOA was submitted to the carrier at
+        statefarmfireclaims@statefarm.comReinspection request, photo report, eagle view and LOA was submitted to the carrier at
+        statefarmfireclaims@statefarm.comReinspection request, photo report, eagle view and LOA was submitted to the carrier at
+        statefarmfireclaims@statefarm.com
         </p>
       </div>
     </>

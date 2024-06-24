@@ -18,6 +18,7 @@ import { tableFilters, dummyData } from '@/data/data'
 import ManageColumnsDialog from '@/modules/app/appraiser/manageColumnsDialog'
 import { sortAndFilterArray2 } from '@/utils'
 import FilterAccordion from '@/components/filters'
+import ConfirmationDialog from '@/components/dialogs/confirmation-dialog'
 
 const AppraisalClient = () => {
   const pathname = usePathname()
@@ -26,6 +27,7 @@ const AppraisalClient = () => {
   const [selectedItems, setSelectedItems] = useState(column)
   const [openFilter, setOpenFilter] = useState(false)
   const [count, setCount] = useState(0)
+  const [isOpenDelete, setIsOpenDelete] = useState(false)
 
   const handleCheckboxSubmit = (selectedItems: any) => {
     setSelectedItems(selectedItems)
@@ -62,10 +64,13 @@ const AppraisalClient = () => {
 
   const handleActionsRow = (menuItem: any) => {
     if (menuItem?.label === 'Edit') {
-      route.push(`${pathname}/${menuItem.id}`)
+      route.push(`${pathname}/${menuItem.id}?q=form`)
     } else if (menuItem?.label === 'Delete') {
       console.log('🚀 ~ handleActionsRow ~ menuItem?.label:', menuItem?.label)
+      setIsOpenDelete(!isOpenDelete)
+      console.log("🚀 ~ handleActionsRow ~ isOpenDelete:", isOpenDelete)
     }
+    
   }
 
   const handleClickRow = (menuItem: any) => {
@@ -176,6 +181,9 @@ const AppraisalClient = () => {
           onClose={() => setOpenFilter(!openFilter)}
         />
       </FormDialog>
+
+      <ConfirmationDialog open={isOpenDelete} setOpen={setIsOpenDelete} type='delete-account' title='Are you sure you want to delete this Account? '/>
+
     </Grid>
   )
 }
