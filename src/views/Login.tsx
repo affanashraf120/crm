@@ -23,7 +23,7 @@ import classnames from 'classnames'
 import type { Mode } from '@core/types'
 
 // Component Imports
-import Logo from '@core/svg/Logo'
+import BlackLogo from '@core/svg/Logo'
 import Illustrations from '@components/Illustrations'
 import Link from '@components/Link'
 
@@ -33,6 +33,7 @@ import themeConfig from '@configs/themeConfig'
 // Hook Imports
 import { useImageVariant } from '@core/hooks/useImageVariant'
 import { useSettings } from '@core/hooks/useSettings'
+import LogoWhite from '@/@core/svg/WhiteLogo'
 
 const LoginV2 = ({ mode }: { mode: Mode }) => {
   // States
@@ -87,7 +88,15 @@ const LoginV2 = ({ mode }: { mode: Mode }) => {
       <div className='flex justify-center items-center bs-full bg-backgroundPaper !min-is-full p-6 md:!min-is-[unset] md:p-12 md:is-[480px]'>
         <div className='absolute block-start-5 sm:block-start-[33px] inline-start-6 sm:inline-start-[38px]'>
           <div className='flex justify-center items-center gap-3 mbe-6'>
-            <Logo className='text-primary' height={28} width={35} />
+            {settings.mode === 'dark' ? (
+              <>
+                <LogoWhite className='text-[18px] text-primary w-10 h-10' />
+              </>
+            ) : (
+              <>
+                <BlackLogo className='text-[18px] text-primary w-10 h-10' />
+              </>
+            )}{' '}
             <Typography variant='h4' className='font-semibold tracking-[0.15px]'>
               {themeConfig.templateName}
             </Typography>

@@ -51,7 +51,7 @@ const Logo = () => {
   // You may return any JSX here to display a logo in the sidebar header
   // return <Img src='/next.svg' width={100} height={25} alt='logo' /> // for example
   return (
-    <Link href='/' className='flex items-center min-bs-[24px]'>
+    <Link href='/dashboard' className='flex items-center min-bs-[24px]'>
       {settings.mode === 'dark' ? (
         <>
           <LogoWhite className='text-[18px] text-primary w-10 h-10' />

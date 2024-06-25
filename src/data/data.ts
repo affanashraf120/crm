@@ -701,3 +701,187 @@ export const images: any = [
     name: 'image-11.jpg'
   }
 ]
+
+export const location: any = [
+  { label: 'Address', value: '3020 Glenda Ave Haltom City, TX 76117' },
+  { label: 'Category', value: 'Residential' },
+  { label: 'Work Type', value: 'Inspection' },
+  { label: 'Trade', value: 'Roofing' },
+  { label: 'Lead Source', value: 'Oscar Lead' },
+  { label: 'Initial Appt', value: 'November 11, 2023 11:45 AM - 12:45 PM' }
+]
+
+export const insurance: any = [
+  { label: 'Insurance Company', value: 'State Farm' },
+  { label: 'Damage Location', value: 'Roof (3) and other structures' },
+  { label: 'Date of Loss', value: 'November 10, 2023' },
+  { label: 'Claim Filed', value: 'Yes - November 13, 2023' },
+  { label: 'Claim Number', value: '4359B553K' },
+  { label: 'Have Paperwork', value: 'No' }
+]
+
+export const adjuster: any = [
+  { label: 'Adjuster Name', value: 'Catharine' },
+  { label: 'Adjuster Phone', value: '866-787-8676 Ext: 2753' },
+  { label: 'Adjuster Fax', value: '' },
+  { label: 'Adjuster Email', value: '' },
+  { label: 'Met with Adjuster', value: 'Yes - December 9, 2023' },
+  { label: 'Claim Approved', value: 'No' }
+]
+
+export const messages = [
+  {
+    name: 'Alice',
+    id: 1,
+    created_at: '2023-06-25T14:30:00Z',
+    url: '/images/avatars/1.png',
+    tags: [
+      { id: 1, name: 'admin' },
+      { id: 2, name: 'editor' }
+    ],
+    message: 'This is a message from Alice.',
+    attach: [
+      { name: 'file1.txt', links: 'https://example.com/file1.txt' },
+      { name: 'file2.jpg', links: 'https://example.com/file2.jpg' }
+    ],
+    reply: [
+      {
+        id: 32,
+        name: 'Bob',
+        created_at: '2023-06-25T15:00:00Z',
+        url: '/images/avatars/2.png',
+        tags: [{ id: 3, name: 'viewer' }],
+        message:
+          'This is a reply from Bob. This is a reply from Bob. This Bob. This is a reply from Bob. This is a  Bob. This is a reply from Bob. This is a reply from Bob. This is a reply from Bob. This is a reply from Bob. This is a reply from Bob. ',
+        attach: [{ name: 'file3.doc', links: 'https://example.com/file3.doc' }]
+      },
+      {
+        id: 3,
+
+        name: 'Charlie',
+        created_at: '2023-06-25T16:00:00Z',
+        url: '/images/avatars/3.png',
+        tags: [{ id: 4, name: 'guest' }],
+        message: 'This is a reply from Charlie.',
+        attach: [{ name: 'file4.pdf', links: 'https://example.com/file4.pdf' }]
+      },
+      {
+        id: 42,
+        name: 'Bob',
+        created_at: '2023-06-25T15:00:00Z',
+        url: '/images/avatars/2.png',
+        tags: [{ id: 3, name: 'viewer' }],
+        message: 'This is a reply from Bob.',
+        attach: [{ name: 'file3.doc', links: 'https://example.com/file3.doc' }]
+      },
+      {
+        id: 4122,
+
+        name: 'Charlie',
+        created_at: '2023-06-25T16:00:00Z',
+        url: '/images/avatars/3.png',
+        tags: [{ id: 4, name: 'guest' }],
+        message: 'This is a reply from Charlie.',
+        attach: [{ name: 'file4.pdf', links: 'https://example.com/file4.pdf' }]
+      },
+      {
+        id: 3112,
+        name: 'Bob',
+        created_at: '2023-06-25T15:00:00Z',
+        url: '/images/avatars/2.png',
+        tags: [{ id: 3, name: 'viewer' }],
+        message: 'This is a reply from Bob. This is a reply from Charlie. ',
+        attach: [{ name: 'file3.doc', links: 'https://example.com/file3.doc' }]
+      },
+      {
+        id: 4444,
+
+        name: 'Charlie',
+        created_at: '2023-06-25T16:00:00Z',
+        url: '/images/avatars/3.png',
+        tags: [{ id: 4, name: 'guest' }],
+        message: 'This is a reply from Charlie.',
+        attach: [{ name: 'file4.pdf', links: 'https://example.com/file4.pdf' }]
+      },
+      {
+        id: 71212122127,
+        name: 'Bob',
+        created_at: '2023-06-25T15:00:00Z',
+        url: '/images/avatars/2.png',
+        tags: [{ id: 3, name: 'viewer' }],
+        message: 'This is a reply from Bob.',
+        attach: [{ name: 'file3.doc', links: 'https://example.com/file3.doc' }]
+      },
+      {
+        id: 232324232,
+
+        name: 'Charlie',
+        created_at: '2023-06-25T16:00:00Z',
+        url: '/images/avatars/3.png',
+        tags: [{ id: 4, name: 'guest' }],
+        message:
+          'This is a reply from Charlie.This is a reply from Charlie.This is a reply from Charlie.This is a reply from Charlie.',
+        attach: [{ name: 'file4.pdf', links: 'https://example.com/file4.pdf' }]
+      },
+      {
+        id: 21322,
+        name: 'Bob',
+        created_at: '2023-06-25T15:00:00Z',
+        url: '/images/avatars/2.png',
+        tags: [{ id: 3, name: 'viewer' }],
+        message:
+          'This is a reply from Bob. This is a reply from Bob. This Bob. This is a reply from Bob. This is a  Bob. This is a reply from Bob. This is a reply from Bob. This is a reply from Bob. This is a reply from Bob. This is a reply from Bob. ',
+        attach: [{ name: 'file3.doc', links: 'https://example.com/file3.doc' }]
+      },
+      {
+        id: 321,
+        name: 'Charlie',
+        created_at: '2023-06-25T16:00:00Z',
+        url: '/images/avatars/3.png',
+        tags: [{ id: 4, name: 'guest' }],
+        message: 'This is a reply from Charlie.',
+        attach: [{ name: 'file4.pdf', links: 'https://example.com/file4.pdf' }]
+      },
+      {
+        id: 213,
+        name: 'Bob',
+        created_at: '2023-06-25T15:00:00Z',
+        url: '/images/avatars/2.png',
+        tags: [{ id: 3, name: 'viewer' }],
+        message: 'This is a reply from Bob.',
+        attach: [{ name: 'file3.doc', links: 'https://example.com/file3.doc' }]
+      },
+      {
+        id: 0,
+
+        name: 'Charlie',
+        created_at: '2023-06-25T16:00:00Z',
+        url: '/images/avatars/3.png',
+        tags: [{ id: 4, name: 'guest' }],
+        message: 'This is a reply from Charlie.',
+        attach: [{ name: 'file4.pdf', links: 'https://example.com/file4.pdf' }]
+      }
+    ]
+  },
+  {
+    name: 'David',
+    id: 2,
+    created_at: '2023-06-25T17:00:00Z',
+    url: '/images/avatars/3.png',
+    tags: [{ id: 5, name: 'member' }],
+    message: 'This is a message from David.',
+    attach: [{ name: 'file5.png', links: 'https://example.com/file5.png' }],
+    reply: [
+      {
+        name: 'Eve',
+        id: 332732,
+
+        created_at: '2023-06-25T18:00:00Z',
+        url: '/images/avatars/2.png',
+        tags: [{ id: 6, name: 'contributor' }],
+        message: 'This is a reply from Eve.',
+        attach: [{ name: 'file6.xls', links: 'https://example.com/file6.xls' }]
+      }
+    ]
+  }
+]

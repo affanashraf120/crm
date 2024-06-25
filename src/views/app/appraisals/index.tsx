@@ -16,9 +16,14 @@ function Appraisals() {
   const router = useRouter()
   const [selectedRowId, setSelectedRowId] = useState(null)
 
-  const handleRowClick = (id: any) => {
-    setSelectedRowId(id)
-    router.push(`/appraisal/${id}`)
+  const handleRowClick = (item: any) => {
+
+    const comName = item.toLowerCase().replaceAll(" ","_");
+
+
+    setSelectedRowId(comName)
+
+    router.push(`/appraisal/${comName}`)
     console.log('🚀 ~ Clients ~ selectedRowId:', selectedRowId)
   }
 

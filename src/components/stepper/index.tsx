@@ -4,24 +4,25 @@ import Step from '@mui/material/Step'
 import StepLabel from '@mui/material/StepLabel'
 import Stepper from '@mui/material/Stepper'
 import { styled } from '@mui/material/styles'
-
 import StepConnector, { stepConnectorClasses } from '@mui/material/StepConnector'
-
 import { Box, Card, CardContent, CardHeader, Typography } from '@mui/material'
+
 import type { StepIconProps } from '@mui/material/StepIcon'
+
+import { useSettings } from '@/@core/hooks/useSettings'
 
 const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
   [`&.${stepConnectorClasses.alternativeLabel}`]: {
-    top: 22
+    top: 26
   },
   [`&.${stepConnectorClasses.active}`]: {
     [`& .${stepConnectorClasses.line}`]: {
-      backgroundImage: 'linear-gradient( 95deg,rgb(46,125,50) 0%,rgb(76,171,81) 50%,rgb(217,231,218) 100%)'
+      backgroundImage: 'rgb(46,125,50)'
     }
   },
   [`&.${stepConnectorClasses.completed}`]: {
     [`& .${stepConnectorClasses.line}`]: {
-      backgroundImage: 'linear-gradient( 95deg,rgb(46,125,50) 0%,rgb(76,171,81) 50%,rgb(217,231,218) 100%)'
+      backgroundImage: 'rgb(46,125,50)'
     }
   },
   [`& .${stepConnectorClasses.line}`]: {
@@ -33,41 +34,42 @@ const ColorlibConnector = styled(StepConnector)(({ theme }) => ({
 }))
 
 const ColorlibStepIconRoot = styled('div')<{
-  ownerState: { completed?: boolean; active?: boolean }
-}>(({ theme, ownerState }) => ({
-  backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[700] : '#ccc',
+  ownerState: { completed?: boolean; active?: boolean; color: string }
+}>(({ ownerState }) => ({
+  backgroundColor: ownerState.active || ownerState.completed ? ownerState.color : '#ccc',
   zIndex: 1,
   color: '#fff',
-  width: 50,
-  height: 50,
+  width: ownerState.active || ownerState.completed ? 60 : 60,
+  height: ownerState.active || ownerState.completed ? 60 : 60,
   display: 'flex',
   borderRadius: '50%',
   justifyContent: 'center',
   alignItems: 'center',
   ...(ownerState.active && {
-    backgroundImage: 'linear-gradient( 136deg, rgb(46,125,50) 0%, rgb(76,171,81) 50%, rgb(217,231,218) 100%)',
+    backgroundImage: `${ownerState.color}`,
     boxShadow: '0 4px 10px 0 rgba(0,0,0,.25)'
   }),
   ...(ownerState.completed && {
-    backgroundImage: 'linear-gradient( 136deg, rgb(46,125,50) 0%, rgb(76,171,81) 50%, rgb(217,231,218) 100%)'
+    backgroundImage: `${ownerState.color}`
   })
 }))
 
-function ColorlibStepIcon(props: StepIconProps) {
-  const { active, completed, className } = props
+function ColorlibStepIcon(props: StepIconProps & { colors: string[] }) {
+  const { active, completed, className, icon, colors } = props
+  const color = colors[Number(icon) - 1] || '#ccc'
 
   const icons: { [index: string]: React.ReactElement } = {
-    1: <i className='ri-account-circle-line'></i>,
-    2: <i className='ri-account-circle-line'></i>,
-    3: <i className='ri-account-circle-line'></i>,
-    4: <i className='ri-account-circle-line'></i>,
-    5: <i className='ri-account-circle-line'></i>,
-    6: <i className='ri-account-circle-line'></i>
+    1: <span>L</span>,
+    2: <span>P</span>,
+    3: <span>A</span>,
+    4: <span>C</span>,
+    5: <span>I</span>,
+    6: <span>✔</span>
   }
 
   return (
-    <ColorlibStepIconRoot ownerState={{ completed, active }} className={className}>
-      {icons[String(props.icon)]}
+    <ColorlibStepIconRoot ownerState={{ completed, active, color }} className={className}>
+      <span className='font-black text-4xl'>{icons[String(icon)]}</span>
     </ColorlibStepIconRoot>
   )
 }
@@ -81,18 +83,31 @@ const steps = [
   { label: 'Closed', date: '' }
 ]
 
+const colors = [
+  'rgb(255,165,0)', // orange
+    'rgb(255,0,0)', // red
+  'rgb(0,128,0)', // green
+  'rgb(255,255,0)', // yellow
+  'rgb(0,0,255)', // blue
+  'rgb(75,0,130)' // indigo
+]
+
 export default function CustomizedSteppers() {
+  const { settings } = useSettings()
+
   return (
     <Card>
       <Box
+        className='border-be'
         sx={{
           display: 'flex',
           flexDirection: 'row',
           justifyContent: 'space-between',
-          alignItems: 'center'
+          alignItems: 'center',
+          backgroundColor: `${settings.mode === 'dark' ? 'rgba(225, 225, 225, 0.1)' : 'rgba(0, 0, 0, 0.1)'}`,
         }}
       >
-        <CardHeader title='Milestone' />
+        <CardHeader title='Milestones' titleTypographyProps={{ variant: 'h4' }} />
         <CardHeader subheader='In Prospect Milestone: 7 Months ' />
       </Box>
       <Box
@@ -103,36 +118,15 @@ export default function CustomizedSteppers() {
           gap: 2
         }}
       >
-        {/* <CardActions
-          sx={{
-            flexShrink: 0,
-            maxWidth: '100%',
-            display: 'flex',
-            justifyContent: 'start',
-            alignItems: 'start',
-            gap: 2,
-            flexDirection:'column'
-          }}
-        >
-          <Typography
-            variant='h6'
-            sx={{
-              whiteSpace: 'nowrap'
-            }}
-          >
-            <span className='text-primary text-bold'>NEXT STEP :</span> Closed
-          </Typography>
-          <Button variant='contained' sx={{marginLeft: '0px !important'}}>Submit</Button>
-        </CardActions> */}
         <CardContent
           sx={{
             width: '100%'
           }}
         >
-          <Stepper alternativeLabel activeStep={4} connector={<ColorlibConnector />}>
+          <Stepper alternativeLabel activeStep={2} connector={<ColorlibConnector />}>
             {steps.map((step, index) => (
               <Step key={index}>
-                <StepLabel StepIconComponent={ColorlibStepIcon}>
+                <StepLabel StepIconComponent={props => <ColorlibStepIcon {...props} colors={colors} />}>
                   <Box
                     sx={{
                       display: 'flex',

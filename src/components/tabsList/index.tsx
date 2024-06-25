@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react'
 
 import { useSearchParams } from 'next/navigation'
 
-import { Box, Button, Card, CardContent, Menu, MenuItem, Typography } from '@mui/material'
+import { Box, Button, Card, CardActions, CardContent, Menu, MenuItem, Typography } from '@mui/material'
 
 // MUI Imports
 import TabContext from '@mui/lab/TabContext'
@@ -19,9 +19,10 @@ import CustomTabList from '@core/components/mui/TabList'
 // Define the type for each tab configuration
 interface TabConfig {
   label: string
-  icon: string
+  icon?: string
   value: string
-  component: FC
+  component: FC<{ props?: any }>;
+  props?: any
 }
 
 interface Consumer {
@@ -102,6 +103,32 @@ const TabsList: FC<Tabs> = ({ tabs, type, consumer }) => {
         <div className='py-2 min-h-[400px]'>
           {tabs.map(tab => tab.value === activeTab && <tab.component key={tab.value} />)}
         </div>
+      </TabContext>
+    )
+  } else if (type === 'cards-tab') {
+    return (
+      <TabContext value={activeTab}>
+        <Card>
+          <CardActions>
+            <CustomTabList onChange={handleChange} variant='scrollable' pill='true'>
+              {tabs.map(tab => (
+                <Tab
+
+                  key={tab.value}
+                  label={
+                    <div className='flex items-center gap-1.5'>
+                      {tab.icon && <i className={`${tab.icon} text-lg`} />}
+                      {tab.label}
+                    </div>
+                  }
+                  value={tab.value}
+                />
+              ))}
+            </CustomTabList>
+          </CardActions>
+
+          <CardContent>{tabs.map(tab => tab.value === activeTab && <tab.component key={tab.value} props={tab.props} />)}</CardContent>
+        </Card>
       </TabContext>
     )
   } else {

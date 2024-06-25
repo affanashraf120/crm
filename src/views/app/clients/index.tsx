@@ -16,6 +16,8 @@ function Clients() {
   const [selectedRowId, setSelectedRowId] = useState(null)
 
   const handleRowClick = (id: any) => {
+    console.log("🚀 ~ handleRowClick ~ id:", id)
+
     setSelectedRowId(id)
     setOpenAddClientForm(true)
     console.log('🚀 ~ Clients ~ selectedRowId:', selectedRowId)

@@ -24,8 +24,8 @@ const ListViewTable = ({ clickable, actionButton, handleAction, onActions, data:
     setData(filteredData)
   }
 
-  const handleChangePage = (newPage: any) => {
-    setPage(newPage)
+  const handleChangePage = (newPage: any, page:number) => {
+    setPage(page)
   }
 
   const handleChangeRowsPerPage = (event: any) => {
@@ -72,7 +72,7 @@ const ListViewTable = ({ clickable, actionButton, handleAction, onActions, data:
         </div>
       </Grid>
       {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item:any, index:any) => (
-        <Card key={index} className='my-4 cursor-pointer' onClick={() => onActions(index)}>
+        <Card key={index} className='my-4 cursor-pointer' onClick={() => onActions(item.companyName)}>
           <div
             className={`grid grid-cols-8 p-4 items-center justify-center gap-2 ${
               settings.mode === 'dark' ? 'hover:bg-[#37334C]' : 'hover:bg-[#E5E5EB]'
