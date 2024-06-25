@@ -422,8 +422,8 @@ const Table = ({
           <div className='flex justify-center items-center gap-2 flex-col w-full sm:flex-row md:w-auto'>
             <TextField
               id='outlined-basic'
-              label='Search'
               variant='outlined'
+              placeholder='Search'
               fullWidth
               size='small'
               InputProps={{
