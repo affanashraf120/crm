@@ -32,7 +32,7 @@ function Clients() {
       {openAddClientForm ? (
         <Grid container spacing={6}>
           <Grid item xs={12}>
-            <AddClient handleAction={handleAction} />
+            <AddClient onAction={handleAction} />
           </Grid>
           <Grid item xs={12}>
             <ConfirmationDeleteAccount />

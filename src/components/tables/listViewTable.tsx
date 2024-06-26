@@ -9,8 +9,6 @@ import SearchIcon from '@mui/icons-material/Search'
 import CustomAvatar from '@/@core/components/mui/Avatar'
 import { useSettings } from '@/@core/hooks/useSettings'
 
-
-
 const ListViewTable = ({ clickable, actionButton, handleAction, onActions, data: listData }: any) => {
   const { settings } = useSettings()
   const [data, setData] = useState(listData)
@@ -48,7 +46,12 @@ const ListViewTable = ({ clickable, actionButton, handleAction, onActions, data:
       <Grid item xs={12}>
         <div className='flex justify-between w-fulls items-center flex-col md:flex-row gap-4'>
           <div className='w-full  md:w-72'>
-            <TextField fullWidth onChange={handleInput} placeholder='Search...' size='small' InputProps={{
+            <TextField
+              fullWidth
+              onChange={handleInput}
+              placeholder='Search...'
+              size='small'
+              InputProps={{
                 startAdornment: (
                   <InputAdornment position='start'>
                     <SearchIcon />
@@ -62,7 +65,8 @@ const ListViewTable = ({ clickable, actionButton, handleAction, onActions, data:
                     padding: '0 5px'
                   }
                 }
-              }}/>
+              }}
+            />
           </div>
           <div className='w-full  flex justify-start md:justify-end items-center gap-2 flex-wrap md:flex-nowrap'>
             <div className='w-full md:w-52'>
@@ -89,7 +93,15 @@ const ListViewTable = ({ clickable, actionButton, handleAction, onActions, data:
         </div>
       </Grid>
       {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item: any, index: any) => (
-        <Card key={index} className='my-4 cursor-pointer' onClick={() => onActions(item.companyName)}>
+        <Card
+          key={index}
+          className={`my-4 ${clickable ? 'cursor-pointer' : 'cursor-default'}`}
+          onClick={() => {
+            if (clickable) {
+              onActions(item.companyName)
+            }
+          }}
+        >
           <div
             className={`grid grid-cols-8 p-4 items-center justify-center gap-2 ${
               settings.mode === 'dark' ? 'hover:bg-[#37334C]' : 'hover:bg-[#E5E5EB]'

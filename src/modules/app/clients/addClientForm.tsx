@@ -47,7 +47,7 @@ const schema = z.object({
 
 type FormData = z.infer<typeof schema>
 
-const AddClient = ({ handleAction }: any) => {
+const AddClient = ({ onAction }: any) => {
   // States
   const [fileInput, setFileInput] = useState<string>('')
   const [imgSrc, setImgSrc] = useState<string>('/images/avatars/1.png')
@@ -95,7 +95,7 @@ const AddClient = ({ handleAction }: any) => {
   })
 
   const onSubmit = (data: FormData) => {
-    handleAction
+    onAction
     console.log('clicked', data)
   }
 
@@ -121,7 +121,7 @@ const AddClient = ({ handleAction }: any) => {
   return (
     <Card>
       <div className='px-4 pt-4'>
-        <IconButton onClick={handleAction}>
+        <IconButton onClick={onAction}>
           <i className='ri-arrow-right-s-line cursor-pointer rotate-180'></i>
         </IconButton>
       </div>
