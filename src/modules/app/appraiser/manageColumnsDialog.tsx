@@ -248,7 +248,7 @@ const ManageColumnsDialog: React.FC<CheckboxListFormProps> = ({ columns, onSubmi
 
             <TextField
               size='small'
-              label='Search for columns'
+              placeholder='Search for columns'
               onChange={handleSearch}
               InputProps={{
                 startAdornment: (

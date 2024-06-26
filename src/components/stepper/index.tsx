@@ -122,8 +122,9 @@ export default function CustomizedSteppers() {
           sx={{
             width: '100%'
           }}
+          
         >
-          <Stepper alternativeLabel activeStep={2} connector={<ColorlibConnector />}>
+          <Stepper alternativeLabel activeStep={2} connector={<ColorlibConnector />} >
             {steps.map((step, index) => (
               <Step key={index}>
                 <StepLabel StepIconComponent={props => <ColorlibStepIcon {...props} colors={colors} />}>

@@ -116,7 +116,7 @@ const Documents: React.FC = () => {
         <div className='flex justify-start items-center gap-2 flex-wrap'>
           <TextField
             size='small'
-            label='Search'
+            placeholder='Search'
             value={searchQuery}
             onChange={handleSearchChange}
             InputProps={{

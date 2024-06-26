@@ -70,7 +70,7 @@ const AppraisalClient = () => {
       setIsOpenDelete(!isOpenDelete)
       console.log("🚀 ~ handleActionsRow ~ isOpenDelete:", isOpenDelete)
     }
-    
+
   }
 
   const handleClickRow = (menuItem: any) => {
@@ -123,7 +123,7 @@ const AppraisalClient = () => {
           }}
           disableClearable={true}
           options={top100Films}
-          renderInput={params => <TextField {...params} label='Search New Client' />}
+          renderInput={params => <TextField {...params} label='Search New Client' sx={{ maxHeight: '200px' }}/>}
         />
       </Grid>
 
@@ -451,7 +451,7 @@ const column = [
     name: 'address',
     header: 'Address',
     type: 'TextWithTooltip',
-    size: 12
+    size: 30
   },
   {
     name: 'appraisal_amt',
@@ -499,7 +499,7 @@ const column = [
     header: 'Notes',
     type: 'TextWithTooltip',
     redirectLink: true,
-    size: 12
+    size: 30
   },
   {
     name: 'date_qb_invoiced',

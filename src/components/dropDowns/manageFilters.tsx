@@ -59,7 +59,7 @@ function ActionsDropDown({ buttonLabel, buttons, onItemClick, type, filterList, 
     option => option?.label && option.label.toLowerCase().includes(searchTerm.toLowerCase())
   )
 
-  
+
 
   if (type === 'sort') {
     return (
@@ -83,7 +83,7 @@ function ActionsDropDown({ buttonLabel, buttons, onItemClick, type, filterList, 
           }}
           transformOrigin={{
             vertical: 'top',
-            horizontal: 'center'
+            horizontal: 'left'
           }}
         >
           {buttons &&
@@ -122,7 +122,7 @@ function ActionsDropDown({ buttonLabel, buttons, onItemClick, type, filterList, 
           }}
           transformOrigin={{
             vertical: 'top',
-            horizontal: 'center'
+            horizontal: 'left'
           }}
         >
           <MenuItem
@@ -203,7 +203,7 @@ function ActionsDropDown({ buttonLabel, buttons, onItemClick, type, filterList, 
           }}
           transformOrigin={{
             vertical: 'top',
-            horizontal: 'center'
+            horizontal: 'left'
           }}
         >
           <MenuItem
@@ -295,7 +295,7 @@ function ActionsDropDown({ buttonLabel, buttons, onItemClick, type, filterList, 
           }}
           transformOrigin={{
             vertical: 'top',
-            horizontal: 'center'
+            horizontal: 'left'
           }}
         >
           <MenuItem
@@ -382,7 +382,7 @@ function ActionsDropDown({ buttonLabel, buttons, onItemClick, type, filterList, 
           }}
           transformOrigin={{
             vertical: 'top',
-            horizontal: 'center'
+            horizontal: 'left'
           }}
         >
           <MenuItem

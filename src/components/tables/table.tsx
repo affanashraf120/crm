@@ -285,7 +285,15 @@ const Table = ({
               )}
             </div>
           ) : (
+            <div className='flex justify-start items-center gap-1'>
+
             <Typography>{`${row.original[name]}`}</Typography>
+            {redirectLink && (
+              <IconButton onClick={() => onClickRow({ label: header, id: row.original.id })}>
+                <i className='ri-external-link-line w-4 h-4 text-primary'></i>
+              </IconButton>
+            )}
+            </div>
           )
         } else if (type === 'Action') {
           return (
