@@ -11,10 +11,10 @@ const PhotoFeature = ({ photo, allImages }: any) => {
 
   return (
     <div className='grid grid-cols-4 gap-2'>
-      <div className='col-span-3'>
+      <div className='col-span-4 md:col-span-3'>
         <img src={photo.src} alt={photo.alt} className='h-[600px] xl:max-h-full w-full rounded' />
       </div>
-      <div className='col-span-1 overflow-y-auto h-[600px] py-1 flex flex-col gap-2'>
+      <div className='col-span-4 h-auto md:col-span-1 md:overflow-y-auto md:h-[600px] py-1 flex flex-col gap-2'>
         <TextField size='small' label='Photo Name' value={photo.alt} />
         <TextField size='small' label='Description' value='' multiline minRows={3} />
         <MultiSelectDropdown
@@ -149,7 +149,7 @@ const PhotoSection = (images: any) => {
           <strong className='text-secondary'>To:</strong> Luke Sublette, Rosa Hernandez
         </span>
 
-        <div className='grid grid-cols-3 gap-2 py-2'>
+        <div className='flex justify-start items-center flex-wrap gap-2 py-2'>
           {images.images.map((item: any, index: any) => (
             <img key={index} src={item.src} alt={item.alt} className='h-16 w-16 rounded' />
           ))}

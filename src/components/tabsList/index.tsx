@@ -7,7 +7,20 @@ import { useEffect, useState } from 'react'
 
 import { useSearchParams } from 'next/navigation'
 
-import { Box, Button, Card, CardActions, CardContent, Menu, MenuItem, Typography } from '@mui/material'
+import SearchIcon from '@mui/icons-material/Search'
+
+import {
+  Box,
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  InputAdornment,
+  Menu,
+  MenuItem,
+  TextField,
+  Typography
+} from '@mui/material'
 
 // MUI Imports
 import TabContext from '@mui/lab/TabContext'
@@ -21,7 +34,7 @@ interface TabConfig {
   label: string
   icon?: string
   value: string
-  component: FC<{ props?: any }>;
+  component: FC<{ props?: any }>
   props?: any
 }
 
@@ -43,6 +56,7 @@ const TabsList: FC<Tabs> = ({ tabs, type, consumer }) => {
   const [activeTab, setActiveTab] = useState(tabs[0].value)
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const [selectedConsumer, setSelectedConsumer] = useState<Consumer>()
+  const [searchTerm, setSearchTerm] = useState('')
 
   const searchParams = useSearchParams()
   const search = searchParams.get('q')
@@ -63,6 +77,10 @@ const TabsList: FC<Tabs> = ({ tabs, type, consumer }) => {
 
   const handleChange = (event: SyntheticEvent, value: string) => {
     setActiveTab(value)
+  }
+
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value)
   }
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -113,7 +131,6 @@ const TabsList: FC<Tabs> = ({ tabs, type, consumer }) => {
             <CustomTabList onChange={handleChange} variant='scrollable' pill='true'>
               {tabs.map(tab => (
                 <Tab
-
                   key={tab.value}
                   label={
                     <div className='flex items-center gap-1.5'>
@@ -127,7 +144,9 @@ const TabsList: FC<Tabs> = ({ tabs, type, consumer }) => {
             </CustomTabList>
           </CardActions>
 
-          <CardContent>{tabs.map(tab => tab.value === activeTab && <tab.component key={tab.value} props={tab.props} />)}</CardContent>
+          <CardContent>
+            {tabs.map(tab => tab.value === activeTab && <tab.component key={tab.value} props={tab.props} />)}
+          </CardContent>
         </Card>
       </TabContext>
     )
@@ -180,14 +199,60 @@ const TabsList: FC<Tabs> = ({ tabs, type, consumer }) => {
                     </div>
                   </Button>
                   <Menu anchorEl={anchorEl} open={open} onClose={handleMenuClose}>
-                    {consumer?.map((consumer, index) => (
-                      <MenuItem key={index} onClick={() => handleConsumerChange(consumer)} sx={{ minWidth: '230px' }}>
-                        <Box>
-                          <Typography variant='h6'>{consumer.label}</Typography>
-                          <Typography variant='body2'>{consumer.address}</Typography>
-                        </Box>
-                      </MenuItem>
-                    ))}
+                    <MenuItem
+                      sx={{
+                        '&:hover': {
+                          backgroundColor: 'transparent'
+                        },
+                        minWidth: '200px'
+                      }}
+                    >
+                      <TextField
+                        size='small'
+                        value={searchTerm}
+                        onChange={handleSearchChange}
+                        onKeyDown={e => {
+                          e.stopPropagation()
+                        }}
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position='start'>
+                              <SearchIcon />
+                            </InputAdornment>
+                          ),
+                          sx: {
+                            height: '30px',
+                            fontSize: '12px',
+                            padding: '5px 10px',
+                            '.MuiInputBase-input': {
+                              padding: '0 5px'
+                            }
+                          }
+                        }}
+                        sx={{
+                          '.MuiInputLabel-root': {
+                            fontSize: '12px'
+                          },
+                          '.MuiFormLabel-root': {
+                            top: '-2px'
+                          },
+                          '.MuiInputBase-root': {
+                            height: '30px',
+                            fontSize: '12px'
+                          }
+                        }}
+                      />
+                    </MenuItem>
+                    {consumer
+                      ?.filter(consumer => consumer.label.toLowerCase().includes(searchTerm.toLowerCase()))
+                      .map((consumer, index) => (
+                        <MenuItem key={index} onClick={() => handleConsumerChange(consumer)} sx={{ minWidth: '236px' }}>
+                          <Box>
+                            <Typography variant='h6'>{consumer.label}</Typography>
+                            <Typography variant='body2'>{consumer.address}</Typography>
+                          </Box>
+                        </MenuItem>
+                      ))}
                   </Menu>
                 </div>
               )}

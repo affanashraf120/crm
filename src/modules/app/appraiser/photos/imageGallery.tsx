@@ -161,7 +161,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images, size }) => {
           />
         )}
       </div>
-      <div className='h-[500px] overflow-y-auto'>
+      <div className='h-[500px] overflow-y-auto xl:h-full'>
         {Object.keys(groupedImages).map((date: any) => (
           <Accordion
             key={date}
@@ -296,15 +296,13 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images, size }) => {
                       <Checkbox
                         className='absolute top-2 left-2'
                         sx={{
-                          
                           '&:not(.Mui-checked) .MuiSvgIcon-root': {
                             borderColor: 'blue',
                             borderWidth: 1,
                             borderStyle: 'solid',
-                            borderRadius: 4, 
-                          },
+                            borderRadius: 4
+                          }
                         }}
-                  
                         checked={selectedImages.some(selectedImage => selectedImage.src === image.src)}
                         onChange={() => toggleImageSelection(image)}
                       />
@@ -352,7 +350,6 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images, size }) => {
           closeButton={true}
           dialogSize='70%'
         >
-
           <PhotoFeature photo={fullScreenImage} allImages={images} />
         </FormDialog>
       )}{' '}
@@ -361,5 +358,3 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images, size }) => {
 }
 
 export default ImageGallery
-
-

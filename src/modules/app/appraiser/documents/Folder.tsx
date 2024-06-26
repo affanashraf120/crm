@@ -184,7 +184,7 @@ const FolderComponent = ({ filters }: any) => {
       </div>
 
       {fileView ? (
-        <div className='h-[500px] overflow-y-auto'>
+        <div className='h-[500px] overflow-y-auto xl:h-full'>
           <div className={`${cardView ? 'hidden' : 'hidden md:flex'}  `}>
             <table className={`${cardView ? '' : ' w-full divide-y'} `}>
               <thead className='border-b'>
@@ -376,7 +376,7 @@ const FolderComponent = ({ filters }: any) => {
           )}
         </div>
       ) : (
-        <div className='h-[500px] overflow-y-auto'>
+        <div className='h-[500px] overflow-y-auto xl:h-full'>
           {folders.map((folder, folderIndex) => (
             <Accordion
               key={folderIndex}

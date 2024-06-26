@@ -53,7 +53,7 @@ const Photo: React.FC = () => {
         <div className='flex justify-start items-center gap-2 flex-wrap'>
           <TextField
             size='small'
-            label='Search'
+            placeholder='Search'
             InputProps={{
               startAdornment: (
                 <InputAdornment position='start'>

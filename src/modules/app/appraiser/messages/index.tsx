@@ -223,7 +223,7 @@ const Chat = ({ messages }: any) => {
         <div className='flex justify-start items-start gap-2  flex-col'>
           <TextField
             size='small'
-            label='Search'
+            placeholder='Search'
             value={searchQuery}
             fullWidth
             onChange={handleSearchChange}
@@ -248,6 +248,7 @@ const Chat = ({ messages }: any) => {
             <MultiSelectDropdown
               onselect={handleFoldersFilter}
               name='topic'
+              isScrollable={false}
               title='Message Topic'
               type='accordion-checkbox'
               options={[
@@ -261,6 +262,8 @@ const Chat = ({ messages }: any) => {
               onselect={handleFoldersFilter}
               name='createdBy'
               title='Created By'
+              isScrollable={false}
+
               type='accordion-checkbox'
               options={[
                 { label: 'Adrian Hernandez', active: false },
@@ -298,7 +301,9 @@ const Chat = ({ messages }: any) => {
         </div>
       </div>
 
-      <Drawer open={open} setOpen={() => setOpen(false)}>
+<div className='inline-block sm:hidden '>
+
+      <Drawer open={open} setOpen={() => setOpen(false)} > 
         <div className='flex justify-start items-start gap-2 pl-2 flex-col'>
           <MultiSelectDropdown
             isScrollable={false}
@@ -340,6 +345,7 @@ const Chat = ({ messages }: any) => {
           />
         </div>
       </Drawer>
+</div>
 
       <FormDialog
         open={openAttach}

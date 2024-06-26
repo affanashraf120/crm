@@ -78,7 +78,12 @@ const MultiSelectDropdown: React.FC<MultiSelectDropdownProps> = ({
   }
 
   const handleChange = (event: SelectChangeEvent<string[]>) => {
+    console.log('🚀 ~ handleChange ~ event.target.value:', event)
     const value = event.target.value as string[]
+
+    console.log('🚀 ~ handleSearch ~ event.target.value:', event?.target.value)
+
+    console.log('🚀 ~ handleChange ~ value:', value)
 
     setSelectedItems(value)
     onselect({ label: name, filters: value })
@@ -267,19 +272,17 @@ const MultiSelectDropdown: React.FC<MultiSelectDropdownProps> = ({
             )
           }}
         >
-          <div className={` ${isScrollable ? 'overflow-y-auto max-h-[200px] ' : ''} w-full`}>
-            {options.map(item => (
-              <MenuItem
-                key={item.label}
-                value={item.label}
-                className='text-current'
-                style={{ backgroundColor: 'transparent', height: '45px', minWidth: '200px' }}
-              >
-                <Checkbox checked={selectedItems.includes(item.label)} />
-                {item.label}
-              </MenuItem>
-            ))}
-          </div>
+          {options.map(item => (
+            <MenuItem
+              key={item.label}
+              value={item.label}
+              className='text-current'
+              style={{ backgroundColor: 'transparent', height: '45px', minWidth: '200px' }}
+            >
+              <Checkbox checked={selectedItems.includes(item.label)} />
+              {item.label}
+            </MenuItem>
+          ))}
         </Select>
       </FormControl>
     )
