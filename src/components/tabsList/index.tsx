@@ -1,7 +1,7 @@
 'use client'
 
 // React Imports
-import type { SyntheticEvent, FC } from 'react'
+import type { FC, SyntheticEvent } from 'react'
 
 import { useEffect, useState } from 'react'
 
@@ -36,6 +36,7 @@ interface TabConfig {
   value: string
   component: FC<{ props?: any }>
   props?: any
+  active?: boolean
 }
 
 interface Consumer {
@@ -49,11 +50,13 @@ interface Tabs {
   tabs: TabConfig[]
   type?: string
   consumer?: Consumer[]
+  _activeTab?: string
 }
 
-const TabsList: FC<Tabs> = ({ tabs, type, consumer }) => {
+const TabsList: FC<Tabs> = ({ tabs, type, consumer, _activeTab }) => {
   // States
-  const [activeTab, setActiveTab] = useState(tabs[0].value)
+  const [activeTab, setActiveTab] = useState(_activeTab === 'form' ? 'form' : tabs[0].value)
+  const [_tabs, _setTabs] = useState(tabs)
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
   const [selectedConsumer, setSelectedConsumer] = useState<Consumer>()
   const [searchTerm, setSearchTerm] = useState('')
@@ -66,6 +69,16 @@ const TabsList: FC<Tabs> = ({ tabs, type, consumer }) => {
       setSelectedConsumer(consumer[0])
     }
   }, [consumer])
+  useEffect(() => {
+    if (_activeTab) {
+      const updatedTabs = tabs.map(obj => ({
+        ...obj,
+        active: obj.value === 'form' ? false : true
+      }))
+
+      _setTabs(updatedTabs)
+    }
+  }, [])
 
   useEffect(() => {
     if (search === 'Notes') {
@@ -157,8 +170,9 @@ const TabsList: FC<Tabs> = ({ tabs, type, consumer }) => {
           <CardContent>
             <div className='flex flex-wrap-reverse justify-between items-center gap-3 '>
               <CustomTabList onChange={handleChange} variant='scrollable' pill='true'>
-                {tabs.map(tab => (
+                {_tabs.map(tab => (
                   <Tab
+                    disabled={tab.active}
                     key={tab.value}
                     label={
                       <div className='flex items-center gap-1.5'>

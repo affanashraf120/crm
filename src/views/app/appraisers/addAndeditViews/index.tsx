@@ -8,8 +8,8 @@ import Photo from './photo'
 
 // Component Imports for each tab
 
-const AddAndEditArraiser = () => {
-  return <TabsList tabs={tabs} consumer={consumers} />
+const AddAndEditArraiser = ({ pathname }: {pathname?: string | undefined}) => {
+  return <TabsList tabs={tabs} consumer={consumers} _activeTab={pathname?.endsWith('add') ? 'form' : ''} />
 }
 
 export default AddAndEditArraiser
@@ -19,31 +19,36 @@ const tabs = [
     label: 'Overview',
     icon: 'ri-menu-search-line',
     value: 'overview',
-    component: Overview
+    component: Overview,
+    active: false
   },
   {
     label: 'Form',
     icon: 'ri-pages-line',
     value: 'form',
-    component: Form
+    component: Form,
+    active: false
   },
   {
     label: 'Documents',
     icon: 'ri-file-paper-line',
     value: 'documents',
-    component: Documents
+    component: Documents,
+    active: false
   },
   {
     label: 'Photo & Video',
     icon: 'ri-camera-line',
     value: 'photo ',
-    component: Photo
+    component: Photo,
+    active: false
   },
   {
     label: 'Messages',
     icon: 'ri-chat-4-line',
     value: 'messages',
-    component: Messages
+    component: Messages,
+    active: false
   }
 ]
 
