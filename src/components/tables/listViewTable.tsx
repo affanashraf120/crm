@@ -2,18 +2,22 @@
 
 import React, { useState } from 'react'
 
-import { Button, Card, Chip, Grid, InputAdornment, MenuItem, TablePagination, TextField } from '@mui/material'
+import { Button, Card, Chip, Grid, InputAdornment, TablePagination, TextField } from '@mui/material'
 
 import SearchIcon from '@mui/icons-material/Search'
 
 import CustomAvatar from '@/@core/components/mui/Avatar'
 import { useSettings } from '@/@core/hooks/useSettings'
+import Dropdown from '../dropDowns/dropDown'
+import FormDialog from '../dialogBox/formDialog'
+import DateRangePicker from '../calender'
 
 const ListViewTable = ({ clickable, actionButton, handleAction, onActions, data: listData }: any) => {
   const { settings } = useSettings()
   const [data, setData] = useState(listData)
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(10)
+  const [isOpenRangeDialog, setIsOpenRangeDialog] = useState(false)
 
   const handleInput = (e: any) => {
     const searchValue = e.target.value
@@ -34,12 +38,12 @@ const ListViewTable = ({ clickable, actionButton, handleAction, onActions, data:
     setPage(0)
   }
 
-  const itemData = [
-    { value: 'Last Week' },
-    { value: 'Last Month' },
-    { value: 'Last Year' },
-    { value: 'Custom Date Range' }
-  ]
+  const handleSort = (item: any) => {
+
+    if (item === 'Custom') {
+      setIsOpenRangeDialog(!isOpenRangeDialog)
+    }
+  }
 
   return (
     <>
@@ -70,19 +74,18 @@ const ListViewTable = ({ clickable, actionButton, handleAction, onActions, data:
           </div>
           <div className='w-full  flex justify-start md:justify-end items-center gap-2 flex-wrap md:flex-nowrap'>
             <div className='w-full md:w-52'>
-              <TextField fullWidth select label='Filter' size='small'>
-                {itemData.map(option => (
-                  <MenuItem key={option.value} value={option.value}>
-                    {option.value}
-                  </MenuItem>
-                ))}
-              </TextField>
+            <Dropdown
+            value='All'
+            options={['All','Last Week', 'Last Month', 'Last Year', 'Custom']}
+            onChange={handleSort}
+            variant='outline'
+          />
             </div>
             {actionButton && (
               <Button
                 variant='contained'
                 type='submit'
-                startIcon={<i className='ri-add-line' />}
+                startIcon={<i className='ri-add-line font-bold w-5 h-5' />}
                 className='is-full sm:is-auto'
                 onClick={handleAction}
               >
@@ -145,6 +148,21 @@ const ListViewTable = ({ clickable, actionButton, handleAction, onActions, data:
           onRowsPerPageChange={handleChangeRowsPerPage}
         />
       </Grid>
+
+      <FormDialog
+        open={isOpenRangeDialog}
+        onClose={() => setIsOpenRangeDialog(!isOpenRangeDialog)}
+        dialogTitle='Set a Custom Range'
+        closeButton={true}
+      >
+        <DateRangePicker
+          name='custom_date_range'
+          onSave={() => setIsOpenRangeDialog(!isOpenRangeDialog)}
+          classes='!flex justify-center items-center w-full gap-2'
+          label='To'
+          buttonType='button'
+        />
+      </FormDialog>
     </>
   )
 }
