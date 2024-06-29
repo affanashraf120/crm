@@ -36,7 +36,7 @@ function Appraisals() {
           <ListViewTable
             data={listData}
             actionButton={false}
-            onActions={handleRowClick}
+            onClickRow={handleRowClick}
             clickable={[{ title: 'click', icon: 'ri-arrow-right-s-line w-6 h-6 hidden md:block' }]}
           />
         </Grid>
