@@ -32,11 +32,9 @@ const FolderComponent = ({ filters }: any) => {
   const [folders, setFolders] = useState<Folder[]>(filters)
   const inputRefs = useRef<(HTMLInputElement | null)[]>([])
 
-
   useEffect(() => {
     setFolders(filters)
   }, [filters])
-
 
   useEffect(() => {
     folders.forEach((folder, index) => {
@@ -208,7 +206,7 @@ const FolderComponent = ({ filters }: any) => {
                       </th>
                       <th
                         scope='col'
-                        className='px-6 py-3 text-left text-xs font-medium text-secondary uppercase tracking-wider'
+                        className='px-6 py-3 text-left text-xs font-medium text-secondary capitalize   tracking-wider'
                       >
                         Documents
                       </th>
@@ -216,14 +214,14 @@ const FolderComponent = ({ filters }: any) => {
                     <div>
                       <th
                         scope='col'
-                        className='w-40 text-left text-xs font-medium text-secondary uppercase tracking-wider'
+                        className='w-40 text-left text-xs font-medium text-secondary capitalize tracking-wider'
                       >
                         Uploaded By
                       </th>
                       {details && (
                         <th
                           scope='col'
-                          className='w-40 text-left text-xs font-medium text-secondary uppercase tracking-wider'
+                          className='w-40 text-left text-xs font-medium text-secondary capitalize tracking-wider'
                         >
                           File Size
                         </th>
@@ -231,13 +229,13 @@ const FolderComponent = ({ filters }: any) => {
 
                       <th
                         scope='col'
-                        className='w-40 text-left text-xs font-medium text-secondary uppercase tracking-wider'
+                        className='w-40 text-left text-xs font-medium text-secondary capitalize tracking-wider'
                       >
                         Last Updated
                       </th>
                       <th
                         scope='col'
-                        className='w-40 text-left text-xs font-medium text-secondary uppercase tracking-wider'
+                        className='w-16 text-left text-xs font-medium text-secondary capitalize tracking-wider'
                       >
                         Actions
                       </th>
@@ -292,7 +290,7 @@ const FolderComponent = ({ filters }: any) => {
                         <td className='w-40 whitespace-nowrap'>
                           <div className='text-sm '>{file.last_updated}</div>
                         </td>
-                        <td className='w-40 ml-10 whitespace-nowrap  text-sm font-medium'>
+                        <td className='w-16 ml-10 whitespace-nowrap  text-sm font-medium'>
                           <DropDownButton
                             onMenuItemClick={item => console.log(item)}
                             buttonLabel='ri-more-2-fill rotate-180 w-4 h-4 cursor-pointer'
@@ -405,6 +403,7 @@ const FolderComponent = ({ filters }: any) => {
                     {folder.isEditing ? (
                       <TextField
                         variant='standard'
+                        fullWidth
                         InputProps={{
                           disableUnderline: true
                         }}
@@ -413,8 +412,6 @@ const FolderComponent = ({ filters }: any) => {
                         onChange={event => handleInputChange(folderIndex, event)}
                         inputRef={ref => (inputRefs.current[folderIndex] = ref)}
                       />
-
-
                     ) : (
                       <span className='mt-2'>{folder.label}</span>
                     )}
@@ -446,7 +443,7 @@ const FolderComponent = ({ filters }: any) => {
                             </th>
                             <th
                               scope='col'
-                              className='px-6 py-3 text-left text-xs font-medium text-secondary uppercase tracking-wider'
+                              className='px-6 py-3 text-left text-xs font-medium text-secondary capitalize tracking-wider'
                             >
                               Documents
                             </th>
@@ -455,26 +452,26 @@ const FolderComponent = ({ filters }: any) => {
                             {details && (
                               <th
                                 scope='col'
-                                className='w-40 text-left text-xs font-medium text-secondary uppercase tracking-wider'
+                                className='w-40 text-left text-xs font-medium text-secondary capitalize tracking-wider'
                               >
                                 File Size
                               </th>
                             )}
                             <th
                               scope='col'
-                              className='w-40 text-left text-xs font-medium text-secondary uppercase tracking-wider'
+                              className='w-40 text-left text-xs font-medium text-secondary capitalize tracking-wider'
                             >
                               Uploaded By
                             </th>
                             <th
                               scope='col'
-                              className='w-40 text-left text-xs font-medium text-secondary uppercase tracking-wider'
+                              className='w-40 text-left text-xs font-medium text-secondary capitalize tracking-wider'
                             >
                               Last Updated
                             </th>
                             <th
                               scope='col'
-                              className='w-40 text-left text-xs font-medium text-secondary uppercase tracking-wider'
+                              className='w-16 text-left text-xs font-medium text-secondary capitalize tracking-wider'
                             >
                               Actions
                             </th>
@@ -522,7 +519,7 @@ const FolderComponent = ({ filters }: any) => {
                                 <td className='w-40 whitespace-nowrap'>
                                   <div className='text-sm '>{file.last_updated}</div>
                                 </td>
-                                <td className='w-40 ml-10 whitespace-nowrap  text-sm font-medium'>
+                                <td className='w-16 ml-10 whitespace-nowrap  text-sm font-medium'>
                                   <DropDownButton
                                     onMenuItemClick={item => console.log(item)}
                                     buttonLabel='ri-more-2-fill rotate-180 w-4 h-4 cursor-pointer'
@@ -571,13 +568,13 @@ const FolderComponent = ({ filters }: any) => {
                             <div className='flex justify-between items-center w-full px-2'>
                               <div className='flex flex-col'>
                                 <div className='text-xs flex  gap-1'>
-                                  <span className='hidden md:inline-block text-left text-xs font-medium text-secondary uppercase tracking-wider'>
+                                  <span className='hidden md:inline-block text-left text-xs font-medium text-secondary capitalize tracking-wider'>
                                     Uploaded By:{' '}
                                   </span>
                                   {file.uploaded_by}
                                 </div>
                                 <div className='text-xs flex  gap-1'>
-                                  <span className='hidden md:inline-block text-left text-xs font-medium text-secondary uppercase tracking-wider'>
+                                  <span className='hidden md:inline-block text-left text-xs font-medium text-secondary capitalize tracking-wider'>
                                     Last Updated:{' '}
                                   </span>
 
@@ -585,7 +582,7 @@ const FolderComponent = ({ filters }: any) => {
                                 </div>
                                 {details && (
                                   <div className='text-xs flex  gap-1'>
-                                    <span className='hidden md:inline-block text-left text-xs font-medium text-secondary uppercase tracking-wider'>
+                                    <span className='hidden md:inline-block text-left text-xs font-medium text-secondary capitalize tracking-wider'>
                                       File Size:{' '}
                                     </span>
 

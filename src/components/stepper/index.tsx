@@ -85,7 +85,7 @@ const steps = [
 
 const colors = [
   'rgb(255,165,0)', // orange
-    'rgb(255,0,0)', // red
+  'rgb(255,0,0)', // red
   'rgb(0,128,0)', // green
   'rgb(255,255,0)', // yellow
   'rgb(0,0,255)', // blue
@@ -104,7 +104,7 @@ export default function CustomizedSteppers() {
           flexDirection: 'row',
           justifyContent: 'space-between',
           alignItems: 'center',
-          backgroundColor: `${settings.mode === 'dark' ? 'rgba(225, 225, 225, 0.1)' : 'rgba(0, 0, 0, 0.1)'}`,
+          backgroundColor: `${settings.mode === 'dark' ? 'rgba(225, 225, 225, 0.1)' : 'rgba(0, 0, 0, 0.1)'}`
         }}
       >
         <CardHeader title='Milestones' titleTypographyProps={{ variant: 'h4' }} />
@@ -122,9 +122,8 @@ export default function CustomizedSteppers() {
           sx={{
             width: '100%'
           }}
-          
         >
-          <Stepper alternativeLabel activeStep={2} connector={<ColorlibConnector />} >
+          <Stepper alternativeLabel activeStep={2} connector={<ColorlibConnector />}>
             {steps.map((step, index) => (
               <Step key={index}>
                 <StepLabel StepIconComponent={props => <ColorlibStepIcon {...props} colors={colors} />}>
@@ -142,7 +141,7 @@ export default function CustomizedSteppers() {
                     <Typography variant='body2'>{step.date ? step.date : '--'}</Typography>
                   </Box>
                   {step.days && (
-                    <Box sx={{ position: 'absolute', top: 0, right: 0 }}>
+                    <Box sx={{ position: 'absolute', top: 0, right: '-20px' }}>
                       <Typography variant='body2'>{step.days}</Typography>
                     </Box>
                   )}

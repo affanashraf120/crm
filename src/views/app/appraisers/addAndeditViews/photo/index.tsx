@@ -14,7 +14,7 @@ import ImageGallery from '@/modules/app/appraiser/photos/imageGallery'
 import { images } from '@/data/data'
 
 const Photo: React.FC = () => {
-  const [size, setSize] = useState<'Small' | 'Medium' | 'Large'>('Medium')
+  const [size, setSize] = useState<'Small Size' | 'Medium Size' | 'Large Size'>('Medium Size')
   const [open, setOpen] = useState(false)
   const [openFilter, setOpenFilter] = useState(false)
 
@@ -27,7 +27,7 @@ const Photo: React.FC = () => {
   }
 
   const handleSizeChange = (selectedSize: string) => {
-    if (selectedSize === 'Small' || selectedSize === 'Medium' || selectedSize === 'Large') {
+    if (selectedSize === 'Small Size' || selectedSize === 'Medium Size' || selectedSize === 'Large Size') {
       setSize(selectedSize)
     }
   }
@@ -49,7 +49,7 @@ const Photo: React.FC = () => {
         </Button>
       </div>
 
-      <div className='flex justify-between items-center w-full gap-2 py-2 flex-wrap'>
+      <div className='flex justify-between items-center w-full gap-2  flex-wrap'>
         <div className='flex justify-start items-center gap-2 flex-wrap'>
           <TextField
             size='small'
@@ -65,7 +65,10 @@ const Photo: React.FC = () => {
                 fontSize: '12px',
                 padding: '5px 10px',
                 '.MuiInputBase-input': {
-                  padding: '0 5px'
+                  padding: '0 5px',
+                  '::placeholder': {
+                    fontSize: '16px'
+                  }
                 }
               }
             }}
@@ -84,7 +87,12 @@ const Photo: React.FC = () => {
             Filters
           </Button>
         </div>
-        <Dropdown value={size} options={['Small', 'Medium', 'Large']} onChange={handleSizeChange} variant='outline' />{' '}
+        <Dropdown
+          value={size}
+          options={['Small Size', 'Medium Size', 'Large Size']}
+          onChange={handleSizeChange}
+          variant='outline'
+        />{' '}
       </div>
 
       <div className='flex justify-center items-center w-full '>
@@ -107,12 +115,12 @@ const Photo: React.FC = () => {
             {
               title: 'Date Uploaded',
               filters: [
-                { label: 'All', active: false },
                 { label: 'Today', active: false },
                 { label: 'Yesterday', active: false },
                 { label: 'Last 7 days', active: false },
                 { label: 'Last 30 days', active: false }
-              ]
+              ],
+              active: false
             },
             {
               title: 'Uploaded By',
@@ -120,7 +128,16 @@ const Photo: React.FC = () => {
                 { label: 'John Deo', active: false },
                 { label: 'Madera', active: false },
                 { label: 'Rocky', active: false }
-              ]
+              ],
+              active: false
+            },
+            {
+              title: 'Tags',
+              filters: [
+                { label: 'After', active: false },
+                { label: 'Below', active: false }
+              ],
+              active: false
             }
           ]}
         />

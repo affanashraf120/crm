@@ -77,7 +77,7 @@ export const FormInputSearchDropdown = ({ control, name, label, options, icon, f
             renderInput={params => (
               <TextField
                 {...params}
-                label={label}
+                placeholder={label}
                 variant='outlined'
                 error={!!fieldState.error}
                 helperText={fieldState.error?.message}

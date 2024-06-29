@@ -41,8 +41,8 @@ const Documents: React.FC = () => {
 
   const handleFoldersFilter = (item: any) => {
     setSelectedFilters(item)
-    
-    console.log("🚀 ~ handleFoldersFilter ~ item:", item)
+
+    console.log('🚀 ~ handleFoldersFilter ~ item:', item)
 
     // const query = filters.filter(filter => item.some(i => filter.label.toLowerCase().includes(i.toLowerCase())))
 
@@ -51,7 +51,6 @@ const Documents: React.FC = () => {
     // } else {
     //   setFilter(query)
     // }
-    
   }
 
   const handleCloseCreateFolder = () => {
@@ -137,8 +136,9 @@ const Documents: React.FC = () => {
           ></TextField>
           <Dropdown
             value='All'
-            options={['All', 'Today', 'Yesterday', 'Last Week', 'Last Month', 'Custom']}
+            options={['All', 'Today', 'Yesterday', 'Last Week', 'Last Month']}
             onChange={handleSort}
+            button={true}
             variant='outline'
           />
           <MultiSelectDropdown
@@ -192,7 +192,11 @@ const Documents: React.FC = () => {
       </FormDialog>
 
       <FormDialog open={openFilter} onClose={() => setOpenFilter(!openFilter)} dialogTitle='Filters' closeButton={true}>
-        <FilterAccordion onApplyFilter={handleFilters} filtersData={typeFilter} onClose={() => setOpenFilter(!openFilter)} />
+        <FilterAccordion
+          onApplyFilter={handleFilters}
+          filtersData={typeFilter}
+          onClose={() => setOpenFilter(!openFilter)}
+        />
       </FormDialog>
 
       <FormDialog
@@ -328,6 +332,7 @@ const filtersData = [
     filters: [
       { label: 'Docsx', active: false },
       { label: 'Pdf', active: false }
-    ]
+    ],
+    active: false
   }
 ]

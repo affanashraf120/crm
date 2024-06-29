@@ -33,12 +33,12 @@ function DropDownButton({ buttonLabel, menuOptions, onMenuItemClick, label }: Pr
   }
 
   return (
-    <div>
+    <>
       {label ? (
         <Button
           variant='contained'
           size='small'
-          sx={{height: '30px'}}
+          sx={{ height: '30px' }}
           aria-controls={open ? 'generic-menu' : undefined}
           aria-haspopup='true'
           aria-expanded={open ? 'true' : undefined}
@@ -86,7 +86,7 @@ function DropDownButton({ buttonLabel, menuOptions, onMenuItemClick, label }: Pr
             </MenuItem>
           ))}
       </Menu>
-    </div>
+    </>
   )
 }
 

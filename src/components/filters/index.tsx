@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useState, useEffect } from 'react'
 
 import Accordion from '@mui/material/Accordion'
@@ -19,6 +21,7 @@ type Filter = {
 type FilterCategory = {
   title: string
   filters: Filter[]
+  active?: boolean
 }
 
 type FilterAccordionProps = {
@@ -85,8 +88,23 @@ const FilterAccordion: React.FC<FilterAccordionProps> = ({ filtersData, onApplyF
     onApplyFilter(selectedFilters)
   }
 
+  const handleCategorySelectAll = (categoryIndex: number, isSelected: boolean) => {
+    const updatedFilters = selectedFilters.map((category, catIndex) => {
+      if (catIndex === categoryIndex) {
+        return {
+          ...category,
+          filters: category.filters.map(filter => ({ ...filter, active: isSelected }))
+        }
+      }
+
+      return category
+    })
+
+    setSelectedFilters(updatedFilters)
+  }
+
   return (
-    <div className='px-0 md:px-6 '>
+    <div className='px-0 md:px-6'>
       <div className='h-[300px] overflow-y-auto'>
         <div>
           <Checkbox checked={selectAll} onChange={toggleSelectAll} />
@@ -95,7 +113,7 @@ const FilterAccordion: React.FC<FilterAccordionProps> = ({ filtersData, onApplyF
         {selectedFilters.map((filterCategory, categoryIndex) => (
           <Accordion
             key={categoryIndex}
-            className='hover:bg-[#f5f5f5]/10 mb-2 duration-500 transition-all ease-in-out border rounded '
+            className='hover:bg-[#f5f5f5]/10 mb-2 duration-500 transition-all ease-in-out border rounded'
             sx={{
               '&:before': {
                 display: 'none'
@@ -113,8 +131,16 @@ const FilterAccordion: React.FC<FilterAccordionProps> = ({ filtersData, onApplyF
             >
               <Typography>{filterCategory.title}</Typography>
             </AccordionSummary>
+            <div className='flex justify-start items-center px-5'>
+              <Checkbox
+                checked={filterCategory.filters.every(filter => filter.active)}
+                className='-ml-2'
+                onChange={e => handleCategorySelectAll(categoryIndex, e.target.checked)}
+              />
+              <label>All</label>
+            </div>
             <AccordionDetails>
-              <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 flex-wrap '>
+              <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 xl:grid-cols-3 flex-wrap'>
                 {filterCategory.filters.map((filter, filterIndex) => (
                   <FormControlLabel
                     key={filterIndex}
@@ -133,12 +159,11 @@ const FilterAccordion: React.FC<FilterAccordionProps> = ({ filtersData, onApplyF
           </Accordion>
         ))}
       </div>
-
       <div className='py-4 flex justify-between items-center flex-wrap gap-3'>
         <Button variant='outlined' color='inherit' onClick={onClose}>
           Cancel
         </Button>
-        <div className=' flex justify-between sm:justify-center items-center gap-4 w-full sm:w-auto'>
+        <div className='flex justify-between sm:justify-center items-center gap-4 w-full sm:w-auto'>
           <Button variant='outlined' color='inherit' onClick={handleClear}>
             Clear
           </Button>

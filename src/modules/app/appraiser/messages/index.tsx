@@ -77,12 +77,13 @@ const Chat = ({ messages }: any) => {
                 </IconButton>
               </Tooltip>
               <MultiSelectDropdown
-                icon='ri-price-tag-3-line  w-5 h-5 cursor-pointer'
+                icon='ri-user-3-fill w-5 h-5 cursor-pointer'
                 onselect={e => console.log(e)}
                 type='button-filter-dropdown'
                 toolTip='Notify'
                 options={tags}
                 name='Tags'
+                active={3}
               />
               <MultiSelectDropdown
                 icon='ri-lightbulb-line w-5 h-5 cursor-pointer'
@@ -183,7 +184,7 @@ const Chat = ({ messages }: any) => {
                   <div className='flex justify-start items-center gap-2 flex-wrap w-full rounded'>
                     <div className='flex justify-start items-start gap-2 w-full'>
                       <Avatar src='/images/avatars/1.png' />
-                      <TextField minRows={2} multiline fullWidth placeholder='Reply the Comment...' />
+                      <TextField minRows={2} multiline fullWidth placeholder='Reply to this Comment...' />
                     </div>
 
                     <div className='flex justify-between items-center gap-2 flex-wrap w-full'>
@@ -238,7 +239,10 @@ const Chat = ({ messages }: any) => {
                 fontSize: '12px',
                 padding: '5px 10px',
                 '.MuiInputBase-input': {
-                  padding: '0 5px'
+                  padding: '0 5px',
+                  '::placeholder': {
+                    fontSize: '16px'
+                  }
                 }
               }
             }}
@@ -263,7 +267,6 @@ const Chat = ({ messages }: any) => {
               name='createdBy'
               title='Created By'
               isScrollable={false}
-
               type='accordion-checkbox'
               options={[
                 { label: 'Adrian Hernandez', active: false },
@@ -301,51 +304,50 @@ const Chat = ({ messages }: any) => {
         </div>
       </div>
 
-<div className='inline-block sm:hidden '>
+      <div className='inline-block sm:hidden '>
+        <Drawer open={open} setOpen={() => setOpen(false)}>
+          <div className='flex justify-start items-start gap-2 pl-2 flex-col'>
+            <MultiSelectDropdown
+              isScrollable={false}
+              onselect={handleFoldersFilter}
+              name='topic'
+              title='Message Topic'
+              type='accordion-checkbox'
+              options={[
+                { label: 'All', active: false },
+                { label: 'General Comments', active: false }
+              ]}
+            />
 
-      <Drawer open={open} setOpen={() => setOpen(false)} > 
-        <div className='flex justify-start items-start gap-2 pl-2 flex-col'>
-          <MultiSelectDropdown
-            isScrollable={false}
-            onselect={handleFoldersFilter}
-            name='topic'
-            title='Message Topic'
-            type='accordion-checkbox'
-            options={[
-              { label: 'All', active: false },
-              { label: 'General Comments', active: false }
-            ]}
-          />
-
-          <MultiSelectDropdown
-            onselect={handleFoldersFilter}
-            isScrollable={false}
-            name='createdBy'
-            title='Created By'
-            type='accordion-checkbox'
-            options={[
-              { label: 'Adrian Hernandez', active: false },
-              { label: 'Aylormade Appr', active: false },
-              { label: 'Estimator', active: false },
-              { label: 'Gilad Rubinsky', active: false },
-              { label: 'Robin Southern', active: false },
-              { label: 'Rosa Hernandez', active: false }
-            ]}
-          />
-          <MultiSelectDropdown
-            onselect={handleFoldersFilter}
-            isScrollable={false}
-            name='sort'
-            type='accordion-sort'
-            title='Sort By'
-            options={[
-              { label: 'Latest Post', active: false },
-              { label: 'Recent Post', active: false }
-            ]}
-          />
-        </div>
-      </Drawer>
-</div>
+            <MultiSelectDropdown
+              onselect={handleFoldersFilter}
+              isScrollable={false}
+              name='createdBy'
+              title='Created By'
+              type='accordion-checkbox'
+              options={[
+                { label: 'Adrian Hernandez', active: false },
+                { label: 'Aylormade Appr', active: false },
+                { label: 'Estimator', active: false },
+                { label: 'Gilad Rubinsky', active: false },
+                { label: 'Robin Southern', active: false },
+                { label: 'Rosa Hernandez', active: false }
+              ]}
+            />
+            <MultiSelectDropdown
+              onselect={handleFoldersFilter}
+              isScrollable={false}
+              name='sort'
+              type='accordion-sort'
+              title='Sort By'
+              options={[
+                { label: 'Latest Post', active: false },
+                { label: 'Recent Post', active: false }
+              ]}
+            />
+          </div>
+        </Drawer>
+      </div>
 
       <FormDialog
         open={openAttach}

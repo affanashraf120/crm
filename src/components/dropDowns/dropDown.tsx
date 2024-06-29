@@ -9,9 +9,10 @@ interface Props {
   options: string[]
   onChange?: (value: string) => void
   variant?: string
+  button?: boolean
 }
 
-const Dropdown: React.FC<Props> = ({ value, options, onChange, variant }) => {
+const Dropdown: React.FC<Props> = ({ value, options, onChange, variant, button }) => {
   const [selectedValue, setSelectedValue] = useState<string | null>(value)
 
   const handleChange = (event: SelectChangeEvent) => {
@@ -20,16 +21,24 @@ const Dropdown: React.FC<Props> = ({ value, options, onChange, variant }) => {
   }
 
   return variant ? (
-    <Select value={selectedValue || ''} onChange={handleChange} displayEmpty size='small' >
+    <Select value={selectedValue || ''} onChange={handleChange} displayEmpty size='small'>
       {options &&
         options.map(option => (
-          <MenuItem key={option.toLocaleLowerCase().replaceAll(' ', '-')} value={option} sx={{ minWidth: '200px'}}>
+          <MenuItem key={option.toLocaleLowerCase().replaceAll(' ', '-')} value={option} sx={{ minWidth: '200px' }}>
             <div className='flex justify-between items-center min-w-[160px] gap-6'>
               {option}
               {/* {selectedValue === option && <i className='ri-check-line w-4 h-4 me-2'></i>} */}
             </div>
           </MenuItem>
         ))}
+
+      {button && (
+        <MenuItem sx={{ minWidth: '200px' }} onClick={() => onChange && onChange('Custom')} value='Custom'>
+          <div className='flex justify-between items-center min-w-[160px] gap-6'>
+            <span className=''>Custom</span>
+          </div>
+        </MenuItem>
+      )}
     </Select>
   ) : (
     <Select
@@ -58,7 +67,7 @@ const Dropdown: React.FC<Props> = ({ value, options, onChange, variant }) => {
     >
       {options &&
         options.map(option => (
-          <MenuItem key={option.toLocaleLowerCase().replaceAll(' ', '-')} value={option} sx={{ minWidth: '200px'}}>
+          <MenuItem key={option.toLocaleLowerCase().replaceAll(' ', '-')} value={option} sx={{ minWidth: '200px' }}>
             <div className='flex justify-between items-center w-full md:min-w-[160px] gap-6'>
               {option}
               {selectedValue === option && <i className='ri-check-line w-4 h-4 me-2'></i>}

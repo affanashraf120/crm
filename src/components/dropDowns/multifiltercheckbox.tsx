@@ -40,6 +40,7 @@ interface MultiSelectDropdownProps {
   toolTip?: string
   name: string
   isScrollable?: boolean
+  active?: number
 }
 
 const MultiSelectDropdown: React.FC<MultiSelectDropdownProps> = ({
@@ -51,7 +52,8 @@ const MultiSelectDropdown: React.FC<MultiSelectDropdownProps> = ({
   title,
   toolTip,
   name,
-  isScrollable = true
+  isScrollable = true,
+  active
 }) => {
   const [selectedItems, setSelectedItems] = useState<string[]>([])
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null)
@@ -110,14 +112,24 @@ const MultiSelectDropdown: React.FC<MultiSelectDropdownProps> = ({
     return (
       <div className='max-h-[300px]'>
         <Tooltip title={toolTip}>
-          <IconButton
-            aria-controls={open ? 'generic-menu' : undefined}
-            aria-haspopup='true'
-            aria-expanded={open ? 'true' : undefined}
-            onClick={handleMenuOpen}
-          >
-            <i className={icon}></i>
-          </IconButton>
+          <div className='relative'>
+            <IconButton
+              aria-controls={open ? 'generic-menu' : undefined}
+              aria-haspopup='true'
+              aria-expanded={open ? 'true' : undefined}
+              onClick={handleMenuOpen}
+              sx={{
+                border: open ? '1px solid' : ''
+              }}
+            >
+              <i className={icon}></i>
+            </IconButton>
+            {active && (
+              <span className='absolute -bottom-0.5 right-0 z-10 border border-textPrimary bg-primary w-3 h-3 text-[8px] rounded-full flex justify-center items-center'>
+                {active}
+              </span>
+            )}
+          </div>
         </Tooltip>
 
         <Menu id='generic-menu' anchorEl={anchorEl} open={open} onClose={handleMenuClose}>
@@ -152,7 +164,7 @@ const MultiSelectDropdown: React.FC<MultiSelectDropdownProps> = ({
               }}
               sx={{
                 '.MuiInputLabel-root': {
-                  fontSize: '12px'
+                  fontSize: '16px'
                 },
                 '.MuiFormLabel-root': {
                   top: '-2px'

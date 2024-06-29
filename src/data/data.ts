@@ -475,7 +475,8 @@ export const tableFilters = [
       { label: 'Pending', active: false },
       { label: 'Scheduled Inspection', active: false },
       { label: 'Umpire', active: false }
-    ]
+    ],
+    active: false
   },
   {
     title: 'Assigned To',
@@ -488,7 +489,8 @@ export const tableFilters = [
       { active: false, label: 'Michael Davis' },
       { active: false, label: 'Alex Johnson' },
       { active: false, label: 'Emma Garcia' }
-    ]
+    ],
+    active: false
   },
   {
     title: 'Client Name',
@@ -497,7 +499,8 @@ export const tableFilters = [
       { active: false, label: 'Sarah Wilson' },
       { active: false, label: 'Michael Davis' },
       { active: false, label: 'Alex Johnson' }
-    ]
+    ],
+    active: false
   },
   {
     title: 'Client Name',
@@ -509,7 +512,8 @@ export const tableFilters = [
       { active: false, label: 'Ashley Corporation' },
       { active: false, label: 'Emily Corporation' },
       { active: false, label: 'Emma Abc Corporation' }
-    ]
+    ],
+    active: false
   },
   {
     title: 'Opposing Appraiser Name',
@@ -521,7 +525,8 @@ export const tableFilters = [
       { active: false, label: 'Emily Brown' },
       { active: false, label: 'Emma Garcia' },
       { active: false, label: 'Alex Johnson' }
-    ]
+    ],
+    active: false
   },
   {
     title: 'Umpire Name',
@@ -534,7 +539,8 @@ export const tableFilters = [
       { active: false, label: 'Sarah Wilson' },
       { active: false, label: 'Alex Johnson' },
       { active: false, label: 'Emma Garcia' }
-    ]
+    ],
+    active: false
   },
   {
     title: 'City',
@@ -547,7 +553,8 @@ export const tableFilters = [
       { active: false, label: 'Yetanothercity' },
       { active: false, label: 'Metropolitan City' },
       { active: false, label: 'Capital City' }
-    ]
+    ],
+    active: false
   },
   {
     title: 'Percentage',
@@ -555,7 +562,8 @@ export const tableFilters = [
       { active: false, label: '2.5%' },
       { active: false, label: '10%' },
       { active: false, label: '15%' }
-    ]
+    ],
+    active: false
   }
 ]
 
@@ -884,4 +892,32 @@ export const messages = [
       }
     ]
   }
+]
+
+export const ClientsView = [
+  { title: 'Invoice Number', text: 'INV123456' },
+  { title: 'Claim Number', text: 'CLM789012' },
+  { title: 'Name', text: 'John Doe' },
+  { title: 'Email', text: 'john.doe@example.com' },
+  { title: 'Status', text: 'Open' },
+  { title: 'Assigned to', text: 'Harry' },
+  { title: 'Date Sent', text: '2024-01-01' },
+  { title: 'Carrier', text: 'Carrier 1' },
+  { title: 'City', text: 'New York' },
+  { title: 'OA Name', text: 'Jane Smith' },
+  { title: 'OA Email', text: 'jane.smith@example.com' },
+  { title: 'OA Phone Number', text: '123-456-7890' },
+  { title: 'Umpire Status', text: 'Initiated' },
+  { title: 'Umpire Name', text: 'Harry Potter' },
+  { title: 'Umpire Email', text: 'harry.potter@example.com' },
+  { title: 'Umpire Phone Number', text: '098-765-4321' },
+  { title: 'Inspection Date', text: '2024-01-15' },
+  { title: 'Appraisal Amount', text: '5000' },
+  { title: 'Percentage', text: '10%' },
+  { title: 'Date Approved', text: '2024-02-01' },
+  { title: 'Turnaround', text: '2 weeks' },
+  { title: 'Commission Amount', text: '500' },
+  { title: 'Date QB Invoiced', text: '2024-03-01' },
+  { title: 'Date User Paid', text: '2024-03-15' },
+  { title: 'Address', text: '123 Main St, New York, NY' }
 ]

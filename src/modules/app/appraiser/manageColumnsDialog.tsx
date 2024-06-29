@@ -105,11 +105,10 @@ const ManageColumnsDialog: React.FC<CheckboxListFormProps> = ({ columns, onSubmi
   }
 
   const handleSelectAll = () => {
-    const newCheckboxes = checkboxes
-      .map(item => ({
-        ...item,
-        active: !selectAll
-      }))
+    const newCheckboxes = checkboxes.map(item => ({
+      ...item,
+      active: !selectAll
+    }))
 
     setCheckboxes(newCheckboxes)
     setDisplayCheckboxes(
@@ -261,7 +260,10 @@ const ManageColumnsDialog: React.FC<CheckboxListFormProps> = ({ columns, onSubmi
                   fontSize: '12px',
                   padding: '5px 10px',
                   '.MuiInputBase-input': {
-                    padding: '0 5px'
+                    padding: '0 5px',
+                    '::placeholder': {
+                      fontSize: '16px'
+                    }
                   }
                 }
               }}
@@ -293,26 +295,25 @@ const ManageColumnsDialog: React.FC<CheckboxListFormProps> = ({ columns, onSubmi
               )}
             </div>
             <div className='md:h-[410px] overflow-y-auto'>
-
-            {displayCheckboxes.map((item, index) => (
-              <span key={index} className={`rounded border px-2 py-1 my-2 mr-1  ${item.active && 'bg-white/10'}`}>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      size='small'
-                      checked={item.active}
-                      onChange={() => handleCheckboxChange(index)}
-                      sx={{ marginTop: '4px', marginBottom: '4px' }}
-                    />
-                  }
-                  label={item.header}
-                />
-              </span>
-            ))}
+              {displayCheckboxes.map((item, index) => (
+                <span key={index} className={`rounded border px-2 py-1 my-2 mr-1  ${item.active && 'bg-white/10'}`}>
+                  <FormControlLabel
+                    control={
+                      <Checkbox
+                        size='small'
+                        checked={item.active}
+                        onChange={() => handleCheckboxChange(index)}
+                        sx={{ marginTop: '4px', marginBottom: '4px' }}
+                      />
+                    }
+                    label={item.header}
+                  />
+                </span>
+              ))}
             </div>
           </div>
 
-          <div className="w-px h-full bg-zinc-600 hidden md:inline-block"></div>
+          <div className='w-px h-full bg-zinc-600 hidden md:inline-block'></div>
 
           <div className='w-full md:w-2/5 max-h-[470px] md:max-w-[410px] md:overflow-y-auto md:max-h-96 ps-0 md:ps-3 '>
             <Typography variant='h6'>Reorder columns</Typography>

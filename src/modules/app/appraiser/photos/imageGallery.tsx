@@ -22,7 +22,7 @@ interface Image {
 
 interface ImageGalleryProps {
   images: Image[]
-  size?: 'Small' | 'Medium' | 'Large'
+  size?: 'Small Size' | 'Medium Size' | 'Large Size'
 }
 
 const ImageGallery: React.FC<ImageGalleryProps> = ({ images, size }) => {
@@ -50,18 +50,18 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images, size }) => {
   )
 
   const sizeClass = {
-    Small: 'w-24 h-24',
-    Medium: 'w-48 h-48',
-    Large: 'w-72 h-72'
+    'Small Size': 'w-24 h-24',
+    'Medium Size': 'w-48 h-48',
+    'Large Size': 'w-72 h-72'
   }
 
   useEffect(() => {
-    Object.keys(groupedImages).forEach((date, index) => {
-      if (editStates[date] && inputRefs.current[index]) {
-        inputRefs.current[index]?.focus()
+    Object.keys(groupedImages).forEach((date: any) => {
+      if (editStates[date] && inputRefs.current[date]) {
+        inputRefs.current[date]?.focus()
       }
     })
-  }, [editStates])
+  }, [editStates, groupedImages])
 
   const toggleImageSelection = (image: Image) => {
     const isSelected = selectedImages.some(selectedImage => selectedImage.src === image.src)
@@ -150,7 +150,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images, size }) => {
           <DropDownButton
             label='Action '
             menuOptions={[
-              { label: 'Move to Another Album', icon: 'ri-arrow-go-back-fill w-4 h-4' },
+              { label: 'Move to Another Album', icon: 'ri-arrow-go-back-fill w-5 h-5' },
               { label: 'Copy to Another Album', icon: 'ri-file-copy-line  w-4 h-4' },
               { label: 'Share', icon: 'ri-share-line  w-4 h-4' },
               { label: 'Download', icon: 'ri-download-cloud-2-line w-4 h-4' },
@@ -199,13 +199,19 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images, size }) => {
                     {editStates[date] ? (
                       <TextField
                         variant='standard'
+                        fullWidth
                         InputProps={{
                           disableUnderline: true
                         }}
                         sx={{ marginTop: 2 }}
                         value={editLabels[date]}
                         onChange={event => handleInputChange(date, event)}
-                        inputRef={ref => (inputRefs.current[date] = ref)}
+                        inputRef={ref => {
+                          console.log('🚀 ~ ref:', ref)
+                          console.log('🚀 ~ inputRefs.current[date]:', inputRefs.current)
+
+                          return (inputRefs.current[date] = ref)
+                        }}
                       />
                     ) : (
                       <span className='mt-2'>{editLabels[date] || date}</span>
@@ -227,13 +233,13 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images, size }) => {
               {listView ? (
                 <>
                   <div className='hidden md:flex justify-between items-center flex-wrap gap-2 text-secondary'>
-                    <div className='flex justify-between items-center w-full border-b mb-3'>
-                      <div className='relative flex  justify-center items-center gap-2 pl-10 py-1'>Name</div>
+                    <div className='flex justify-between items-center w-full  mb-3'>
+                      <div className='relative flex  justify-center items-center gap-2 ml-14 py-1'>Name</div>
                       <div className={`flex justify-between items-center`}>
                         <>
-                          <span className='w-32'>Uploade dBy</span>
-                          <span className='w-32'>Time</span>
-                          <span className='w-32'>Action</span>
+                          <span className='w-40'>Uploaded By</span>
+                          <span className='w-36'>Time</span>
+                          <span className='w-16'>Action</span>
                         </>
                       </div>
                     </div>
@@ -262,28 +268,26 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images, size }) => {
                         <div
                           className={`flex justify-start items-start gap-1 p-3 flex-col md:flex-row md:justify-center md:items-center w-full`}
                         >
-                          {details && (
-                            <div className='flex justify-start md:justify-end items-start w-full'>
-                              <div className='flex justify-between items-center flex-col md:flex-row'>
-                                <span className='w-32'>{image.uploadedBy}</span>
-                                <span className='w-32'>{image.time}</span>
-                              </div>
-                              <span className='w-32 '>
-                                <DropDownButton
-                                  onMenuItemClick={item => console.log(item)}
-                                  buttonLabel='ri-more-2-fill rotate-180 w-4 h-4 cursor-pointer'
-                                  menuOptions={[
-                                    { label: 'Move to Another Album', icon: 'ri-arrow-go-back-fill w-4 h-4' },
-                                    { label: 'Copy to Another Album', icon: 'ri-file-copy-line w-4 h-4' },
-                                    { label: 'Share', icon: 'ri-share-line w-4 h-4' },
-                                    { label: 'Download', icon: 'ri-download-cloud-2-line w-4 h-4' },
-                                    { label: 'Delete', icon: 'ri-delete-bin-6-line w-4 h-4' },
-                                    { label: 'Print / Create Pdf', icon: 'ri-printer-line w-4 h-4' }
-                                  ]}
-                                />
-                              </span>
+                          <div className='flex justify-start md:justify-end items-start w-full'>
+                            <div className='flex justify-between items-center flex-col md:flex-row'>
+                              <span className='w-40'>{details && image.uploadedBy}</span>
+                              <span className='w-32'>{details && image.time}</span>
                             </div>
-                          )}
+                            <span className='w-16 '>
+                              <DropDownButton
+                                onMenuItemClick={item => console.log(item)}
+                                buttonLabel='ri-more-2-fill rotate-180 w-5 h-5 cursor-pointer'
+                                menuOptions={[
+                                  { label: 'Move to Another Album', icon: 'ri-arrow-go-back-fill w-4 h-4' },
+                                  { label: 'Copy to Another Album', icon: 'ri-file-copy-line w-4 h-4' },
+                                  { label: 'Share', icon: 'ri-share-line w-4 h-4' },
+                                  { label: 'Download', icon: 'ri-download-cloud-2-line w-4 h-4' },
+                                  { label: 'Delete', icon: 'ri-delete-bin-6-line w-4 h-4' },
+                                  { label: 'Print / Create Pdf', icon: 'ri-printer-line w-4 h-4' }
+                                ]}
+                              />
+                            </span>
+                          </div>
                         </div>
                       </div>
                     ))}
@@ -307,7 +311,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images, size }) => {
                         onChange={() => toggleImageSelection(image)}
                       />
                       <img
-                        className={`h-auto max-w-full rounded-lg cursor-pointer ${sizeClass[size || 'Medium']}`}
+                        className={`h-auto max-w-full rounded-lg cursor-pointer ${sizeClass[size || 'Medium Size']}`}
                         src={image.src}
                         alt={image.alt}
                         onClick={() => openFullScreen(image)}
@@ -321,7 +325,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ images, size }) => {
                             </div>
                             <DropDownButton
                               onMenuItemClick={item => console.log(item)}
-                              buttonLabel='ri-more-2-fill rotate-180 w-4 h-4 cursor-pointer'
+                              buttonLabel='ri-more-2-fill rotate-180 w-5 h-5 cursor-pointer'
                               menuOptions={[
                                 { label: 'Move to Another Album', icon: 'ri-arrow-go-back-fill w-4 h-4' },
                                 { label: 'Copy to Another Album', icon: 'ri-file-copy-line w-4 h-4' },

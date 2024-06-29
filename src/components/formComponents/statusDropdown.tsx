@@ -149,7 +149,7 @@ export const StatusDropdown: React.FC<CustomAutocompleteProps> = ({ options, reg
         <div className='absolute right-4 top-4 flex justify-end items-center'>
           <IconButton onClick={() => setShowOptions(!showOptions)} sx={{ padding: '2px' }}>
             <i
-              className={`ri-arrow-down-s-line w-5 h-5 transition-all duration-300 ease-in-out ${
+              className={`ri-arrow-down-s-line w-6 h-6  transition-all duration-300 ease-in-out ${
                 showOptions && 'rotate-180 '
               } ${settings.mode === 'dark' ? 'hover:text-[#d8d4eb]' : 'hover:text-[#000] '}`}
             ></i>
@@ -189,7 +189,7 @@ export const StatusDropdown: React.FC<CustomAutocompleteProps> = ({ options, reg
                 <Chip label={item.value} color={item.color} size='small' variant='tonal' />
               </div>
               <IconButton onClick={() => handleSelectedRowValues(item)}>
-                <i className='ri-more-line w-4 h-4'></i>
+                <i className='ri-more-line w-5 h-5'></i>
               </IconButton>
             </div>
           ))}

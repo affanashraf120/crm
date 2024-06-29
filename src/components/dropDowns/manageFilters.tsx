@@ -59,8 +59,6 @@ function ActionsDropDown({ buttonLabel, buttons, onItemClick, type, filterList, 
     option => option?.label && option.label.toLowerCase().includes(searchTerm.toLowerCase())
   )
 
-
-
   if (type === 'sort') {
     return (
       <>
@@ -88,7 +86,11 @@ function ActionsDropDown({ buttonLabel, buttons, onItemClick, type, filterList, 
         >
           {buttons &&
             buttons.map((option, index) => (
-              <MenuItem key={index} onClick={() => handleClicked({ searchItem: option?.label, name: name })} sx={{ minWidth: '200px'}}>
+              <MenuItem
+                key={index}
+                onClick={() => handleClicked({ searchItem: option?.label, name: name })}
+                sx={{ minWidth: '200px' }}
+              >
                 {option.icon && (
                   <ListItemIcon>
                     <i className={option.icon}></i>
@@ -129,8 +131,8 @@ function ActionsDropDown({ buttonLabel, buttons, onItemClick, type, filterList, 
             sx={{
               '&:hover': {
                 backgroundColor: 'transparent'
-              }
-              , minWidth:'200px'
+              },
+              minWidth: '200px'
             }}
           >
             <TextField
@@ -148,7 +150,10 @@ function ActionsDropDown({ buttonLabel, buttons, onItemClick, type, filterList, 
                   fontSize: '12px',
                   padding: '5px 10px',
                   '.MuiInputBase-input': {
-                    padding: '0 5px'
+                    padding: '0 5px',
+                    '::placeholder': {
+                      fontSize: '16px'
+                    }
                   }
                 }
               }}
@@ -173,7 +178,11 @@ function ActionsDropDown({ buttonLabel, buttons, onItemClick, type, filterList, 
             )}
 
             {filteredOptions?.map((option, index) => (
-              <MenuItem key={index} onClick={() => handleClicked({ searchItem: option?.label, name: name })} sx={{ minWidth: '200px'}}>
+              <MenuItem
+                key={index}
+                onClick={() => handleClicked({ searchItem: option?.label, name: name })}
+                sx={{ minWidth: '200px' }}
+              >
                 <Typography variant='inherit'>{option.label}</Typography>
               </MenuItem>
             ))}
@@ -234,7 +243,7 @@ function ActionsDropDown({ buttonLabel, buttons, onItemClick, type, filterList, 
               }}
               sx={{
                 '.MuiInputLabel-root': {
-                  fontSize: '12px'
+                  fontSize: '16px'
                 },
                 '.MuiFormLabel-root': {
                   top: '-2px'
@@ -253,7 +262,11 @@ function ActionsDropDown({ buttonLabel, buttons, onItemClick, type, filterList, 
             )}
 
             {filteredOptions?.map((option, index) => (
-              <MenuItem key={index} onClick={() => handleClicked({ searchItem: option?.label, name: name })} sx={{ minWidth: '200px'}}>
+              <MenuItem
+                key={index}
+                onClick={() => handleClicked({ searchItem: option?.label, name: name })}
+                sx={{ minWidth: '200px' }}
+              >
                 <Typography variant='inherit'>{option.label}</Typography>
               </MenuItem>
             ))}
@@ -261,7 +274,11 @@ function ActionsDropDown({ buttonLabel, buttons, onItemClick, type, filterList, 
 
           {buttons &&
             buttons.map((option, index) => (
-              <MenuItem key={index} onClick={() => handleClicked({ searchItem: option?.label, name: name })} sx={{ minWidth: '200px'}}>
+              <MenuItem
+                key={index}
+                onClick={() => handleClicked({ searchItem: option?.label, name: name })}
+                sx={{ minWidth: '200px' }}
+              >
                 {option.icon && (
                   <ListItemIcon>
                     <i className={option.icon}></i>
@@ -395,7 +412,7 @@ function ActionsDropDown({ buttonLabel, buttons, onItemClick, type, filterList, 
             <Typography variant='inherit'>Set Date Range</Typography>
           </MenuItem>
           <div className='flex flex-col gap-2 px-4'>
-            <DateRangePicker onSave={handleClicked} name={name} classes='flex flex-col gap-2'/>
+            <DateRangePicker onSave={handleClicked} name={name} classes='flex flex-col gap-2' />
           </div>
         </Menu>
       </>

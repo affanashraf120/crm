@@ -6,9 +6,11 @@ import { useState } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
 
 // Mui Imports
-import { Autocomplete, Grid, TextField } from '@mui/material'
+import { Autocomplete, Grid, IconButton, InputAdornment, TextField } from '@mui/material'
+import SearchIcon from '@mui/icons-material/Search'
 
 // Import Custom Components
+
 import SummaryDetailCard from '@/components/cards/summaryDetailsCard'
 
 // Import Data
@@ -68,15 +70,12 @@ const AppraisalClient = () => {
     } else if (menuItem?.label === 'Delete') {
       console.log('🚀 ~ handleActionsRow ~ menuItem?.label:', menuItem?.label)
       setIsOpenDelete(!isOpenDelete)
-      console.log("🚀 ~ handleActionsRow ~ isOpenDelete:", isOpenDelete)
+      console.log('🚀 ~ handleActionsRow ~ isOpenDelete:', isOpenDelete)
     }
-
   }
 
   const handleClickRow = (menuItem: any) => {
-
     route.push(`${pathname}/${menuItem.id}?q=${menuItem.label}`)
-
   }
 
   const handleSortActions = (item: any) => {
@@ -107,6 +106,11 @@ const AppraisalClient = () => {
   return (
     <Grid container spacing={6}>
       <Grid item xs={12}>
+        <div className='mb-2'>
+          <IconButton onClick={() => route.push('/appraisal')}>
+            <i className='ri-arrow-right-s-line cursor-pointer rotate-180 '></i>
+          </IconButton>
+        </div>
         <SummaryDetailCard data={data} />
       </Grid>
 
@@ -123,7 +127,22 @@ const AppraisalClient = () => {
           }}
           disableClearable={true}
           options={top100Films}
-          renderInput={params => <TextField {...params} label='Search New Client' sx={{ maxHeight: '200px' }}/>}
+          renderInput={params => (
+            <TextField
+              {...params}
+              placeholder='Search New Client'
+              sx={{ maxHeight: '200px' }}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position='start'>
+                    <span className='ml-2 mt-1'>
+                      <SearchIcon />
+                    </span>
+                  </InputAdornment>
+                )
+              }}
+            />
+          )}
         />
       </Grid>
 
@@ -182,8 +201,12 @@ const AppraisalClient = () => {
         />
       </FormDialog>
 
-      <ConfirmationDialog open={isOpenDelete} setOpen={setIsOpenDelete} type='delete-account' title='Are you sure you want to delete this Account? '/>
-
+      <ConfirmationDialog
+        open={isOpenDelete}
+        setOpen={setIsOpenDelete}
+        type='delete-account'
+        title='Are you sure you want to delete this Account? '
+      />
     </Grid>
   )
 }
@@ -267,8 +290,8 @@ const column = [
     header: 'Action',
     type: 'Action',
     options: [
-      { label: 'Delete', icon: 'ri-delete-bin-7-line' },
-      { label: 'Edit', icon: 'ri-pencil-line' }
+      { label: 'Edit', icon: 'ri-pencil-line w-4 h-4' },
+      { label: 'Delete', icon: 'ri-delete-bin-7-line w-4 h-4' }
     ]
   },
   {

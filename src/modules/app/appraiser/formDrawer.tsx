@@ -58,7 +58,7 @@ const AppraiserForm = () => {
               ))}
           </Grid>
 
-          <div className='flex justify-start gap-4 items-center py-4'>
+          <div className='flex justify-between gap-4 items-center py-4'>
             <Button variant='outlined' color='inherit' onClick={() => setopenClearModal(true)}>
               Clear
             </Button>
@@ -93,8 +93,8 @@ const formFields = [
   {
     type: 'formInput',
     name: 'inv',
-    label: 'Enter Invoice...',
-    title: 'Invoice',
+    label: 'Enter Invoice',
+    title: 'Invoice Number',
     icon: 'ri-pages-line',
     disable: true,
     fieldSize: 'medium'
@@ -102,7 +102,7 @@ const formFields = [
   {
     type: 'formInput',
     name: 'claim_number',
-    label: 'Enter Claim Number...',
+    label: 'Enter Claim Number',
     title: 'Claim Number',
     icon: 'ri-clapperboard-line',
     fieldSize: 'medium'
@@ -110,7 +110,7 @@ const formFields = [
   {
     type: 'formInput',
     name: 'client_name',
-    label: 'Enter Name...',
+    label: 'Enter Name',
     title: 'Name',
     icon: 'ri-account-box-line',
     fieldSize: 'medium'
@@ -118,7 +118,7 @@ const formFields = [
   {
     type: 'formInput',
     name: 'email',
-    label: 'Enter Email...',
+    label: 'Enter Email',
     title: 'Email',
     icon: 'ri-mail-line',
     fieldSize: 'medium'
@@ -160,7 +160,7 @@ const formFields = [
   {
     type: 'formInputSearchDropdown',
     name: 'carrier',
-    label: 'Enter Carrier...',
+    label: 'Enter Carrier',
     title: 'Carrier',
     icon: 'ri-bar-chart-2-fill',
     options: ['carrier', 'carrier 2'],
@@ -169,7 +169,7 @@ const formFields = [
   {
     type: 'formInputSearchDropdown',
     name: 'city',
-    label: 'Enter City...',
+    label: 'Enter City',
     title: 'City',
     icon: 'ri-building-2-fill',
     options: ['city', 'city 2'],
@@ -178,7 +178,7 @@ const formFields = [
   {
     type: 'formInput',
     name: 'oa_name',
-    label: 'Enter Name...',
+    label: 'Enter Name',
     title: 'OA Name',
     icon: 'ri-bar-chart-horizontal-line',
     fieldSize: 'medium'
@@ -186,7 +186,7 @@ const formFields = [
   {
     type: 'formInput',
     name: 'oa_email',
-    label: 'Enter Email...',
+    label: 'Enter Email',
     title: 'OA Email',
     icon: 'ri-mail-line',
     fieldSize: 'medium'
@@ -194,7 +194,7 @@ const formFields = [
   {
     type: 'formInput',
     name: 'oa_phone_no',
-    label: 'Enter Number...',
+    label: 'Enter Number',
     title: 'OA Phone Number',
     icon: 'ri-phone-line',
     fieldSize: 'medium'
@@ -218,7 +218,7 @@ const formFields = [
   {
     type: 'formInputSearchDropdown',
     name: 'umpire_name',
-    label: 'Enter Umpire Name...',
+    label: 'Enter Umpire Name',
     title: 'Umpire Name',
     icon: 'ri-account-circle-line',
     options: ['harry', 'potter'],
@@ -227,7 +227,7 @@ const formFields = [
   {
     type: 'formInput',
     name: 'umpire_email',
-    label: 'Enter Email...',
+    label: 'Enter Email',
     title: 'Umpire Email',
     icon: 'ri-mail-line',
     fieldSize: 'medium'
@@ -235,7 +235,7 @@ const formFields = [
   {
     type: 'formInput',
     name: 'umpire_phone_no',
-    label: 'Enter Number...',
+    label: 'Enter Number',
     title: 'Umpire Phone Number',
     icon: 'ri-phone-line',
     fieldSize: 'medium'
@@ -252,7 +252,7 @@ const formFields = [
   {
     type: 'formInput',
     name: 'appraisal_amt',
-    label: 'Enter Appraisal Amount...',
+    label: 'Enter Appraisal Amount',
     title: 'Appraisal Amount',
     icon: 'ri-money-dollar-circle-line',
     inputIcon: '$',
@@ -261,7 +261,7 @@ const formFields = [
   {
     type: 'formInput',
     name: 'percentage',
-    label: 'Enter Percentage...',
+    label: 'Enter Percentage',
     title: 'Percentage',
     icon: 'ri-percent-line',
     inputIcon: '%',
@@ -278,7 +278,7 @@ const formFields = [
   {
     type: 'formInput',
     name: 'turnaround',
-    label: 'Enter Turnaround...',
+    label: 'Enter Turnaround',
     title: 'Turnaround',
     icon: 'ri-loop-right-fill',
     fieldSize: 'medium'
@@ -286,7 +286,7 @@ const formFields = [
   {
     type: 'formInput',
     name: 'comm_amt',
-    label: 'Enter Commission Amount...',
+    label: 'Enter Commission Amount',
     title: 'Commission Amount',
     icon: 'ri-money-dollar-circle-line',
     inputIcon: '$',
@@ -311,17 +311,9 @@ const formFields = [
   {
     type: 'formTextArea',
     name: 'address',
-    label: 'Enter Address...',
+    label: 'Enter Address',
     title: 'Address',
     icon: 'ri-user-location-line',
-    fieldSize: 'medium'
-  },
-  {
-    type: 'formTextArea',
-    name: 'notes',
-    label: 'Enter Notes...',
-    title: 'Notes',
-    icon: 'ri-sticky-note-fill',
     fieldSize: 'medium'
   }
 ]

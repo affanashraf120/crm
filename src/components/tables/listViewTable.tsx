@@ -1,18 +1,28 @@
 'use client'
 
-import React, { useState } from 'react'
+import { useState } from 'react'
 
-import { Button, Card, Chip, Grid, InputAdornment, TablePagination, TextField } from '@mui/material'
+import {
+  Button,
+  Card,
+  Chip,
+  Grid,
+  IconButton,
+  InputAdornment,
+  TablePagination,
+  TextField,
+  Tooltip
+} from '@mui/material'
 
 import SearchIcon from '@mui/icons-material/Search'
 
 import CustomAvatar from '@/@core/components/mui/Avatar'
 import { useSettings } from '@/@core/hooks/useSettings'
-import Dropdown from '../dropDowns/dropDown'
-import FormDialog from '../dialogBox/formDialog'
 import DateRangePicker from '../calender'
+import FormDialog from '../dialogBox/formDialog'
+import Dropdown from '../dropDowns/dropDown'
 
-const ListViewTable = ({ clickable, actionButton, handleAction, onActions, data: listData }: any) => {
+const ListViewTable = ({ clickable, actionButton, onActions, data: listData, onClickRow }: any) => {
   const { settings } = useSettings()
   const [data, setData] = useState(listData)
   const [page, setPage] = useState(0)
@@ -39,6 +49,7 @@ const ListViewTable = ({ clickable, actionButton, handleAction, onActions, data:
   }
 
   const handleSort = (item: any) => {
+    console.log('🚀 ~ handleSort ~ item:', item)
 
     if (item === 'Custom') {
       setIsOpenRangeDialog(!isOpenRangeDialog)
@@ -53,7 +64,7 @@ const ListViewTable = ({ clickable, actionButton, handleAction, onActions, data:
             <TextField
               fullWidth
               onChange={handleInput}
-              placeholder='Search...'
+              placeholder='Search'
               size='small'
               InputProps={{
                 startAdornment: (
@@ -66,7 +77,10 @@ const ListViewTable = ({ clickable, actionButton, handleAction, onActions, data:
                   fontSize: '12px',
                   padding: '5px 10px',
                   '.MuiInputBase-input': {
-                    padding: '0 5px'
+                    padding: '0 5px',
+                    '::placeholder': {
+                      fontSize: '16px'
+                    }
                   }
                 }
               }}
@@ -74,12 +88,13 @@ const ListViewTable = ({ clickable, actionButton, handleAction, onActions, data:
           </div>
           <div className='w-full  flex justify-start md:justify-end items-center gap-2 flex-wrap md:flex-nowrap'>
             <div className='w-full md:w-52'>
-            <Dropdown
-            value='All'
-            options={['All','Last Week', 'Last Month', 'Last Year', 'Custom']}
-            onChange={handleSort}
-            variant='outline'
-          />
+              <Dropdown
+                value='All'
+                options={['All', 'Last Week', 'Last Month', 'Last Year']}
+                onChange={handleSort}
+                button={true}
+                variant='outline'
+              />
             </div>
             {actionButton && (
               <Button
@@ -87,7 +102,7 @@ const ListViewTable = ({ clickable, actionButton, handleAction, onActions, data:
                 type='submit'
                 startIcon={<i className='ri-add-line font-bold w-5 h-5' />}
                 className='is-full sm:is-auto'
-                onClick={handleAction}
+                onClick={onActions}
               >
                 Add Client
               </Button>
@@ -98,39 +113,51 @@ const ListViewTable = ({ clickable, actionButton, handleAction, onActions, data:
       {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item: any, index: any) => (
         <Card
           key={index}
-          className={`my-4 ${clickable ? 'cursor-pointer' : 'cursor-default'}`}
-          onClick={() => {
-            if (clickable) {
-              onActions(item.companyName)
-            }
-          }}
+          className={`my-4 px-7 w-full ${clickable ? 'cursor-pointer' : 'cursor-default'} ${
+            settings.mode === 'dark' ? 'hover:bg-[#37334C]' : 'hover:bg-[#E5E5EB]'
+          }`}
         >
-          <div
-            className={`grid grid-cols-8 p-4 items-center justify-center gap-2 ${
-              settings.mode === 'dark' ? 'hover:bg-[#37334C]' : 'hover:bg-[#E5E5EB]'
-            }`}
-          >
-            <div className={`col-span-8 md:col-span-3 ${!clickable && 'md:col-span-4'} `}>
-              <h2>{item.companyName}</h2>
+          <div className={`flex py-4 flex-col md:flex-row items-center justify-start gap-2 w-full`}>
+            <div
+              className='grid grid-cols-12 w-full gap-2'
+              onClick={() => {
+                if (clickable) {
+                  onClickRow(item.companyName)
+                }
+              }}
+            >
+              <div className={`col-span-12 md:col-span-8  `}>
+                <h2>{item.companyName}</h2>
+              </div>
+
+              <div className='col-span-12 md:col-span-1'>
+                {item.open && <Chip label={`Open: ${item.open}`} color='success' size='small' variant='tonal' />}
+              </div>
+              <div className='col-span-12 md:col-span-1'>
+                {item.schedule && (
+                  <Chip label={`Schedule: ${item.schedule}`} color='warning' size='small' variant='tonal' />
+                )}
+              </div>
+              <div className='col-span-12 md:col-span-1'>
+                {item.closed && <Chip label={`Closed: ${item.closed}`} color='info' size='small' variant='tonal' />}
+              </div>
+              <div className='col-span-12 md:col-span-1 flex justify-start items-center gap-2'>
+                <CustomAvatar size={30} variant='rounded' color='success' skin='light' className='shadow-xs'>
+                  <i className='ri-money-dollar-circle-line text-success'></i>
+                </CustomAvatar>
+                <p>{item.amount}</p>
+              </div>
             </div>
-            <div className='col-span-4 md:col-span-1'>
-              <Chip label={`Open: ${item.open}`} color='success' size='small' variant='tonal' />
-            </div>
-            <div className='col-span-4 md:col-span-1'>
-              <Chip label={`Schedule: ${item.schedule}`} color='warning' size='small' variant='tonal' />
-            </div>
-            <div className='col-span-4 md:col-span-1'>
-              <Chip label={`Closed: ${item.closed}`} color='info' size='small' variant='tonal' />
-            </div>
-            <div className='col-span-4 md:col-span-1 flex justify-start items-center gap-2'>
-              <CustomAvatar size={30} variant='rounded' color='success' skin='light' className='shadow-xs'>
-                <i className='ri-money-dollar-circle-line text-success'></i>
-              </CustomAvatar>
-              <p>{item.amount}</p>
-            </div>
+
             {clickable && (
-              <div className='hidden  md:col-span-1 md:flex justify-end  cursor-pointer'>
-                <i className='ri-arrow-right-s-line text-'></i>
+              <div className='flex justify-start gap-2 items-start md:ps-4 md:pe-2 w-full md:w-auto md:justify-end md:items-center'>
+                {clickable.map((item: any, index: any) => (
+                  <Tooltip key={index} title={item.title}>
+                    <IconButton onClick={() => onActions(item.title)}>
+                      <i className={`${item.icon}`}></i>
+                    </IconButton>
+                  </Tooltip>
+                ))}
               </div>
             )}
           </div>

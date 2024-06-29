@@ -31,7 +31,6 @@ const FormGenerator = ({ field, control, register, setValue, errors, fieldSize }
           disable={field.disable}
           fieldSize={fieldSize}
           inputIcon={field.inputIcon}
-
         />
       )
     } else if (field.type === 'statusDropdown') {

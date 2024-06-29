@@ -1,23 +1,22 @@
 'use client'
 
 // React Imports
-import { useState } from 'react'
 import type { ChangeEvent } from 'react'
+import React, { useState } from 'react'
 
-import { z } from 'zod'
-import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
 
 // MUI Imports
-import Grid from '@mui/material/Grid'
+import { Divider, IconButton } from '@mui/material'
+import Button from '@mui/material/Button'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
-import Button from '@mui/material/Button'
 import Typography from '@mui/material/Typography'
-import { IconButton } from '@mui/material'
 
-import FormGenerator from '@/components/formDrawer/form'
 import ConfirmationDialog from '@/components/dialogs/confirmation-dialog'
+import FormGenerator from '@/components/formDrawer/form'
 
 const schema = z.object({
   com_name: z.string(),
@@ -151,13 +150,20 @@ const AddClient = ({ onAction }: any) => {
       </CardContent>
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)} className='px-2 w-full flex flex-col gap-3'>
-          <Grid container spacing={3}>
+          <div className='grid grid-cols-2 gap-2'>
             {formFields.map((field, index) => (
-              <Grid item xs={12} md={field.type === 'formTextArea' ? 12 : 6} key={index}>
-                <FormGenerator field={field} register={register} errors={errors} fieldSize={field.fieldSize} />
-              </Grid>
+              <React.Fragment key={index}>
+                {index > 0 && formFields[index - 1].group !== field.group && (
+                  <div className='col-span-2 mt-4'>
+                    <Divider textAlign='left'>{field.group}</Divider>
+                  </div>
+                )}
+                <div className='col-span-2 md:col-span-1'>
+                  <FormGenerator field={field} register={register} errors={errors} fieldSize={field.fieldSize} />
+                </div>
+              </React.Fragment>
             ))}
-          </Grid>
+          </div>
           <div className='flex justify-between items-center py-4'>
             <Button variant='outlined' color='inherit' onClick={OnOpen}>
               Clear
@@ -182,41 +188,146 @@ const AddClient = ({ onAction }: any) => {
 export default AddClient
 
 const formFields = [
-  { type: 'formInput', name: 'com_name', label: 'Enter Company Name...', fieldSize: 'medium' },
-  { type: 'formInput', name: 'owner_name', label: 'Enter Owner Name...', fieldSize: 'medium' },
-  { type: 'formInput', name: 'owner_phone_no', label: 'Enter Owner Phone No...', fieldSize: 'medium' },
-  { type: 'formInput', name: 'owner_email', label: 'Enter Owner Email...', fieldSize: 'medium' },
-  { type: 'formInput', name: 'gm_sale_name', label: 'Enter GM/Sales Name...', fieldSize: 'medium' },
-  { type: 'formInput', name: 'gm_sale_phone_no', label: 'Enter GM/Sales Phone No...', fieldSize: 'medium' },
-  { type: 'formInput', name: 'gm_sale_email', label: 'Enter GM/Sales Email...', fieldSize: 'medium' },
-  { type: 'formInput', name: 'client_username', label: 'Enter Client Username...', fieldSize: 'medium' },
-  { type: 'formInput', name: 'client_email', label: 'Enter Client Email...', fieldSize: 'medium' },
-  { type: 'formInput', name: 'client_password', label: 'Enter Client Password...', fieldSize: 'medium' },
-  { type: 'formInput', name: 'link_crm_login', label: 'Enter Link to CRM Login Page...', fieldSize: 'medium' },
-  { type: 'formInput', name: 'crm_username', label: 'Enter CRM Username...', fieldSize: 'medium' },
-  { type: 'formInput', name: 'crm_password', label: 'Enter CRM Password...', fieldSize: 'medium' },
-  { type: 'formInput', name: 'crm_2_name', label: 'Enter CRM 2 Name...', fieldSize: 'medium' },
-  { type: 'formInput', name: 'link_crm_2_login', label: 'Enter Link to CRM 2 Login Page...', fieldSize: 'medium' },
-  { type: 'formInput', name: 'crm_2_username', label: 'Enter CRM 2 Username...', fieldSize: 'medium' },
-  { type: 'formInput', name: 'crm_2_password', label: 'Enter CRM 2 Password...', fieldSize: 'medium' },
+  {
+    type: 'formInput',
+    name: 'com_name',
+    label: 'Enter Company Name...',
+    fieldSize: 'medium',
+    group: 'Company Details'
+  },
+  {
+    type: 'formInput',
+    name: 'com_address',
+    label: 'Enter Company Address...',
+    group: 'Company Details',
+    fieldSize: 'medium'
+  },
+  { type: 'formInput', name: 'owner_name', label: 'Enter Owner Name...', fieldSize: 'medium', group: 'Owner Details' },
+  {
+    type: 'formInput',
+    name: 'owner_phone_no',
+    label: 'Enter Owner Phone No...',
+    fieldSize: 'medium',
+    group: 'Owner Details'
+  },
+  {
+    type: 'formInput',
+    name: 'owner_email',
+    label: 'Enter Owner Email...',
+    fieldSize: 'medium',
+    group: 'Owner Details'
+  },
+  {
+    type: 'formInput',
+    name: 'gm_sale_name',
+    label: 'Enter GM/Sales Name...',
+    fieldSize: 'medium',
+    group: 'GM/Sales Details'
+  },
+  {
+    type: 'formInput',
+    name: 'gm_sale_phone_no',
+    label: 'Enter GM/Sales Phone No...',
+    fieldSize: 'medium',
+    group: 'GM/Sales Details'
+  },
+  {
+    type: 'formInput',
+    name: 'gm_sale_email',
+    label: 'Enter GM/Sales Email...',
+    fieldSize: 'medium',
+    group: 'GM/Sales Details'
+  },
+  {
+    type: 'formInput',
+    name: 'client_username',
+    label: 'Enter Client Username...',
+    fieldSize: 'medium',
+    group: 'Client Details'
+  },
+  {
+    type: 'formInput',
+    name: 'client_email',
+    label: 'Enter Client Email...',
+    fieldSize: 'medium',
+    group: 'Client Details'
+  },
+  {
+    type: 'formInput',
+    name: 'client_password',
+    label: 'Enter Client Password...',
+    fieldSize: 'medium',
+    group: 'Client Details'
+  },
+  {
+    type: 'formInput',
+    name: 'link_crm_login',
+    label: 'Enter Link to CRM Login Page...',
+    fieldSize: 'medium',
+    group: 'CRM Details'
+  },
+  {
+    type: 'formInput',
+    name: 'crm_username',
+    label: 'Enter CRM Username...',
+    fieldSize: 'medium',
+    group: 'CRM Details'
+  },
+  {
+    type: 'formInput',
+    name: 'crm_password',
+    label: 'Enter CRM Password...',
+    fieldSize: 'medium',
+    group: 'CRM Details'
+  },
+  { type: 'formInput', name: 'crm_2_name', label: 'Enter CRM 2 Name...', fieldSize: 'medium', group: 'CRM Details' },
+  {
+    type: 'formInput',
+    name: 'link_crm_2_login',
+    label: 'Enter Link to CRM 2 Login Page...',
+    fieldSize: 'medium',
+    group: 'CRM Details'
+  },
+  {
+    type: 'formInput',
+    name: 'crm_2_username',
+    label: 'Enter CRM 2 Username...',
+    fieldSize: 'medium',
+    group: 'CRM Details'
+  },
+  {
+    type: 'formInput',
+    name: 'crm_2_password',
+    label: 'Enter CRM 2 Password...',
+    fieldSize: 'medium',
+    group: 'CRM Details'
+  },
   {
     type: 'formInput',
     name: 'appraisal_email_username',
     label: 'Enter Client Email User Name...',
-    fieldSize: 'medium'
+    fieldSize: 'medium',
+    group: 'Appraisal Details'
   },
   {
     type: 'formInput',
     name: 'appraisal_email_password',
     label: 'Enter Client Email User Password...',
-    fieldSize: 'medium'
+    fieldSize: 'medium',
+    group: 'Appraisal Details'
   },
-  { type: 'formInput', name: 'appraisal_crm_username', label: 'Enter Client CRM User Name...', fieldSize: 'medium' },
+  {
+    type: 'formInput',
+    name: 'appraisal_crm_username',
+    label: 'Enter Client CRM User Name...',
+    fieldSize: 'medium',
+    group: 'Appraisal Details'
+  },
   {
     type: 'formInput',
     name: 'appraisal_crm_password',
     label: 'Enter Client CRM User Password...',
-    fieldSize: 'medium'
-  },
-  { type: 'formTextArea', name: 'com_address', label: 'Enter Company Address...' }
+    fieldSize: 'medium',
+    group: 'Appraisal Details'
+  }
 ]

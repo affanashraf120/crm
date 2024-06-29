@@ -17,9 +17,7 @@ function Appraisals() {
   const [selectedRowId, setSelectedRowId] = useState(null)
 
   const handleRowClick = (item: any) => {
-
-    const comName = item.toLowerCase().replaceAll(" ","_");
-
+    const comName = item.toLowerCase().replaceAll(' ', '_')
 
     setSelectedRowId(comName)
 
@@ -35,7 +33,12 @@ function Appraisals() {
         </Grid>
 
         <Grid item xs={12}>
-          <ListViewTable data={listData} clickable={true} actionButton={false} onActions={handleRowClick}/>
+          <ListViewTable
+            data={listData}
+            actionButton={false}
+            onActions={handleRowClick}
+            clickable={[{ title: 'click', icon: 'ri-arrow-right-s-line w-6 h-6 hidden md:block' }]}
+          />
         </Grid>
       </Grid>
     </div>

@@ -12,11 +12,13 @@ import { Controller } from 'react-hook-form'
 interface FormCalendarPickerProps {
   control: Control<any>
   name: string
-  label: string
+  label?: string
   fieldSize: any
 }
 
 export const FormCalendarPicker: React.FC<FormCalendarPickerProps> = ({ control, name, label, fieldSize }) => {
+  console.log('🚀 ~ label:', label)
+
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <DemoContainer components={['DatePicker']} sx={{ width: '100%' }}>
@@ -25,7 +27,6 @@ export const FormCalendarPicker: React.FC<FormCalendarPickerProps> = ({ control,
           name={name}
           render={({ field }) => (
             <DatePicker
-              label={label}
               value={field.value}
               inputRef={field.ref}
               onChange={date => field.onChange(date)}

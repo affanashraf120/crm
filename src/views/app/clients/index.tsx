@@ -7,24 +7,47 @@ import { Grid } from '@mui/material'
 
 // import Custom Components
 import SummaryDetailCard from '@/components/cards/summaryDetailsCard'
+import ProfileCard from '@/components/cards/viewcard'
+import FormDialog from '@/components/dialogBox/formDialog'
+import ConfirmationDialog from '@/components/dialogs/confirmation-dialog'
 import ListViewTable from '@/components/tables/listViewTable'
 import AddClient from '@/modules/app/clients/addClientForm'
 import ConfirmationDeleteAccount from '@/modules/app/clients/confirmationDeleteAccount'
 
 function Clients() {
   const [openAddClientForm, setOpenAddClientForm] = useState(false)
-  const [selectedRowId, setSelectedRowId] = useState(null)
+  const [open, setOpen] = useState(false)
+  const [isEdit, setIsEdit] = useState(false)
+  const [clientName, setClientName] = useState('')
 
-  const handleRowClick = (id: any) => {
-    console.log("🚀 ~ handleRowClick ~ id:", id)
+  const handleAction = (item: string) => {
+    const action = item?.toLowerCase()
 
-    setSelectedRowId(id)
-    setOpenAddClientForm(true)
-    console.log('🚀 ~ Clients ~ selectedRowId:', selectedRowId)
+    switch (action) {
+      case 'delete':
+        setOpen(true)
+        break
+      case 'view':
+        setIsEdit(true)
+        break
+      case 'edit':
+        setOpenAddClientForm(true)
+        break
+      default:
+        console.log('Unknown action:', action)
+    }
   }
 
-  const handleAction = () => {
-    setOpenAddClientForm(!openAddClientForm)
+  const handleRowClick = (item: string) => {
+    console.log('🚀 ~ handleRowClick ~ item:', item)
+    setClientName(item)
+
+    setOpenAddClientForm(true)
+  }
+
+  const handleClose = () => {
+    setOpenAddClientForm(false)
+    setIsEdit(false)
   }
 
   return (
@@ -32,7 +55,7 @@ function Clients() {
       {openAddClientForm ? (
         <Grid container spacing={6}>
           <Grid item xs={12}>
-            <AddClient onAction={handleAction} />
+            <AddClient onAction={handleClose} />
           </Grid>
           <Grid item xs={12}>
             <ConfirmationDeleteAccount />
@@ -41,20 +64,35 @@ function Clients() {
       ) : (
         <Grid container spacing={6}>
           <Grid item xs={12}>
-            {data && <SummaryDetailCard data={data} />}
+            {data && <SummaryDetailCard data={data} classes='xl:col-span-6' />}
           </Grid>
 
           <Grid item xs={12}>
             <ListViewTable
               data={listData}
-              clickable={false}
+              clickable={[
+                { title: 'Edit', icon: 'ri-pencil-fill w-4 h-4' },
+                { title: 'View', icon: 'ri-eye-line w-4 h-4' },
+                { title: 'Delete', icon: 'ri-delete-bin-7-line w-4 h-4' }
+              ]}
               actionButton={true}
-              handleAction={handleAction}
-              onActions={handleRowClick}
+              onActions={handleAction}
+              onClickRow={handleRowClick}
             />
           </Grid>
         </Grid>
       )}
+
+      <ConfirmationDialog
+        open={open}
+        setOpen={setOpen}
+        type='delete-account'
+        title='Are you sure you want to delete this client?'
+      />
+
+      <FormDialog open={isEdit} onClose={() => setIsEdit(false)} dialogTitle={clientName} closeButton={true}>
+        <ProfileCard />
+      </FormDialog>
     </>
   )
 }
@@ -68,18 +106,7 @@ const data: any[] = [
     avatarIcon: 'ri-user-3-line',
     avatarColor: 'primary'
   },
-  {
-    title: 165,
-    subTitle: 'Open Appraisals',
-    avatarIcon: 'ri-file-text-line',
-    avatarColor: 'error'
-  },
-  {
-    title: '26',
-    subTitle: 'Closed Appraisals',
-    avatarIcon: 'ri-file-check-line',
-    avatarColor: 'success'
-  },
+
   {
     title: '$876',
     subTitle: 'Revenue',
@@ -89,33 +116,33 @@ const data: any[] = [
 ]
 
 const listData = [
-  { companyName: 'Rubinsky', closed: 123, open: 345, schedule: 678, amount: '$1234' },
-  { companyName: 'Best Roofer Solar', closed: 123, open: 345, schedule: 678, amount: '$1234'},
-  { companyName: 'Veteran', closed: 123, open: 345, schedule: 678, amount: '$1234'},
-  { companyName: 'Builditect', closed: 123, open: 345, schedule: 678, amount: '$1234'},
-  { companyName: 'Spartan', closed: 123, open: 345, schedule: 678, amount: '$1234'},
-  { companyName: 'Priority', closed: 123, open: 345, schedule: 678, amount: '$1234'},
-  { companyName: 'Miller Storm', closed: 123, open: 345, schedule: 678, amount: '$1234'},
-  { companyName: 'Rhino', closed: 123, open: 345, schedule: 678, amount: '$1234'},
-  { companyName: 'Adam Construction', closed: 123, open: 345, schedule: 678, amount: '$1234'},
-  { companyName: 'Mountain Ridge Roofing', closed: 123, open: 345, schedule: 678, amount: '$1234'},
-  { companyName: 'Alpha', closed: 123, open: 345, schedule: 678, amount: '$1234'},
-  { companyName: 'Buccy', closed: 123, open: 345, schedule: 678, amount: '$1234'},
-  { companyName: 'Zeus', closed: 123, open: 345, schedule: 678, amount: '$1234'},
-  { companyName: 'Roof Experts', closed: 123, open: 345, schedule: 678, amount: '$1234'},
-  { companyName: 'Maverick', closed: 123, open: 345, schedule: 678, amount: '$1234'},
-  { companyName: 'J&K', closed: 123, open: 345, schedule: 678, amount: '$1234'},
-  { companyName: 'Heart of Texas', closed: 123, open: 345, schedule: 678, amount: '$1234'},
-  { companyName: 'Triton', closed: 123, open: 345, schedule: 678, amount: '$1234'},
-  { companyName: 'BME', closed: 123, open: 345, schedule: 678, amount: '$1234'},
-  { companyName: 'Son\'s Roofing', closed: 123, open: 345, schedule: 678, amount: '$1234'},
-  { companyName: 'K Builders', closed: 123, open: 345, schedule: 678, amount: '$1234'},
-  { companyName: 'LDJ', closed: 123, open: 345, schedule: 678, amount: '$1234'},
-  { companyName: 'VinMark', closed: 123, open: 345, schedule: 678, amount: '$1234'},
-  { companyName: 'Orange', closed: 123, open: 345, schedule: 678, amount: '$1234'},
-  { companyName: 'ProNail', closed: 123, open: 345, schedule: 678, amount: '$1234'},
-  { companyName: 'Revive', closed: 123, open: 345, schedule: 678, amount: '$1234'},
-  { companyName: 'Insured', closed: 123, open: 345, schedule: 678, amount: '$1234'},
-  { companyName: 'Vertex', closed: 123, open: 345, schedule: 678, amount: '$1234'},
-  { companyName: 'Sequoia', closed: 123, open: 345, schedule: 678, amount: '$1234'},
+  { companyName: 'Rubinsky', amount: '$1234' },
+  { companyName: 'Best Roofer Solar', amount: '$1234' },
+  { companyName: 'Veteran', amount: '$1234' },
+  { companyName: 'Builditect', amount: '$1234' },
+  { companyName: 'Spartan', amount: '$1234' },
+  { companyName: 'Priority', amount: '$1234' },
+  { companyName: 'Miller Storm', amount: '$1234' },
+  { companyName: 'Rhino', amount: '$1234' },
+  { companyName: 'Adam Construction', amount: '$1234' },
+  { companyName: 'Mountain Ridge Roofing', amount: '$1234' },
+  { companyName: 'Alpha', amount: '$1234' },
+  { companyName: 'Buccy', amount: '$1234' },
+  { companyName: 'Zeus', amount: '$1234' },
+  { companyName: 'Roof Experts', amount: '$1234' },
+  { companyName: 'Maverick', amount: '$1234' },
+  { companyName: 'J&K', amount: '$1234' },
+  { companyName: 'Heart of Texas', amount: '$1234' },
+  { companyName: 'Triton', amount: '$1234' },
+  { companyName: 'BME', amount: '$1234' },
+  { companyName: "Son's Roofing", amount: '$1234' },
+  { companyName: 'K Builders', amount: '$1234' },
+  { companyName: 'LDJ', amount: '$1234' },
+  { companyName: 'VinMark', amount: '$1234' },
+  { companyName: 'Orange', amount: '$1234' },
+  { companyName: 'ProNail', amount: '$1234' },
+  { companyName: 'Revive', amount: '$1234' },
+  { companyName: 'Insured', amount: '$1234' },
+  { companyName: 'Vertex', amount: '$1234' },
+  { companyName: 'Sequoia', amount: '$1234' }
 ]

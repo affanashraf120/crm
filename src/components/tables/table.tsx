@@ -160,8 +160,7 @@ const Table = ({
   onActions,
   onFilterActions,
   actionButtons,
-  onClickRow,
-
+  onClickRow
 }: any) => {
   // States
   const [isOpenDelete, setIsOpenDelete] = useState(false)
@@ -195,7 +194,9 @@ const Table = ({
 
   function generateColumns(columnConfigurations: any) {
     return columnConfigurations.map((config: any) => {
-      const { name, header, type, options, size, filterType, filterOptions, buttonOptions, cellLabels, redirectLink } = config
+      const { name, header, type, options, size, filterType, filterOptions, buttonOptions, cellLabels, redirectLink } =
+        config
+
       const accessor = name
 
       const cell = ({ row }: any) => {
@@ -286,13 +287,12 @@ const Table = ({
             </div>
           ) : (
             <div className='flex justify-start items-center gap-1'>
-
-            <Typography>{`${row.original[name]}`}</Typography>
-            {redirectLink && (
-              <IconButton onClick={() => onClickRow({ label: header, id: row.original.id })}>
-                <i className='ri-external-link-line w-4 h-4 text-primary'></i>
-              </IconButton>
-            )}
+              <Typography>{`${row.original[name]}`}</Typography>
+              {redirectLink && (
+                <IconButton onClick={() => onClickRow({ label: header, id: row.original.id })}>
+                  <i className='ri-external-link-line w-4 h-4 text-primary'></i>
+                </IconButton>
+              )}
             </div>
           )
         } else if (type === 'Action') {
@@ -333,9 +333,6 @@ const Table = ({
             <>
               {header}
               <MultiSelectDropdown
-
-                // todo pass the name to indentify the dropdown
-
                 name={header}
                 icon='ri-arrow-drop-up-fill rotate-180 w-6 h-6 cursor-pointer'
                 onselect={e => console.log(e)}
@@ -445,11 +442,15 @@ const Table = ({
                   fontSize: '12px',
                   padding: '5px 10px',
                   '.MuiInputBase-input': {
-                    padding: '0 5px'
+                    padding: '0 5px',
+                    '::placeholder': {
+                      fontSize: '16px'
+                    }
                   }
                 }
               }}
             />
+
             <div className='flex justify-start items-start w-full gap-2 flex-wrap sm:flex-row sm:flex-nowrap'>
               {actionButtons &&
                 actionButtons?.map((action: any) => (

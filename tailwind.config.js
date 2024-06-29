@@ -7,6 +7,10 @@ module.exports = {
   important: '#__next',
   plugins: [require('tailwindcss-logical'), require('./src/@core/tailwind/plugin')],
   theme: {
-    extend: {}
+    extend: {
+      screens: {
+        'l-0.5': '1070px'
+      }
+    }
   }
 }

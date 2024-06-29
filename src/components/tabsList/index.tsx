@@ -185,8 +185,8 @@ const TabsList: FC<Tabs> = ({ tabs, type, consumer, _activeTab }) => {
                 ))}
               </CustomTabList>
 
-              {selectedConsumer && (
-                <div>
+              {selectedConsumer && !_activeTab && (
+                <div className='flex justify-end w-full l-0.5:flex l-0.5:justify-start l-0.5:w-auto'>
                   <Button
                     component='label'
                     role={undefined}
@@ -201,7 +201,7 @@ const TabsList: FC<Tabs> = ({ tabs, type, consumer, _activeTab }) => {
                         alt='Profile Background'
                       />
                     }
-                    endIcon={<i className='ri-arrow-down-s-line w-5 h-5'></i>}
+                    endIcon={<i className='ri-arrow-down-s-line w-6 h-6 text-textSecondary'></i>}
                     onClick={handleMenuOpen}
                   >
                     <div className='flex flex-col'>
@@ -239,7 +239,10 @@ const TabsList: FC<Tabs> = ({ tabs, type, consumer, _activeTab }) => {
                             fontSize: '12px',
                             padding: '5px 10px',
                             '.MuiInputBase-input': {
-                              padding: '0 5px'
+                              padding: '0 5px',
+                              '::placeholder': {
+                                fontSize: '16px'
+                              }
                             }
                           }
                         }}
