@@ -599,7 +599,7 @@ export const topic = [
   { label: 'Supplements', active: false }
 ]
 
-export const images: any = [
+export const images = [
   {
     src: 'https://flowbite.s3.amazonaws.com/docs/gallery/square/image.jpg',
     alt: 'Image 1',
